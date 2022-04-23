@@ -12,6 +12,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "remeda": "^0.0.32",
+    "rxjs": "^7.5.5",
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {

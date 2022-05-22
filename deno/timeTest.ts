@@ -1,3 +1,5 @@
+import { assertEquals } from "https://deno.land/std@0.140.0/testing/asserts.ts"
+
 const now = Date.now()
 const sMS = () => {
   return 1000
@@ -26,6 +28,9 @@ export class BLTime {
       this.date = new Date(timestampOrdate).getTime()
     }
     return this
+  }
+  getDate () {
+    return this.date
   }
   isBefore(date: string|Date){
     return this.date < new Date(date).getTime() 
@@ -77,19 +82,8 @@ export class BLTime {
 }
 
 const time = '2022-05-27T11:47:55.000+08:00'
-console.log(new Date(time).getTime())
-console.log(new BLTime(time).add(1,'s').add(1,'s'))
-console.log(new BLTime(time).diffDays(new BLTime(Date.now())))
-
-const hour = (timestamp:number)=> Math.floor(timestamp /1000 /60 /60)
-
-const day = (timestamp:number)=>Math.floor(timestamp /1000 /60 /60/24)
-
-//console.log(date)
-
-//console.log(hour(date))
-//console.log(day(now)-day(date))
-//console.log(now-date)
-//console.log(date>now)
-//console.log(date<now)
-//console.log(date>now)
+Deno.test('test equals',() => {
+  assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+  assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+  assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
+})

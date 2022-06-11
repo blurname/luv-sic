@@ -19,7 +19,8 @@
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-    }
+    },
+    "swc": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

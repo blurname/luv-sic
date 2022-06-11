@@ -3,6 +3,7 @@ import { listenClick, canvas } from './sdk/event'
 listenClick()
 canvas
 function App() {
+  
   const click = (e) => {
     console.log(e)
   }

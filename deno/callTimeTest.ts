@@ -1,3 +1,4 @@
+//import * as ts from 'typescript'
 const testTime = (cb:()=>void) => {
   const startTime = performance.now()
   cb()

@@ -14,6 +14,9 @@ const t = (arr:any[]) => {
 const a = t(arr)
 a()
 a()
+export {
+
+}
 //const [ a,b,c,d] = arr
 //console.log(a,b,c)
 //

@@ -72,7 +72,7 @@ class BLTime {
       subedMs = num * dayMs()
     } else if (MsFormat === 'week'){
       subedMs = num * weekMs()
-    } else {
+  } else {
 
     }
     return new BLTime(this.date + subedMs)
@@ -81,10 +81,8 @@ class BLTime {
 
 const time = '2022-05-27T11:47:55.000+08:00'
 //test('test equals',() => {
-  //assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
-  //assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
-  //assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
+//assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
 //})
-  assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
-  assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
-  assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
+assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+assert.equal(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())

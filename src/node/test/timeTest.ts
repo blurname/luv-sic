@@ -1,6 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.140.0/testing/asserts.ts"
-
-const now = Date.now()
+import { strict as assert } from 'assert'
 const sMS = () => {
   return 1000
 }
@@ -19,7 +17,7 @@ const weekMs = () => {
 
 type MsFormat = 's' | 'minute' | 'hour' | 'day' | 'week'
 type TimestampOrDate = number | string | Date
-export class BLTime {
+class BLTime {
   private date: number
   constructor(timestampOrdate:TimestampOrDate){
     if(typeof timestampOrdate === 'number'){
@@ -82,8 +80,11 @@ export class BLTime {
 }
 
 const time = '2022-05-27T11:47:55.000+08:00'
-Deno.test('test equals',() => {
-  assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
-  assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+//test('test equals',() => {
+  //assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+  //assertEquals(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+  //assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
+//})
+  assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
+  assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())),5)
   assertEquals(new BLTime(time).add(1,'s').add(1,'s').getDate(), new BLTime(time).add(1,'s').add(1,'s').getDate())
-})

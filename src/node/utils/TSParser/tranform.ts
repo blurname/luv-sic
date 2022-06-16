@@ -23,9 +23,12 @@ function compile(fileNames: string[], options: ts.CompilerOptions): void {
   process.exit(exitCode);
 }
 
-compile(process.argv.slice(2), {
-  noEmitOnError: true,
-  noImplicitAny: true,
-  target: ts.ScriptTarget.ESNext,
-  module: ts.ModuleKind.ESNext
-});
+//compile(process.argv.slice(2), {
+  //noEmitOnError: true,
+  //noImplicitAny: true,
+  //target: ts.ScriptTarget.ESNext,
+  //module: ts.ModuleKind.ESNext
+//})
+export {
+
+}

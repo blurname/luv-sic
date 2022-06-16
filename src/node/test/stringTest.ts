@@ -4,3 +4,6 @@ const testSubstring = () => {
   const str2 = str1.substring(0, pos)
   console.log(str2)
 }
+export {
+
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { listenClick, listenInput } from '../sdk/event'
+import { clickListener, inputListener } from '../sdk/event'
 export function EditingPage () {
   const [ TIValue, setTIValue ] = useState('')
   const TIRef = useRef<HTMLTextAreaElement>(null)
@@ -17,19 +17,19 @@ export function EditingPage () {
     setTIValue(e.target.value)
     const rgba = randomRGBA()
     const rgba2 = randomRGBA()
-    TIRef.current.style = `flex:1; background: rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a}) `
-    TORef.current.style = `flex:1; background: rgba(${rgba2.r},${rgba2.g},${rgba2.a},${rgba2.a}) `
+    TIRef.style = `flex:1; background: rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a}) `
+    TORef.style = `flex:1; background: rgba(${rgba2.r},${rgba2.g},${rgba2.a},${rgba2.a}) `
   }
 
-  const handleTIClicking = (ref:React.RefObject<HTMLTextAreaElement>) => (e:React.MouseEvent<HTMLDivElement>) => {
+  const handleTIClicking = (ref:HTMLTextAreaElement) => (e:React.MouseEvent<HTMLDivElement>) => {
     const rgba = randomRGBA()
-    ref.current.style = `flex:1; background: rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a}) `
+    ref.style = `flex:1; background: rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a}) `
   }
 
   useEffect(() => {
-    listenInput(TIRef, handleTIInputing)
-    listenClick(TIRef, handleTIClicking)
-    listenClick(TORef, handleTIClicking)
+    inputListener(TIRef.current, handleTIInputing)
+    clickListener(TIRef.current, handleTIClicking)
+    clickListener(TORef.current, handleTIClicking)
   }, [])
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

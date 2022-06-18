@@ -16,6 +16,7 @@
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {
+    "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.197",
     "@swc/helpers": "^0.3.17",
     "@types/jest": "^27.5.1",

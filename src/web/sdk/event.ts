@@ -22,13 +22,14 @@ type BLKeyboardEvent =
   | 'keyup'
   | 'keypress'
 
+
 type BLUIEvent =
   | BLMouseEvent
   | BLKeyboardEvent
 type UpperCapitalize<T extends string> = T extends `${infer C}${infer S}` ? `${Uppercase<C>}${S}` : T
 
 // use
-type aa = 'alsdkjf'
+type aa = 'i\'m not good'
 type OwnCapitalize<T extends string> = UpperCapitalize<T>
 
 type b = OwnCapitalize<aa>
@@ -36,6 +37,7 @@ type b = OwnCapitalize<aa>
 type BLEventCallBack<T extends string> = {
   [K in T as `handle${Capitalize<K>}`]?: () => void
 }
+
 
 type BLEventListenrPramas<T> = {
   ref: T
@@ -65,7 +67,8 @@ const handleClick = () => {
 const handleButton = () => {
 
 }
-mouseEventListenr({ ref: document.querySelector('#alsdkfj') as HTMLElement, eventName: 'dbclick', callBack: { handleClick } })
+
+// mouseEventListenr({ ref: document.querySelector('#alsdkfj') as HTMLElement, eventName: 'dbclick', callBack: { handleClick } })
 
 export const clickListener = (ref: HTMLElement, handleClick: (ref) => (node: React.ChangeEvent<HTMLElement>) => void) => {
   fromEvent<MouseEvent>(ref, 'click')

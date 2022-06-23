@@ -10,6 +10,3 @@ const loop1000 = () => {
   a.forEach((_,index) => console.log(index))
 }
 testTime(loop1000)
-export {
-
-}

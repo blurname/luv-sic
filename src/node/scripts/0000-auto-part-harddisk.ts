@@ -20,12 +20,14 @@ const partMountDrive = async () => {
 
   await exec(`mount ${sdx1} ${mountPoint}`)
   await exec (`chmod 777 ${mountPoint}`)
+  await exec(`ln -sfT ${mountPoint} ~/data`)
 
   // 4. append to fstab
   const { stdout: UUIDmessage } = await exec(`blkid ${sdx1}`)
   const UUID = UUIDmessage.split(' ')[1].split('=')[1].split("\"")[1]
-  const appendMessage = `\n# ${sdx1}\nUUID=${UUID} /home/mb/data ext4 rw,relatime 0 2`
+  const appendMessage = `\n# ${sdx1}\nUUID=${UUID} /home/mnt/data ext4 rw,relatime 0 2`
   await exec(`echo "${appendMessage}" >> ${fstabPath} `)
+  console.log('done')
 
 }
 

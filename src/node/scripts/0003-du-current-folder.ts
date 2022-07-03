@@ -18,7 +18,6 @@ const duCurrentFolder = async() =>{
   })
 
 }
-duCurrentFolder()
 export {
   duCurrentFolder
 }

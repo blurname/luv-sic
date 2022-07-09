@@ -1,11 +1,15 @@
 import {switchNpmrc} from  './0001-switch-npmrc'
 import {duCurrentFolder} from './0003-du-current-folder'
+import {calcTsPercentInProject} from './0004-calc-ts-percent-in-project'
+import {calcWorkingTime} from './0005-calc-working-time'
 
 type WhichCommand = keyof typeof commands
 
 const commands = {
   switchNpmrc,
-  duCurrentFolder
+  duCurrentFolder,
+  calcTsPercentInProject,
+  calcWorkingTime
 } 
 
 const main = () => {

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 // import { async } from 'rxjs'
 import init, {add_zwsp } from '../../wasm/ZWSP/ZWSP.js'
 import { clickListener, inputListener } from '../sdk/event'
+import {useRepeat} from '../hooks/useRepeat'
 export function EditingPage() {
   const [TIValue, setTIValue] = useState('')
   const TIRef = useRef<HTMLTextAreaElement>(null)
@@ -14,7 +15,7 @@ export function EditingPage() {
       a: Math.random() / 4
     }
   }
-  
+
   const handleTIInputing = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const k = add_zwsp(e.target.value)
     console.log(k)
@@ -31,12 +32,23 @@ export function EditingPage() {
   }
 
 
+  const {setCanRepeat} = useRepeat(100,testZWSP())
   useEffect(() => {
     const initWasm = async () => {
       await init()
+      setCanRepeat(true)
+      //const longString = 'b'.repeat(10*1024*1024*10)
+      //const jsBegin = performance.now()
+      //const jsResult = longString.split('').join('\u200b')
+      //const jsEnd = performance.now()
+      //console.log("js",jsEnd - jsBegin)
+      //const wasmBegin = performance.now()
+      //const wasmResult = add_zwsp(longString)
+      //const wasmEnd = performance.now()
+      //console.log("wasm",wasmEnd-wasmBegin)
     }
     initWasm()
-    inputListener(TIRef.current!, handleTIInputing)
+    //inputListener(TIRef.current!, handleTIInputing)
   }, []);
   // useEffect(() => {
   //   inputListener(TIRef.current!, handleTIInputing)
@@ -49,4 +61,35 @@ export function EditingPage() {
       <textarea ref={TORef} style={{ flex: 1, background: "rgba(135, 63, 234, 0.05)" }} id="TO" value={TIValue} />
     </div>
   )
+}
+    let jsTotalTime = 0
+    let jsReTotalTime = 0
+    let wasmTotalTime = 0
+const testZWSP = () => {
+    const mainTest = () => {
+      const longString = 'b'.repeat(10*1024*1024)
+        const jsBegin = performance.now()
+        const jsResult = longString.split('').join('\u200b')
+        const jsEnd = performance.now()
+        //console.log(jsEnd- jsBegin)
+        jsTotalTime += (jsEnd-jsBegin)
+        //const jsReBegin = performance.now()
+        //const jsReResult = longString.replaceAll(/\w(?=\w)/g,'$&')
+        //const jsReEnd = performance.now()
+        ////console.log(jsEnd- jsBegin)
+        //jsReTotalTime += (jsReEnd-jsReBegin)
+        //console.log(jsTotalTime)
+        const wasmBegin = performance.now()
+        const wasmResult = add_zwsp(longString)
+        const wasmEnd = performance.now()
+        wasmTotalTime += (wasmEnd-wasmBegin)
+    }
+  const testResult = () => {
+      console.log(`spilit join js ${jsTotalTime} ms`)
+      //console.log(`replaceAll js ${jsReTotalTime} ms`)
+      console.log(`wasm ${wasmTotalTime} ms`)
+  }
+  return {
+    mainTest, testResult
+  }
 }

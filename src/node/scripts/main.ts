@@ -5,7 +5,7 @@ import {calcWorkingTime} from './0005-calc-working-time'
 
 type WhichCommand = keyof typeof commands
 
-const commands = {
+export const commands = {
   switchNpmrc,
   duCurrentFolder,
   calcTsPercentInProject,

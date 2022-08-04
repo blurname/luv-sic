@@ -26,6 +26,7 @@ specifiers:
   react-dom: ^17.0.2
   regenerator-runtime: ^0.13.9
   remeda: ^0.0.32
+  remesh: ^1.0.0
   rxjs: ^7.5.6
   ts-essentials: ^9.2.0
   ts-jest: ^27.1.5
@@ -38,6 +39,7 @@ dependencies:
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   remeda: 0.0.32
+  remesh: 1.0.0_rxjs@7.5.6
   rxjs: 7.5.6
   ts-essentials: 9.2.0_typescript@4.7.4
 
@@ -2702,6 +2704,11 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
+  /is-plain-object/5.0.0:
+    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/is-plain-object/-/is-plain-object-5.0.0.tgz}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /is-potential-custom-element-name/1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/is-potential-custom-element-name/-/is-potential-custom-element-name-1.0.1.tgz}
     dev: true
@@ -3838,6 +3845,17 @@ packages:
     resolution: {integrity: sha512-FEdl8ONpqY7AvvMHG5WYdomc0mGf2khHPUDu6QvNkOq4Wjkw5BvzWM4QyksAQ/US1sFIIRG8TVBn6iJx6HbRrA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/remeda/-/remeda-0.0.32.tgz}
     dev: false
 
+  /remesh/1.0.0_rxjs@7.5.6:
+    resolution: {integrity: sha512-ClF5o0M8Z6pMR8mlmBY4E3Xw/Ju5/v4WDWH7gd+OWD/IlMuE62vdJzVZlP9TPKtIIm2RpV0A1y49Ae/abyUCDA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/remesh/-/remesh-1.0.0.tgz}
+    peerDependencies:
+      rxjs: ^7.0.0
+    dependencies:
+      is-plain-object: 5.0.0
+      rxjs: 7.5.6
+      shallowequal: 1.1.0
+      tslib: 2.4.0
+    dev: false
+
   /require-directory/2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/require-directory/-/require-directory-2.1.1.tgz}
     engines: {node: '>=0.10.0'}
@@ -3954,6 +3972,10 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /shallowequal/1.1.0:
+    resolution: {integrity: sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/shallowequal/-/shallowequal-1.1.0.tgz}
+    dev: false
 
   /shebang-command/2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/shebang-command/-/shebang-command-2.0.0.tgz}

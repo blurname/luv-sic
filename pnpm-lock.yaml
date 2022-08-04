@@ -27,6 +27,7 @@ specifiers:
   regenerator-runtime: ^0.13.9
   remeda: ^0.0.32
   remesh: ^1.0.0
+  remesh-react: ^1.0.0
   rxjs: ^7.5.6
   ts-essentials: ^9.2.0
   ts-jest: ^27.1.5
@@ -40,6 +41,7 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   remeda: 0.0.32
   remesh: 1.0.0_rxjs@7.5.6
+  remesh-react: 1.0.0_tgk5da4wrbzj42mmdaxl5a7ss4
   rxjs: 7.5.6
   ts-essentials: 9.2.0_typescript@4.7.4
 
@@ -3845,6 +3847,20 @@ packages:
     resolution: {integrity: sha512-FEdl8ONpqY7AvvMHG5WYdomc0mGf2khHPUDu6QvNkOq4Wjkw5BvzWM4QyksAQ/US1sFIIRG8TVBn6iJx6HbRrA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/remeda/-/remeda-0.0.32.tgz}
     dev: false
 
+  /remesh-react/1.0.0_tgk5da4wrbzj42mmdaxl5a7ss4:
+    resolution: {integrity: sha512-4gurmJaat93U7gOk8byVhY8aaZsGVVDxCUnDVVIUyZBaFjQ4dgWispDC8+bSxCCQ+uQjVieV12C9MSpEp6nhEA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/remesh-react/-/remesh-react-1.0.0.tgz}
+    peerDependencies:
+      react: ^16.10.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.10.0 || ^17.0.0 || ^18.0.0
+      remesh: ^1.0.0
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      remesh: 1.0.0_rxjs@7.5.6
+      tslib: 2.4.0
+      use-sync-external-store: 1.2.0_react@17.0.2
+    dev: false
+
   /remesh/1.0.0_rxjs@7.5.6:
     resolution: {integrity: sha512-ClF5o0M8Z6pMR8mlmBY4E3Xw/Ju5/v4WDWH7gd+OWD/IlMuE62vdJzVZlP9TPKtIIm2RpV0A1y49Ae/abyUCDA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/remesh/-/remesh-1.0.0.tgz}
     peerDependencies:
@@ -4336,6 +4352,14 @@ packages:
     dependencies:
       punycode: 2.1.1
     dev: true
+
+  /use-sync-external-store/1.2.0_react@17.0.2:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==, tarball: https://0x3f.modao.cc/docker-nexus/repository/npm/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz}

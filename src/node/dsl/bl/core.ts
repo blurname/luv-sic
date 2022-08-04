@@ -1,73 +1,71 @@
 type Query = {
-  type: "query";
-};
+  type: 'query'
+}
 type Add = {
-  type: "add";
-};
+  type: 'add'
+}
 type Delete = {
-  type: "delete";
-};
+  type: 'delete'
+}
 type Update = {
-  type: "update";
-};
+  type: 'update'
+}
 type Parens = {
-  type: "parens";
-  value: "(" | ")";
-};
+  type: 'parens'
+  value: '(' | ')'
+}
 type Result = {
-  type: "result";
-  value: any;
-};
+  type: 'result'
+  value: any
+}
 type From = {
-  type: "from";
-};
+  type: 'from'
+}
 type Where = {
-  type: "where";
-};
+  type: 'where'
+}
 type WhereExpression = {
-  type: "whereExpression";
-  value:
-    | `${string} >= ${string}`
-    | `${string} === ${string}`
-    | `${string} <= ${string}`;
-};
+  type: 'whereExpression'
+  value: `${string} >= ${string}` | `${string} === ${string}` | `${string} <= ${string}`
+}
 type Expression = {
-  type: "expression";
-};
+  type: 'expression'
+}
 
-type Command = Add | Delete | Update;
+type Command = Add | Delete | Update
 
-type Token = Query | Command | Parens | Result | From | Where | WhereExpression;
+type Token = Query | Command | Parens | Result | From | Where | WhereExpression
 const Tokenizer = (input: String) => {
-  const tokens: Token[] = [];
-  const source = input.split(" ");
+  const tokens: Token[] = []
+  const source = input.split(' ')
   source.map((s) => {
-    if (s === "query") {
+    if (s === 'query') {
       tokens.push({
-        type: "query",
-      });
-    } else if (s === "(") {
+        type: 'query',
+      })
+    } else if (s === '(') {
       tokens.push({
-        type: "parens",
-        value: "(",
-      });
-    } else if (s === "result") {
-    } else if (s === ")") {
+        type: 'parens',
+        value: '(',
+      })
+      // eslint-disable-next-line no-empty
+    } else if (s === 'result') {
+    } else if (s === ')') {
       tokens.push({
-        type: "parens",
-        value: ")",
-      });
-    } else if (s === "from") {
+        type: 'parens',
+        value: ')',
+      })
+    } else if (s === 'from') {
       tokens.push({
-        type: "from",
-      });
-    } else if (s === "where") {
+        type: 'from',
+      })
+    } else if (s === 'where') {
       tokens.push({
-        type: "where",
-      });
+        type: 'where',
+      })
     }
-  });
-};
-const parensTokenizer = (source: String[], tokens: Token[]) => {};
-const whereTokenizer = (source: String[], tokens: Token[]) => {};
-export {};
+  })
+}
+const parensTokenizer = (source: String[], tokens: Token[]) => {}
+const whereTokenizer = (source: String[], tokens: Token[]) => {}
+export {}

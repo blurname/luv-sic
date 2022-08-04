@@ -1,42 +1,21 @@
 {
   "root": true,
-  "extends": [
-    "plugin:react/recommended"
-  ],
+  "extends": ["plugin:react/recommended"],
   "env": {
     "node": true,
     "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": "latest",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": [
-    "prettier",
-    "@typescript-eslint"
-  ],
+  "plugins": ["jest", "prefer-let", "prettier", "@typescript-eslint"],
   "rules": {
-    "arrow-spacing": [
-      "error",
-      {
-        "before": true,
-        "after": true
-      }
-    ],
-    "block-spacing": [
-      "error",
-      "always"
-    ],
-    "brace-style": [
-      "error",
-      "1tbs",
-      {
-        "allowSingleLine": true
-      }
-    ],
     "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "jest/no-conditional-expect": "warn",
     "no-var": "error",
     "for-direction": "error",
     "getter-return": "error",
@@ -66,19 +45,11 @@
     "no-unsafe-negation": "error",
     "require-atomic-updates": "warn",
     "use-isnan": "error",
-    "valid-typeof": [
-      "error",
-      {
-        "requireStringLiterals": true
-      }
-    ],
+    "valid-typeof": ["error", { "requireStringLiterals": true }],
     "accessor-pairs": "error",
     "array-callback-return": "error",
     "class-methods-use-this": "off",
-    "curly": [
-      "error",
-      "multi-line"
-    ],
+    "curly": ["error", "multi-line"],
     "default-case": "error",
     "eqeqeq": "error",
     "guard-for-in": "off",
@@ -87,7 +58,7 @@
     "no-div-regex": "error",
     "no-else-return": "error",
     "no-empty-function": "warn",
-    "no-empty-pattern": "error",
+    "no-empty-pattern": "off",
     "no-eq-null": "error",
     "no-extend-native": "error",
     "no-extra-bind": "error",
@@ -153,10 +124,7 @@
   },
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "project": "./tsconfig.json"
@@ -176,7 +144,7 @@
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/ban-ts-comment": [
-          "error",
+          "warn",
           {
             "ts-expect-error": true,
             "ts-ignore": "allow-with-description"
@@ -202,17 +170,11 @@
       }
     },
     {
-      "files": [
-        "**/__tests__/**/*.js",
-        "**/__tests__/**/*.ts",
-        "**/__tests__/**/*.tsx"
-      ],
+      "files": ["**/__tests__/**/*.js", "**/__tests__/**/*.ts", "**/__tests__/**/*.tsx"],
       "env": {
         "jest": true
       },
-      "extends": [
-        "plugin:jest/recommended"
-      ],
+      "extends": ["plugin:jest/recommended"],
       "rules": {
         "jest/expect-expect": "off",
         "@typescript-eslint/ban-ts-comment": [

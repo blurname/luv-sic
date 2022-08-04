@@ -11,7 +11,5 @@ const switchNpmrc = async () => {
     console.log('switch .npmrb to .npmrc')
   }
 }
-export {
-  switchNpmrc
-}
+export { switchNpmrc }
 // switchNpmrc()

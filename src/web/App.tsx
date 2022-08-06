@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { EditingPage } from './pages/EditingPage'
-type Page = 'Editing'
+import { Elevator } from './pages/Elevator'
+type Pages = 'editing' | 'elevator'
 function App() {
-  const [activePage, setActivePage] = useState<Page>('Editing')
+  const [activePage, setActivePage] = useState<Pages>('elevator')
   return (
     <div style={{ width: '100vw', height: '100vh', boxSizing: 'border-box' }} className="App">
-      {activePage === 'Editing' ? <EditingPage /> : undefined}
+      {activePage === 'elevator' ? Elevator() : undefined}
     </div>
   )
 }

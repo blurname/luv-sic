@@ -44,15 +44,17 @@ const oA = from(actionList).pipe(
   }),
   first(),
 )
-const subject = oA.subscribe()
+let subject = oA.subscribe()
 setTimeout(() => {
+  subject.unsubscribe()
   actionList.push(action2)
-  oA.subscribe((x) => {
+  subject = oA.subscribe((x) => {
     x.log(x.value)
   })
 }, 1000)
 setTimeout(() => {
   actionList.push(action3)
+  subject.unsubscribe()
   oA.subscribe((x) => {
     x.log(x.value)
   })

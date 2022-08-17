@@ -8,7 +8,10 @@ const computeWorkingTime = async () => {
   const stdTime = local.slice(dateIndex + 1).trim()
   const month = stdTime.split(' ')[1]
   const beginTime = `${month} ${realTime}:00 CST`
-  const hours = ((new Date(stdTime).getTime() - new Date(beginTime).getTime()) / 1000 / 60 - 90 - 40) / 60
+  console.log('beginTime:', beginTime)
+  console.log('stdTime:', stdTime)
+  const hours = ((new Date(stdTime).getTime() - new Date(beginTime).getTime()) / 1000 / 60 - 40) / 60
   console.log('working hours:', hours)
 }
+computeWorkingTime()
 export { computeWorkingTime }

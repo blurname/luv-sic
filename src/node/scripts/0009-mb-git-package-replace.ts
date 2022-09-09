@@ -9,7 +9,8 @@ const main = async () => {
   const argv = process.argv
 
   if (argv.length > 3) {
-    console.log('arg error')
+    console.log('参数数量不对')
+    return
   } else if (argv.length === 3) {
     targetRepo = argv.at(-1)
   } else {
@@ -46,7 +47,7 @@ const main = async () => {
   console.log(`已将 ${colorLog(targetRepo)} 下的 ${colorLog(repoName)} 版本号修改`)
   console.log(`${FgGreen}结果${Reset}`)
 
-  await pSpawn('git', ['diff'], { cwd: `../${targetRepo}`, stdio: 'inherit' })
+  await pSpawn('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${targetRepo}`, stdio: 'inherit' })
 }
 main()
 

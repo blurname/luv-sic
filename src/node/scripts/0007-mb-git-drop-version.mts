@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// tip: 脚本的文件名类型应为 .mjs, 如 mb-git-drop-version.mjs，方能使用 ES Modules
 
 //
 // 原理：git rebase -i, 会在 .git 目录下生成 rebase-merge/git-rebase-todo，通过编辑它，完成 rebase 操作
@@ -16,21 +17,23 @@ const gitRebaseInteractive = (scriptFilePath, commitHash) => {
       GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath, commitHash),
     },
   })
-  //console.log(stdout.toString())
+  console.log(stdout.toString())
   console.log('err', stderr.toString())
 }
 
+// 设置环境变量
 const gitEdit = (scriptFilePath, commitHash) => {
   return `node ${scriptFilePath} ${commitHash}`
 }
 
-//
+// 就地正法
 const action = async () => {
   const [gitRebaseTodoFilePath] = process.argv.slice(-1)
   const content = (await readFile(gitRebaseTodoFilePath)).toString()
   const newOps = resolveOperations(content)
   await writeFile(gitRebaseTodoFilePath, newOps)
 }
+
 // 处理文件内容
 const resolveOperations = (operations0) => {
   const operations = operations0
@@ -49,13 +52,19 @@ const resolveOperations = (operations0) => {
     }
     return op
   })
+ newOperations.forEach((op) => {
+    if(op.includes('drop')){
+      console.log( `  ${FgRed}${op}${Reset}`)
+    }else{
+      console.log( `  ${op}`)
+    }
+  })
   return newOperations.join('\n')
 }
 
 const main = () => {
   const argvLength = process.argv.length
   if (argvLength === 3) {
-    console.log('argvLength', process.argv.slice(-2))
     const [scriptFilePath, commitHash] = process.argv.slice(-2)
 
     gitRebaseInteractive(scriptFilePath, commitHash)
@@ -67,3 +76,6 @@ const main = () => {
 }
 
 main()
+const FgRed = "\x1b[31m"
+const Reset = '\x1b[0m'
+// 用法： node mb-git-drop-version.mjs ${commitHash}

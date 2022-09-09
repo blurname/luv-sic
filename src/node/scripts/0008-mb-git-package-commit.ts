@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 
-const customPackageRepoMap = { fake: 'mock' }
+const customPackageRepoMap = {}
 const realPackagRepoMap = (packageName) => {
   const pkgName = customPackageRepoMap[packageName]
   if (pkgName === undefined) return packageName
@@ -26,9 +26,13 @@ const main = async () => {
     .trimEnd()
   console.log(commitMessage)
   const stdout2 = execSync(
-    `npm i && git commit -i package.json package-lock.json .ci/cache-key-file -m '${commitMessage}'`,
+    `npm i && git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`,
   )
   console.log(stdout2.toString())
 }
-
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
 main()

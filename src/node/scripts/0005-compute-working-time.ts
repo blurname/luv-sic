@@ -13,5 +13,4 @@ const computeWorkingTime = async () => {
   const hours = ((new Date(stdTime).getTime() - new Date(beginTime).getTime()) / 1000 / 60 - 40) / 60
   console.log('working hours:', hours)
 }
-computeWorkingTime()
 export { computeWorkingTime }

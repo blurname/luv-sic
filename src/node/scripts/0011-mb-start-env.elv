@@ -1,6 +1,9 @@
 kitty @ set-enabled-layouts grid
-kitty @ launch --title 'imock FSP' --cwd ~/git/imock npm run FSP
-kitty @ launch --title 'workspace mock' --cwd ~/git/mb-workspace npm run start:mock:server
-kitty @ launch --title 'workspace start' --cwd ~/git/mb-workspace npm run start 
-kitty @ launch --title 'imock term' --cwd ~/git/imock 
-kitty @ launch --title 'workspace term' --cwd ~/git/mb-workspace 
+kitty @ launch --title 'imockFSP' --cwd ~/git/imock npm run FSP
+kitty @ launch --title 'workspaceMock' --cwd ~/git/mb-workspace npm run start:mock:server
+kitty @ launch --title 'workspaceStart' --cwd ~/git/mb-workspace 
+kitty @ launch --title 'imockTerm' --cwd ~/git/imock 
+kitty @ launch --title 'workspaceTerm' --cwd ~/git/mb-workspace 
+kitty @ focus-window --match title:"workspaceStart"
+kitty @ launch --type tab
+kitty @ focus-tab -m index:0

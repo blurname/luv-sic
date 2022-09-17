@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // tip: 脚本的文件名类型应为 .mjs, 如 mb-git-drop-version.mjs，方能使用 ES Modules
 
 //
@@ -8,11 +7,11 @@
 
 // 参考: https://www.the-guild.dev/blog/git-rebase-not-interactive
 //
-import child_process from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 
 const gitRebaseInteractive = (scriptFilePath, commitHash) => {
-  const { stdout, stderr } = child_process.spawnSync('git', ['rebase', '-i', commitHash], {
+  const { stdout, stderr } = spawnSync('git', ['rebase', '-i', commitHash], {
     env: {
       GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath, commitHash),
     },
@@ -52,11 +51,11 @@ const resolveOperations = (operations0) => {
     }
     return op
   })
- newOperations.forEach((op) => {
-    if(op.includes('drop')){
-      console.log( `  ${FgRed}${op}${Reset}`)
-    }else{
-      console.log( `  ${op}`)
+  newOperations.forEach((op) => {
+    if (op.includes('drop')) {
+      console.log(`  ${FgRed}${op}${Reset}`)
+    } else {
+      console.log(`  ${op}`)
     }
   })
   return newOperations.join('\n')
@@ -76,6 +75,7 @@ const main = () => {
 }
 
 main()
-const FgRed = "\x1b[31m"
+const FgRed = '\x1b[31m'
 const Reset = '\x1b[0m'
+export {}
 // 用法： node mb-git-drop-version.mjs ${commitHash}

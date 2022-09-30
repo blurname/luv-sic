@@ -7,13 +7,19 @@
 
 // 参考: https://www.the-guild.dev/blog/git-rebase-not-interactive
 //
+import { parseOptionList } from '../cli'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 
-const gitRebaseInteractive = (scriptFilePath, commitHash) => {
-  const { stdout, stderr } = spawnSync('git', ['rebase', '-i', commitHash], {
+let options = {
+  t: 'targetCommitHash',
+  k: 'VERSION', // keyword
+}
+
+const gitRebaseInteractive = (scriptFilePath) => {
+  const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
-      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath, commitHash),
+      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath),
     },
   })
   console.log(stdout.toString())
@@ -21,8 +27,8 @@ const gitRebaseInteractive = (scriptFilePath, commitHash) => {
 }
 
 // 设置环境变量
-const gitEdit = (scriptFilePath, commitHash) => {
-  return `node ${scriptFilePath} ${commitHash}`
+const gitEdit = (scriptFilePath) => {
+  return `tsx ${scriptFilePath} -t ${options['t']} -k ${options['k']} -action`
 }
 
 // 就地正法
@@ -30,7 +36,7 @@ const action = async () => {
   const [gitRebaseTodoFilePath] = process.argv.slice(-1)
   const content = (await readFile(gitRebaseTodoFilePath)).toString()
   const newOps = resolveOperations(content)
-  await writeFile(gitRebaseTodoFilePath, newOps)
+  //await writeFile(gitRebaseTodoFilePath, newOps)
 }
 
 // 处理文件内容
@@ -42,7 +48,7 @@ const resolveOperations = (operations0) => {
     .split('\n')
     // Get rid of empty lines
     .filter(Boolean)
-  const opKeyword = 'VERSION'
+  const opKeyword = options['k']
 
   const newOperations = operations.map((op) => {
     if (op.includes(opKeyword)) {
@@ -53,7 +59,7 @@ const resolveOperations = (operations0) => {
   })
   newOperations.forEach((op) => {
     if (op.includes('drop')) {
-      console.log(`  ${FgRed}${op}${Reset}`)
+      console.log(`  ${Reset}${FgRed}${op}${Reset}`)
     } else {
       console.log(`  ${op}`)
     }
@@ -62,12 +68,15 @@ const resolveOperations = (operations0) => {
 }
 
 const main = () => {
-  const argvLength = process.argv.length
-  if (argvLength === 3) {
-    const [scriptFilePath, commitHash] = process.argv.slice(-2)
-
-    gitRebaseInteractive(scriptFilePath, commitHash)
-  } else if (argvLength === 4) {
+  const argv = process.argv
+  if (!argv.includes('-action')) {
+    const [scriptFilePath] = process.argv.slice(1)
+    console.log('path', scriptFilePath)
+    options = parseOptionList(argv, options)
+    console.log(options)
+    gitRebaseInteractive(scriptFilePath)
+  } else if (argv.includes('-action')) {
+    options = parseOptionList(argv, options)
     action()
   } else {
     console.log('input error')

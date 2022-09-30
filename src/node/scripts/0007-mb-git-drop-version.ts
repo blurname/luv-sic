@@ -36,7 +36,7 @@ const action = async () => {
   const [gitRebaseTodoFilePath] = process.argv.slice(-1)
   const content = (await readFile(gitRebaseTodoFilePath)).toString()
   const newOps = resolveOperations(content)
-  //await writeFile(gitRebaseTodoFilePath, newOps)
+  await writeFile(gitRebaseTodoFilePath, newOps)
 }
 
 // 处理文件内容

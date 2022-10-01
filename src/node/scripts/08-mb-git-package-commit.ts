@@ -7,7 +7,7 @@ const realPackagRepoMap = (packageName) => {
   return pkgName
 }
 
-const main = async () => {
+const gitCommit = async () => {
   const stdout = execSync('git diff package.json | grep @mockingbot')
   const packageJsonContent = stdout.toString()
   const commitMessage = packageJsonContent
@@ -25,9 +25,10 @@ const main = async () => {
     }, 'UPG:')
     .trimEnd()
   console.log(commitMessage)
-  const stdout2 = execSync(
-    `npm i && git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`,
-  )
+  const stdout2 = execSync(`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`)
+  //const stdout2 = execSync(
+  //`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`,
+  //)
   console.log(stdout2.toString())
 }
 const sleep = (ms) => {
@@ -35,4 +36,4 @@ const sleep = (ms) => {
     setTimeout(resolve, ms)
   })
 }
-main()
+export { gitCommit }

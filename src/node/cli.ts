@@ -1,6 +1,6 @@
 type KvMapFromScript = { [k: string]: any }
 
-const reduceDash = (strHasDash: `-${string}`) => {
+const reduceDash = <T extends string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
 }
 

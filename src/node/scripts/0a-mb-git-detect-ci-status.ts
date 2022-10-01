@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process'
-const main = async () => {
+const detectCIStatus = async () => {
   let CIStatus = 'go'
   const version = execSync('git log --oneline | grep VERSION -m 1').toString().split('\n')[0].split('@').at(-1)
   while (CIStatus === 'go') {
@@ -22,4 +22,5 @@ const sleep = (ms) => {
     setTimeout(resolve, ms)
   })
 }
-main()
+
+export { detectCIStatus }

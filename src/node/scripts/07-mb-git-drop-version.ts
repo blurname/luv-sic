@@ -16,7 +16,7 @@ let options = {
   k: 'VERSION', // keyword
 }
 
-const gitRebaseInteractive = (scriptFilePath) => {
+const gitRebaseInteractive = (scriptFilePath: string) => {
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
       GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath),
@@ -27,7 +27,7 @@ const gitRebaseInteractive = (scriptFilePath) => {
 }
 
 // 设置环境变量
-const gitEdit = (scriptFilePath) => {
+const gitEdit = (scriptFilePath: string) => {
   return `tsx ${scriptFilePath} -t ${options['t']} -k ${options['k']} -action`
 }
 
@@ -36,11 +36,11 @@ const action = async () => {
   const [gitRebaseTodoFilePath] = process.argv.slice(-1)
   const content = (await readFile(gitRebaseTodoFilePath)).toString()
   const newOps = resolveOperations(content)
-  await writeFile(gitRebaseTodoFilePath, newOps)
+  //await writeFile(gitRebaseTodoFilePath, newOps)
 }
 
 // 处理文件内容
-const resolveOperations = (operations0) => {
+const resolveOperations = (operations0: string) => {
   const operations = operations0
     //Replace comments
     .replace(/#.*/g, '')
@@ -67,14 +67,15 @@ const resolveOperations = (operations0) => {
   return newOperations.join('\n')
 }
 
-const main = () => {
+const gitDropVersion = () => {
   const argv = process.argv
   if (!argv.includes('-action')) {
     const [scriptFilePath] = process.argv.slice(1)
-    console.log('path', scriptFilePath)
+    const tmpPath = scriptFilePath.split('/')
+    tmpPath[tmpPath.length - 1] = '07-mb-git-drop-version-action.ts'
+    const realPath = tmpPath.join('/')
     options = parseOptionList(argv, options)
-    console.log(options)
-    gitRebaseInteractive(scriptFilePath)
+    gitRebaseInteractive(realPath)
   } else if (argv.includes('-action')) {
     options = parseOptionList(argv, options)
     action()
@@ -83,8 +84,8 @@ const main = () => {
   }
 }
 
-main()
+//gitDropVersion()
 const FgRed = '\x1b[31m'
 const Reset = '\x1b[0m'
-export {}
+export { gitDropVersion }
 // 用法： node mb-git-drop-version.mjs ${commitHash}

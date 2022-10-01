@@ -7,10 +7,14 @@
 
 // 参考: https://www.the-guild.dev/blog/git-rebase-not-interactive
 //
+//
+
+const gitDropVersionDesc = 'used for mb, drop Commit by commitHash && commitPrefix which default prefix is VERSION'
+
 import { parseOptionList } from '../cli'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
-import { colorLog } from 'node/utils/colorLog'
+import { colorLog } from '../utils/colorLog'
 
 let options = {
   t: 'targetCommitHash',
@@ -85,5 +89,5 @@ const gitDropVersion = () => {
   }
 }
 
-export { gitDropVersion }
+export { gitDropVersion, gitDropVersionDesc }
 // 用法： node mb-git-drop-version.mjs ${commitHash}

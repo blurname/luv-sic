@@ -1,4 +1,5 @@
 import { exec } from '../core'
+const calcTsPercentInProjectDesc = 'compute .ts/.ts+.js in project'
 const calcTsPercentInProject = async () => {
   const { stdout: ts } = await exec('fd .ts')
   const { stdout: js } = await exec('fd .js')
@@ -7,4 +8,4 @@ const calcTsPercentInProject = async () => {
   const percent = (tsSize / (tsSize + jsSize)) * 100
   console.log(`${percent}%`)
 }
-export { calcTsPercentInProject }
+export { calcTsPercentInProject, calcTsPercentInProjectDesc }

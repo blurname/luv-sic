@@ -1,4 +1,5 @@
 import { exec, access } from '../core'
+const switchNpmrcDesc = 'to switch weather use user .npmrc'
 const switchNpmrc = async () => {
   const homePath = process.env.HOME
   try {
@@ -11,5 +12,5 @@ const switchNpmrc = async () => {
     console.log('switch .npmrb to .npmrc')
   }
 }
-export { switchNpmrc }
+export { switchNpmrc, switchNpmrcDesc }
 // switchNpmrc()

@@ -1,3 +1,4 @@
+const detectCIStatusDesc = 'used for mb, use glab to detect gitlab CI status'
 import { execSync } from 'node:child_process'
 const detectCIStatus = async () => {
   let CIStatus = 'go'
@@ -23,4 +24,4 @@ const sleep = (ms) => {
   })
 }
 
-export { detectCIStatus }
+export { detectCIStatus, detectCIStatusDesc }

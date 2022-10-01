@@ -1,6 +1,8 @@
 import { execSync } from 'node:child_process'
 
+const gitCommitDesc = 'used for mb, quickly git commit which message is the changs of dependencies of package.json'
 const customPackageRepoMap = {}
+
 const realPackagRepoMap = (packageName) => {
   const pkgName = customPackageRepoMap[packageName]
   if (pkgName === undefined) return packageName
@@ -36,4 +38,4 @@ const sleep = (ms) => {
     setTimeout(resolve, ms)
   })
 }
-export { gitCommit }
+export { gitCommit, gitCommitDesc }

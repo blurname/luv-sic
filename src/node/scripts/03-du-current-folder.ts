@@ -17,4 +17,4 @@ const duCurrentFolder = async () => {
     console.log(size.split('\n')[0])
   })
 }
-export { duCurrentFolder }
+export { duCurrentFolder, duCurrentFolderDesc }

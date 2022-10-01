@@ -1,6 +1,6 @@
-import { log } from 'node:console'
 import { exec } from '../core'
-// list current folder's nodes' size
+
+const duCurrentFolderDesc = "list current folders' nodes' size"
 const duCurrentFolder = async () => {
   const { stdout } = await exec(`ls`)
   const files = stdout.split('\n').filter((n) => n !== '')

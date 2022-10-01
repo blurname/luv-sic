@@ -8,7 +8,7 @@ const detectCIStatus = async () => {
     const status = execSync(`glab ci list | grep ${version} -m 1 `).toString()
     if (status.includes('success')) {
       CIStatus = 'success'
-      console.log(`${version} 通过啦，飞流直下三千尺，疑是银河落九天!`)
+      console.log(`${version} 通过啦\n马路上天天都在塞，每个人天天在忍耐`)
       break
     }
     if (status.includes('failed')) {

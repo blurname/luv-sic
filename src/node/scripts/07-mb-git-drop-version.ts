@@ -10,6 +10,7 @@
 import { parseOptionList } from '../cli'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
+import { colorLog } from 'node/utils/colorLog'
 
 let options = {
   t: 'targetCommitHash',
@@ -36,7 +37,7 @@ const action = async () => {
   const [gitRebaseTodoFilePath] = process.argv.slice(-1)
   const content = (await readFile(gitRebaseTodoFilePath)).toString()
   const newOps = resolveOperations(content)
-  //await writeFile(gitRebaseTodoFilePath, newOps)
+  await writeFile(gitRebaseTodoFilePath, newOps)
 }
 
 // 处理文件内容
@@ -59,7 +60,7 @@ const resolveOperations = (operations0: string) => {
   })
   newOperations.forEach((op) => {
     if (op.includes('drop')) {
-      console.log(`  ${Reset}${FgRed}${op}${Reset}`)
+      console.log(colorLog({ msg: op, fg: 'Red' }))
     } else {
       console.log(`  ${op}`)
     }
@@ -84,8 +85,5 @@ const gitDropVersion = () => {
   }
 }
 
-//gitDropVersion()
-const FgRed = '\x1b[31m'
-const Reset = '\x1b[0m'
 export { gitDropVersion }
 // 用法： node mb-git-drop-version.mjs ${commitHash}

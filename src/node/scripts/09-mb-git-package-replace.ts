@@ -1,6 +1,7 @@
 import { exec, spawn } from 'node:child_process'
 import { readFile, writeFile, stat } from 'node:fs/promises'
 import { promisify } from 'node:util'
+import { colorLog } from '../utils/colorLog'
 const pExec = promisify(exec)
 const pSpawn = promisify(spawn)
 
@@ -20,7 +21,7 @@ const main = async () => {
   try {
     await stat(`../${targetRepo}`)
   } catch (_) {
-    console.log(`${colorLog('repo 目录错啦', FgRed)}`)
+    console.log(`${colorLog({ msg: 'repo 目录错啦', fg: 'Red' })}`)
     return
   }
 
@@ -44,17 +45,11 @@ const main = async () => {
   packageJsonContent[pos] = finalContent
   const writeContent = packageJsonContent.reverse().join('\n')
   await writeFile(`../${targetRepo}/package.json`, writeContent)
-  console.log(`已将 ${colorLog(targetRepo)} 下的 ${colorLog(repoName)} 版本号修改`)
-  console.log(`${FgGreen}结果${Reset}`)
+  console.log(
+    `已将 ${colorLog({ msg: targetRepo, fg: 'Yellow' })} 下的 ${colorLog({ msg: repoName, fg: 'Yellow' })} 版本号修改`,
+  )
+  console.log(colorLog({ msg: '结果', fg: 'Green' }))
 
   await pSpawn('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${targetRepo}`, stdio: 'inherit' })
 }
 main()
-
-const FgRed = '\x1b[31m'
-const FgGreen = '\x1b[32m'
-const Reset = '\x1b[0m'
-const FgYellow = '\x1b[33m'
-const colorLog = (msg, fg = FgYellow, bg = '') => {
-  return `${fg}${bg}${msg}${Reset}`
-}

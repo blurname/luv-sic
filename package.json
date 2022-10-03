@@ -3,10 +3,34 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "devv": "vite",
+    "buildv": "vite build",
+    "preview": "vite preview",
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "eslint .",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
+  "author": "blurname <naughtybao@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "github:blurname/bl-ts"
+  },
+  "bin": {
+    "bl": "./dist/index.mjs"
+  },
+  "exports":{
+    ".":{
+      "import":"./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "esbuild": "^0.14.54",
     "fp-ts": "^2.12.3",
@@ -40,6 +64,14 @@
     "regenerator-runtime": "^0.13.9",
     "ts-jest": "^27.1.5",
     "typescript": "^4.8.2",
-    "vite": "^2.9.15"
+    "@antfu/eslint-config": "^0.27.0",
+    "@antfu/ni": "^0.18.0",
+    "@antfu/utils": "^0.5.2",
+    "bumpp": "^8.2.1",
+    "pnpm": "^7.12.0",
+    "rimraf": "^3.0.2",
+    "unbuild": "^0.8.11",
+    "vite": "^3.1.2",
+    "vitest": "^0.23.4"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "bl-ts",
+  "name": "@blurname/gongju",
   "private": true,
   "version": "0.0.1",
   "scripts": {
@@ -21,19 +21,19 @@
     "url": "github:blurname/bl-ts"
   },
   "bin": {
-    "bl": "./dist/index.mjs"
+    "bl": "./dist/main.ts.mjs"
   },
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "types": "./dist/main.ts.d.ts",
+      "require": "./dist/main.ts.cjs",
+      "import": "./dist/main.ts.mjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/main.ts.mjs",
+  "module": "./dist/main.ts.mjs",
+  "types": "./dist/main.ts.d.ts",
   "files": [
     "dist"
   ],

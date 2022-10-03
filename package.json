@@ -1,7 +1,7 @@
 {
   "name": "bl-ts",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "devv": "vite",
     "buildv": "vite build",
@@ -23,9 +23,9 @@
   "bin": {
     "bl": "./dist/index.mjs"
   },
-  "exports":{
-    ".":{
-      "import":"./dist/index.mjs"
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
     }
   },
   "files": [

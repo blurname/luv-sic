@@ -33,9 +33,4 @@ const gitCommit = async () => {
   //)
   console.log(stdout2.toString())
 }
-const sleep = (ms) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
 export { gitCommit, gitCommitDesc }

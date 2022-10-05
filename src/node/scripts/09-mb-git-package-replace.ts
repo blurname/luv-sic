@@ -52,4 +52,3 @@ const main = async () => {
 
   await pSpawn('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${targetRepo}`, stdio: 'inherit' })
 }
-main()

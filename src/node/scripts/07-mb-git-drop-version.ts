@@ -11,7 +11,7 @@
 
 const gitDropVersionDesc = 'used for mb, drop Commit by commitHash && commitPrefix which default prefix is VERSION'
 
-import { parseOptionList } from '../cli'
+import { parseOptionList } from '../utils/cli'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { colorLog } from '../utils/colorLog'

@@ -27,10 +27,10 @@ const gitCommit = async () => {
     }, 'UPG:')
     .trimEnd()
   console.log(commitMessage)
-  const stdout2 = execSync(`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`)
-  //const stdout2 = execSync(
-  //`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`,
-  //)
+  //const stdout2 = execSync(`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`)
+  const stdout2 = execSync(
+    `npm i && git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`,
+  )
   console.log(stdout2.toString())
 }
 export { gitCommit, gitCommitDesc }

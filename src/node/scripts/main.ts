@@ -4,9 +4,9 @@ import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts
 import { computeWorkingTime, computeWorkingTimeDesc } from './05-compute-working-time'
 import { gitDropVersion, gitDropVersionDesc } from './07-mb-git-drop-version'
 import { gitCommit, gitCommitDesc } from './08-mb-git-package-commit'
+import { mbGitReplacePackage, mbGitReplacePackageDesc } from './09-mb-git-package-replace'
 import { detectCIStatus, detectCIStatusDesc } from './0a-mb-git-detect-ci-status'
 
-type WhichCommand = keyof typeof commands
 export const commands = {
   switchNpmrc,
   duCurrentFolder,
@@ -15,6 +15,7 @@ export const commands = {
   gitDropVersion,
   gitCommit,
   detectCIStatus,
+  mbGitReplacePackage,
 } as const
 type Commands = keyof typeof commands
 
@@ -26,11 +27,12 @@ const commandsDesc: { [k in Commands]: string } = {
   gitDropVersion: gitDropVersionDesc,
   gitCommit: gitCommitDesc,
   detectCIStatus: detectCIStatusDesc,
+  mbGitReplacePackage: mbGitReplacePackageDesc,
 }
 
 const main = () => {
   const [path1, path2, whichCommand] = process.argv
-  const realCommand = whichCommand as WhichCommand
+  const realCommand = whichCommand as Commands
   try {
     commands[realCommand]()
   } catch (err) {

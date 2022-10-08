@@ -1,4 +1,4 @@
-type KvMapFromScript = { [k: string]: any }
+type KvMapFromScript = { [k: string]: string }
 
 const reduceDash = <T extends string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
@@ -12,7 +12,7 @@ const parseOptionList = (argv: String[], kvMapFromScript: KvMapFromScript) => {
     })
     if (paramK !== -1) {
       const paramV = argv[paramK + 1]
-      parsedOptionList[k] = paramV
+      parsedOptionList[k] = paramV as string
     }
   })
   return { ...kvMapFromScript, ...parsedOptionList }

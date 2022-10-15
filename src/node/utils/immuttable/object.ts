@@ -3,6 +3,15 @@
 // path: key: [path1, path2], 判断 path
 
 // FIXME: class 没有显示声明的 variable, lint 不会报错
+
+// feature:
+// 1. update 统一的 key
+// 2. 做了缓存，应该会快
+//
+// TODO:
+// 1. ditch keyPath
+// 2. naming function/variable better
+// 3. more test case
 class createObjectDeepUpdate {
   private pathMap = new Map<string, string[]>()
   private keyPath = ''
@@ -38,7 +47,8 @@ class createObjectDeepUpdate {
 
   generatePathMap = (objs: any[], keyTarget: string) => {
     objs.forEach((obj) => {
-      this.findObjectPathByTargetKey(obj, keyTarget, '')
+      if (obj[keyTarget] !== undefined) this.keyPath = keyTarget
+      else this.findObjectPathByTargetKey(obj, keyTarget, '')
       const v = this.pathMap.get(keyTarget)
       if (v === undefined) {
         this.pathMap.set(keyTarget, [this.keyPath])
@@ -58,7 +68,7 @@ class createObjectDeepUpdate {
       return {
         ...currentObj,
         [v[depth]]: {
-          ...recUpdate(obj[v[depth]], depth + 1),
+          ...recUpdate(currentObj[v[depth]], depth + 1),
         },
       }
     }
@@ -91,10 +101,19 @@ const deepObject1 = {
   },
 } as const
 
-const objectDeepUpdate = new createObjectDeepUpdate()
-const deepObjects = [deepObject, deepObject1]
+// const objectDeepUpdate = new createObjectDeepUpdate()
 
-objectDeepUpdate.generatePathMap(deepObjects, 'bb1')
+// test1
+//const deepObjects = [deepObject]
 
-const res = objectDeepUpdate.deepUpdate(deepObject, 'bb1', { a: 666 })
-//console.log(res)
+//objectDeepUpdate.generatePathMap(deepObjects, 'ccc')
+
+//const res = objectDeepUpdate.deepUpdate(deepObject, 'ccc', { a: 666 })
+
+// test2
+// const deepObjects = [deepObject2]
+
+// objectDeepUpdate.generatePathMap(deepObjects, 'fill')
+
+// const res = objectDeepUpdate.deepUpdate(deepObject2, 'fill', { a: 666 })
+// console.log(res)

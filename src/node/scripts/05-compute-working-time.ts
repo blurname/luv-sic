@@ -13,7 +13,7 @@ const computeWorkingTime = async () => {
 
   const beginTime = `${month} ${realTime}:00 CST`
   // minus 12:00 - 13:30, 6:00 - 6:40
-  const hours = ((new Date(stdTime).getTime() - new Date(beginTime).getTime()) / 1000 / 60 - 40 - 90) / 60
+  const hours = ((new Date(stdTime).getTime() - new Date(beginTime).getTime()) / 1000 / 60 - 90) / 60
   const endTime = new Date(new Date(beginTime).getTime() + 60 * 6 * 1000)
 
   console.log('beginTime:', beginTime)

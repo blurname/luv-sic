@@ -1,9 +1,9 @@
 import { execSync } from 'node:child_process'
 
 const gitCommitDesc = 'used for mb, quickly git commit which message is the changs of dependencies of package.json'
-const customPackageRepoMap = {}
+const customPackageRepoMap: Record<string, string> = {}
 
-const realPackagRepoMap = (packageName) => {
+const realPackagRepoMap = (packageName: string) => {
   const pkgName = customPackageRepoMap[packageName]
   if (pkgName === undefined) return packageName
   return pkgName

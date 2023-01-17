@@ -1,7 +1,7 @@
 import { exec } from '../core'
 const computeWorkingTimeDesc = 'computing my Saturday working time'
 const computeWorkingTime = async () => {
-  const [path1, path2, _, inputTime] = process.argv
+  const inputTime = process.argv[3]
   const realTime = inputTime ?? '09:00'
 
   const { stdout: time } = await exec('timedatectl status')

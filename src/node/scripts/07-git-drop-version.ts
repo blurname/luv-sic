@@ -16,7 +16,7 @@ import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { colorLog } from '../utils/colorLog'
 
-let options = {
+let options: Record<string, string> = {
   t: 'targetCommitHash',
   k: 'VERSION', // keyword
 }
@@ -72,7 +72,7 @@ const resolveOperations = (operations0: string) => {
   return newOperations.join('\n')
 }
 
-const gitDropVersion = () => {
+const gitDropVersion = async () => {
   const argv = process.argv
   if (!argv.includes('-action')) {
     const [scriptFilePath] = process.argv.slice(1)
@@ -83,7 +83,7 @@ const gitDropVersion = () => {
     gitRebaseInteractive(realPath)
   } else if (argv.includes('-action')) {
     options = parseOptionList(argv, options)
-    action()
+    await action()
   } else {
     console.log('input error')
   }

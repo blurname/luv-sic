@@ -12,4 +12,5 @@ const generateShellCompletions = async () => {
   await writeFile('/home/bl/df/config/.config/carapace/specs/bl.yaml', caraPaceSpec)
 }
 export { generateShellCompletions, generateShellCompletionsDesc }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 generateShellCompletions()

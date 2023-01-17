@@ -3,10 +3,10 @@ import { duCurrentFolder, duCurrentFolderDesc } from './03-du-current-folder'
 import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts-percent-in-project'
 import { computeWorkingTime, computeWorkingTimeDesc } from './05-compute-working-time'
 import { generateShellCompletions, generateShellCompletionsDesc } from './06-generate-shell-completions'
-import { gitDropVersion, gitDropVersionDesc } from './07-mb-git-drop-version'
-import { gitCommit, gitCommitDesc } from './08-mb-git-package-commit'
-import { mbGitReplacePackage, mbGitReplacePackageDesc } from './09-mb-git-package-replace'
-import { detectCIStatus, detectCIStatusDesc } from './0a-mb-git-detect-ci-status'
+import { gitDropVersion, gitDropVersionDesc } from './07-git-drop-version'
+import { gitCommit, gitCommitDesc } from './08-git-package-commit'
+import { gitReplacePackage, gitReplacePackageDesc } from './09-git-package-replace'
+import { detectCIStatus, detectCIStatusDesc } from './0a-git-detect-ci-status'
 import { startZellij, startZellijDesc } from './0c-start-zellij'
 
 export const commands = {
@@ -17,33 +17,33 @@ export const commands = {
   gitDropVersion,
   gitCommit,
   detectCIStatus,
-  mbGitReplacePackage,
+  gitReplacePackage,
   startZellij,
   //generateShellCompletions,
 } as const
 type Commands = keyof typeof commands
 
 const commandsDesc: { [k in Commands]: string } = {
-  switchNpmrc: switchNpmrcDesc,
-  duCurrentFolder: duCurrentFolderDesc,
   calcTsPercentInProject: calcTsPercentInProjectDesc,
   computeWorkingTime: computeWorkingTimeDesc,
-  gitDropVersion: gitDropVersionDesc,
-  gitCommit: gitCommitDesc,
+  duCurrentFolder: duCurrentFolderDesc,
   detectCIStatus: detectCIStatusDesc,
-  mbGitReplacePackage: mbGitReplacePackageDesc,
+  gitCommit: gitCommitDesc,
+  gitDropVersion: gitDropVersionDesc,
+  gitReplacePackage: gitReplacePackageDesc,
   startZellij: startZellijDesc,
+  switchNpmrc: switchNpmrcDesc,
   //generateShellCompletions: generateShellCompletionsDesc,
 }
 
-const main = () => {
-  const [path1, path2, whichCommand] = process.argv
-  const realCommand = whichCommand as Commands
+const main = async () => {
+  const whichCommand = process.argv[2] as Commands
   try {
-    commands[realCommand]()
+    await commands[whichCommand]()
   } catch (err) {
     console.log('wrong command')
     console.log('commandList', commandsDesc)
   }
 }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 main()

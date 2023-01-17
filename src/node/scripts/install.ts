@@ -25,4 +25,4 @@ const main = async () => {
     await df()
   }
 }
-main()
+void main()

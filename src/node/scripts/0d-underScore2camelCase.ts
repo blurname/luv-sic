@@ -46,4 +46,5 @@ const wordInitals2Upper = (s: string) => {
   }
   return Iw.join('')
 }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 underScore2CamelCase()

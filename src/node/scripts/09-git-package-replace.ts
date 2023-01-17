@@ -5,13 +5,13 @@ import { promisify } from 'node:util'
 import { colorLog } from '../utils/colorLog'
 const pExec = promisify(exec)
 const pSpawn = promisify(spawn)
-const mbGitReplacePackageDesc = `4MB, replace package version in  package.json`
+const gitReplacePackageDesc = `4MB, replace package version in  package.json`
 
-let options = {
+let options: Record<string, string> = {
   t: 'imock',
 }
 
-const mbGitReplacePackage = async () => {
+const gitReplacePackage = async () => {
   //let targetRepo
   const argv = process.argv
   options = parseOptionList(argv, options)
@@ -53,4 +53,4 @@ const mbGitReplacePackage = async () => {
 
   await pSpawn('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${options['t']}`, stdio: 'inherit' })
 }
-export { mbGitReplacePackage, mbGitReplacePackageDesc }
+export { gitReplacePackage, gitReplacePackageDesc }

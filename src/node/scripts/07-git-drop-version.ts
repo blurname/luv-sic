@@ -77,7 +77,7 @@ const gitDropVersion = async () => {
   if (!argv.includes('-action')) {
     const [scriptFilePath] = process.argv.slice(1)
     const tmpPath = scriptFilePath.split('/')
-    tmpPath[tmpPath.length - 1] = '07-mb-git-drop-version-action.ts'
+    tmpPath[tmpPath.length - 1] = '07-git-drop-version-action.ts'
     const realPath = tmpPath.join('/')
     options = parseOptionList(argv, options)
     gitRebaseInteractive(realPath)

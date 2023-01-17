@@ -1,7 +1,7 @@
 import { switchNpmrc, switchNpmrcDesc } from './01-switch-npmrc'
 import { duCurrentFolder, duCurrentFolderDesc } from './03-du-current-folder'
 import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts-percent-in-project'
-import { computeWorkingTime, computeWorkingTimeDesc } from './05-compute-working-time'
+import { calcWorkingTime, calcWorkingTimeDesc } from './05-calc-working-time'
 import { generateShellCompletions, generateShellCompletionsDesc } from './06-generate-shell-completions'
 import { gitDropVersion, gitDropVersionDesc } from './07-git-drop-version'
 import { gitCommit, gitCommitDesc } from './08-git-package-commit'
@@ -13,7 +13,7 @@ export const commands = {
   switchNpmrc,
   duCurrentFolder,
   calcTsPercentInProject,
-  computeWorkingTime,
+  calcWorkingTime,
   gitDropVersion,
   gitCommit,
   detectCIStatus,
@@ -25,7 +25,7 @@ type Commands = keyof typeof commands
 
 const commandsDesc: { [k in Commands]: string } = {
   calcTsPercentInProject: calcTsPercentInProjectDesc,
-  computeWorkingTime: computeWorkingTimeDesc,
+  calcWorkingTime: calcWorkingTimeDesc,
   duCurrentFolder: duCurrentFolderDesc,
   detectCIStatus: detectCIStatusDesc,
   gitCommit: gitCommitDesc,

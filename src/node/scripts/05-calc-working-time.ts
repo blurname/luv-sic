@@ -1,6 +1,6 @@
 import { exec } from '../core'
-const computeWorkingTimeDesc = 'computing my Saturday working time'
-const computeWorkingTime = async () => {
+const calcWorkingTimeDesc = 'computing my Saturday working time'
+const calcWorkingTime = async () => {
   const inputTime = process.argv[3]
   const realTime = inputTime ?? '09:00'
 
@@ -22,4 +22,4 @@ const computeWorkingTime = async () => {
   console.log('minus 12:00 - 13:30, 6:00 - 6:40')
   console.log('working hours:', hours)
 }
-export { computeWorkingTime, computeWorkingTimeDesc }
+export { calcWorkingTime, calcWorkingTimeDesc }

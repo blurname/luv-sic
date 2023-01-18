@@ -1,6 +1,6 @@
 {
-  "name": "@blurname/gongju",
-  "version": "0.0.1",
+  "name": "@blurname/blurkit",
+  "version": "0.0.2",
   "scripts": {
     "devv": "vite",
     "buildv": "vite build",
@@ -9,6 +9,7 @@
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "prepublishOnly": "nr build",
+    "version-bump": "bumpp",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",

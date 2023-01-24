@@ -1,6 +1,7 @@
 {
   "name": "@blurname/blurkit",
   "version": "0.0.3",
+  "private":true,
   "scripts": {
     "devv": "vite",
     "buildv": "vite build",

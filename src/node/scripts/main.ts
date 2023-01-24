@@ -19,7 +19,7 @@ export const commands = {
   detectCIStatus,
   gitReplacePackage,
   startZellij,
-  //generateShellCompletions,
+  generateShellCompletions,
 } as const
 type Commands = keyof typeof commands
 
@@ -33,7 +33,7 @@ const commandsDesc: { [k in Commands]: string } = {
   gitReplacePackage: gitReplacePackageDesc,
   startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
-  //generateShellCompletions: generateShellCompletionsDesc,
+  generateShellCompletions: generateShellCompletionsDesc,
 }
 
 const main = async () => {

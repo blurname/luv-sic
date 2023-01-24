@@ -13,4 +13,4 @@ const generateShellCompletions = async () => {
 }
 export { generateShellCompletions, generateShellCompletionsDesc }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-generateShellCompletions()
+//generateShellCompletions()

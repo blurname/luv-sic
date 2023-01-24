@@ -11,11 +11,10 @@
       "jsx": true
     }
   },
-  "plugins": ["jest", "prefer-let", "prettier", "@typescript-eslint"],
+  "plugins": ["prefer-let", "prettier", "@typescript-eslint"],
   "rules": {
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "jest/no-conditional-expect": "warn",
     "no-var": "error",
     "for-direction": "error",
     "getter-return": "error",
@@ -171,12 +170,7 @@
     },
     {
       "files": ["**/__tests__/**/*.js", "**/__tests__/**/*.ts", "**/__tests__/**/*.tsx"],
-      "env": {
-        "jest": true
-      },
-      "extends": ["plugin:jest/recommended"],
       "rules": {
-        "jest/expect-expect": "off",
         "@typescript-eslint/ban-ts-comment": [
           "error",
           {

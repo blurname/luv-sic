@@ -21,7 +21,7 @@
   },
   "sideEffects": false,
   "files": [
-    "dist/"
+    "dist/node/scripts"
   ],
   "dependencies": {
     "esbuild": "^0.14.54",

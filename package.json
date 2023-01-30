@@ -1,79 +1,58 @@
 {
   "name": "@blurname/blurkit",
   "version": "0.0.4",
+  "author": "blurname <naughtybao@outlook.com>",
   "scripts": {
     "devv": "vite",
+    "build": "tsc",
     "buildv": "vite build",
     "preview": "vite preview",
-    "build": "unbuild",
-    "dev": "unbuild --stub",
-    "lint": "eslint .",
-    "prepublishOnly": "nr build",
     "version-bump": "bumpp",
     "release": "bumpp && npm publish --access public",
-    "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
-  "author": "blurname <naughtybao@outlook.com>",
   "repository": {
     "type": "git",
     "url": "github:blurname/bl-ts"
   },
   "bin": {
-    "bl": "./dist/main.ts.mjs"
+    "bl": "./dist/node/scripts/main.js"
   },
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/main.ts.d.ts",
-      "require": "./dist/main.ts.cjs",
-      "import": "./dist/main.ts.mjs"
-    }
-  },
-  "main": "./dist/main.ts.mjs",
-  "module": "./dist/main.ts.mjs",
-  "types": "./dist/main.ts.d.ts",
   "files": [
-    "dist"
+    "dist/"
   ],
   "dependencies": {
     "esbuild": "^0.14.54",
-    "fp-ts": "^2.12.3",
+    "fp-ts": "^2.13.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "remeda": "^0.0.32",
-    "rxjs": "^7.5.6",
+    "rxjs": "^7.8.0",
     "ts-essentials": "^9.3.0"
   },
   "devDependencies": {
-    "@swc-node/register": "^1.5.1",
-    "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.2.248",
-    "@swc/helpers": "^0.3.17",
+    "@antfu/eslint-config": "^0.27.0",
+    "@antfu/utils": "^0.5.2",
     "@types/node": "^17.0.45",
-    "@types/react": "^17.0.49",
-    "@types/react-dom": "^17.0.17",
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.18",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
     "@vitejs/plugin-react": "^1.3.2",
-    "eslint": "^8.23.0",
-    "eslint-config-prettier": "^8.5.0",
+    "bumpp": "^8.2.1",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prefer-let": "^1.1.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.7",
-    "prettier": "^2.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "pnpm": "^7.26.2",
+    "prettier": "^2.8.3",
     "prop-types": "^15.8.1",
-    "regenerator-runtime": "^0.13.9",
-    "typescript": "^4.8.2",
-    "@antfu/eslint-config": "^0.27.0",
-    "@antfu/ni": "^0.18.0",
-    "@antfu/utils": "^0.5.2",
-    "bumpp": "^8.2.1",
-    "pnpm": "^7.12.0",
     "rimraf": "^3.0.2",
-    "unbuild": "^0.8.11",
-    "vite": "^3.1.2",
+    "typescript": "^4.9.4",
+    "vite": "^3.2.5",
     "vitest": "^0.23.4"
   }
 }

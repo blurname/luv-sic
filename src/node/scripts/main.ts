@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { switchNpmrc, switchNpmrcDesc } from './01-switch-npmrc.js'
 import { duCurrentFolder, duCurrentFolderDesc } from './03-du-current-folder.js'
 import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts-percent-in-project.js'

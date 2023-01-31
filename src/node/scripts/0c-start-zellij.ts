@@ -1,4 +1,4 @@
-import { exec } from '../core'
+import { exec } from '../core.js'
 const startZellijDesc = 'start zellij named `b` whether been created'
 // FIXME: Cuurent: can't start from script, must type it on shell
 // but can use SendText like kitty command to achieve

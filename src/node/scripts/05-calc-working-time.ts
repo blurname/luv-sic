@@ -1,4 +1,4 @@
-import { exec } from '../core'
+import { exec } from '../core.js'
 const calcWorkingTimeDesc = 'computing my Saturday working time'
 const calcWorkingTime = async () => {
   const inputTime = process.argv[3]

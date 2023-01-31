@@ -11,10 +11,10 @@
 
 const gitDropVersionDesc = 'used for mb, drop Commit by commitHash && commitPrefix which default prefix is VERSION'
 
-import { parseOptionList } from '../utils/cli'
+import { parseOptionList } from '../utils/cli.js'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
-import { colorLog } from '../utils/colorLog'
+import { colorLog } from '../utils/colorLog.js'
 
 let options: Record<string, string> = {
   t: 'targetCommitHash',

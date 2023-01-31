@@ -12,6 +12,7 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "github:blurname/bl-ts"
@@ -21,7 +22,7 @@
   },
   "sideEffects": false,
   "files": [
-    "dist/node/scripts"
+    "dist/node"
   ],
   "dependencies": {
     "fp-ts": "^2.13.1",

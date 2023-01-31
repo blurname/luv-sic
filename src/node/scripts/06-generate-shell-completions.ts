@@ -1,5 +1,5 @@
-import { commands } from './main'
-import { writeFile } from '../core'
+import { commands } from './main.js'
+import { writeFile } from '../core.js'
 // https://rsteube.github.io/carapace-bin/spec/examples.html
 const generateShellCompletionsDesc = `using carapace to custom my commands completions`
 const generateShellCompletions = async () => {

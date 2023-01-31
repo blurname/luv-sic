@@ -1,4 +1,4 @@
-import { exec, access } from '../core'
+import { exec, access } from '../core.js'
 const switchNpmrcDesc = 'to switch weather use user .npmrc'
 const switchNpmrc = async () => {
   const homePath = process.env.HOME

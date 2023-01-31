@@ -1,13 +1,13 @@
-import { switchNpmrc, switchNpmrcDesc } from './01-switch-npmrc'
-import { duCurrentFolder, duCurrentFolderDesc } from './03-du-current-folder'
-import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts-percent-in-project'
-import { calcWorkingTime, calcWorkingTimeDesc } from './05-calc-working-time'
-import { generateShellCompletions, generateShellCompletionsDesc } from './06-generate-shell-completions'
-import { gitDropVersion, gitDropVersionDesc } from './07-git-drop-version'
-import { gitCommit, gitCommitDesc } from './08-git-package-commit'
-import { gitReplacePackage, gitReplacePackageDesc } from './09-git-package-replace'
-import { detectCIStatus, detectCIStatusDesc } from './0a-git-detect-ci-status'
-import { startZellij, startZellijDesc } from './0c-start-zellij'
+import { switchNpmrc, switchNpmrcDesc } from './01-switch-npmrc.js'
+import { duCurrentFolder, duCurrentFolderDesc } from './03-du-current-folder.js'
+import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './04-calc-ts-percent-in-project.js'
+import { calcWorkingTime, calcWorkingTimeDesc } from './05-calc-working-time.js'
+import { generateShellCompletions, generateShellCompletionsDesc } from './06-generate-shell-completions.js'
+import { gitDropVersion, gitDropVersionDesc } from './07-git-drop-version.js'
+import { gitCommit, gitCommitDesc } from './08-git-package-commit.js'
+import { gitReplacePackage, gitReplacePackageDesc } from './09-git-package-replace.js'
+import { detectCIStatus, detectCIStatusDesc } from './0a-git-detect-ci-status.js'
+import { startZellij, startZellijDesc } from './0c-start-zellij.js'
 
 export const commands = {
   switchNpmrc,

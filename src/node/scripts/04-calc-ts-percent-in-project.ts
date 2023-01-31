@@ -1,4 +1,4 @@
-import { exec } from '../core'
+import { exec } from '../core.js'
 const calcTsPercentInProjectDesc = 'compute .ts/.ts+.js in project'
 const calcTsPercentInProject = async () => {
   const { stdout: ts } = await exec('fd .ts')

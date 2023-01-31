@@ -1,8 +1,8 @@
-import { parseOptionList } from '../utils/cli'
+import { parseOptionList } from '../utils/cli.js'
 import { exec, spawn } from 'node:child_process'
 import { readFile, writeFile, stat } from 'node:fs/promises'
 import { promisify } from 'node:util'
-import { colorLog } from '../utils/colorLog'
+import { colorLog } from '../utils/colorLog.js'
 const pExec = promisify(exec)
 const pSpawn = promisify(spawn)
 const gitReplacePackageDesc = `4MB, replace package version in  package.json`

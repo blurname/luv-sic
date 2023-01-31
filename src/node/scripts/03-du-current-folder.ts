@@ -1,4 +1,4 @@
-import { exec } from '../core'
+import { exec } from '../core.js'
 
 const duCurrentFolderDesc = "list current folders' nodes' size"
 const duCurrentFolder = async () => {

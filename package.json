@@ -3,7 +3,7 @@
   "version": "0.0.10",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
-  "private": true,
+  "private": false,
   "packageManager": "pnpm@7.25.0",
   "scripts": {
     "devv": "vite",

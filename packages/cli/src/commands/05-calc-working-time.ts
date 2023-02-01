@@ -1,4 +1,4 @@
-import { exec } from '@blurkit/core/src/core'
+import { exec } from '@blurname/core/src/core'
 const calcWorkingTimeDesc = 'computing my Saturday working time'
 const calcWorkingTime = async () => {
   const inputTime = process.argv[3]

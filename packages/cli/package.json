@@ -1,6 +1,6 @@
 {
-  "name": "@blurkit/cli",
-  "version": "0.0.0",
+  "name": "@blurname/cli",
+  "version": "0.0.10",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@blurkit/core": "workspace:*"
+    "@blurname/core": "workspace:*"
   }
 }

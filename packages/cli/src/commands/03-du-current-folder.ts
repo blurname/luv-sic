@@ -1,4 +1,4 @@
-import { exec } from '@blurkit/core/src/core'
+import { exec } from '@blurname/core/src/core'
 
 const duCurrentFolderDesc = "list current folders' nodes' size"
 const duCurrentFolder = async () => {

@@ -1,6 +1,6 @@
-import { parseOptionList } from '@blurkit/core/src/cli'
-import { colorLog } from '@blurkit/core/src/colorLog'
-import { exec as pExec, pSpawn } from '@blurkit/core/src/core'
+import { parseOptionList } from '@blurname/core/src/cli'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { exec as pExec, pSpawn } from '@blurname/core/src/core'
 import { readFile, writeFile, stat } from 'node:fs/promises'
 
 const gitReplacePackageDesc = `4MB, replace package version in  package.json`

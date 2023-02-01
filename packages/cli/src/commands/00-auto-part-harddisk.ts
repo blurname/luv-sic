@@ -1,4 +1,4 @@
-import { exec } from '@blurkit/core/src/core'
+import { exec } from '@blurname/core/src/core'
 // use sudo to execute this script
 const partMountDrive = async () => {
   const sdx = process.argv[2]

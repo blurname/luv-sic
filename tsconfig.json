@@ -19,8 +19,8 @@
     "declarationMap": true
   },
   "paths": {
-      "@blurkit/cli": ["./packages/cli/src"],
-      "@blurkit/core": ["./packages/core/src"]
+      "@blurname/cli": ["./packages/cli/src"],
+      "@blurname/core": ["./packages/core/src"]
     },
   "references": [
     {

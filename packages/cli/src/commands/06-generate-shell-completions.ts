@@ -1,4 +1,4 @@
-import { writeFile } from '@blurkit/core/src/core'
+import { writeFile } from '@blurname/core/src/core'
 import { commands } from '../main.js'
 // https://rsteube.github.io/carapace-bin/spec/examples.html
 const generateShellCompletionsDesc = `using carapace to custom my commands completions`

@@ -10,8 +10,8 @@
 //
 
 
-import { parseOptionList } from '@blurkit/core/src/cli'
-import { colorLog } from '@blurkit/core/src/colorLog'
+import { parseOptionList } from '@blurname/core/src/cli'
+import { colorLog } from '@blurname/core/src/colorLog'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 

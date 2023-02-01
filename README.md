@@ -1,2 +1,2 @@
 # blurkit
-ts playground
+myt ts playground

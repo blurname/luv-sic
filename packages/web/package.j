@@ -1,5 +1,5 @@
 {
-  "name": "@blurkit/web",
+  "name": "@blurname/web",
   "version": "0.0.0",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",

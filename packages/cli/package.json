@@ -7,7 +7,7 @@
     "build": "tsc"
   },
   "bin": {
-    "bl": "./dist/commands/main.js"
+    "bl": "./dist/main.js"
   },
   "publishConfig": {
     "access": "public"

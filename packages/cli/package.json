@@ -9,6 +9,9 @@
   "bin": {
     "bl": "./dist/commands/main.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@blurkit/core": "workspace:*"
   }

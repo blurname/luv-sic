@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     "./src/*": "./src/*.ts"
   }

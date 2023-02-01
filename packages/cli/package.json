@@ -1,0 +1,15 @@
+{
+  "name": "@blurkit/cli",
+  "version": "0.0.0",
+  "author": "blurname <naughtybao@outlook.com>",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "bin": {
+    "bl": "./dist/commands/main.js"
+  },
+  "dependencies": {
+    "@blurkit/core": "workspace:*"
+  }
+}

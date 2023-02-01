@@ -4,11 +4,7 @@
     "useDefineForClassFields": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM","ESNext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -18,17 +14,20 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src",
-    "rootDir": "./src",
-    "outDir": "./dist/"
+    "incremental": true,
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": [
-    "src"
-  ],
+  "paths": {
+      "@blurkit/cli": ["./packages/cli/src"],
+      "@blurkit/core": ["./packages/core/src"]
+    },
   "references": [
     {
       "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./packages/cli/tsconfig.json"
     }
   ]
 }

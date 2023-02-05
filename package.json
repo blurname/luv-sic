@@ -1,13 +1,13 @@
 {
   "name": "@blurname/blurkit",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "private": false,
   "packageManager": "pnpm@7.25.0",
   "scripts": {
     "version-bump": "tsx ./scripts/version-bump.ts",
-    "tag-push":"pnpm build && changeset publish",
+    "tag-push": "pnpm build && changeset publish",
     "release": "pnpm version-bump && pnpm tag-push",
     "dev": "vite",
     "build": "pnpm -r build",

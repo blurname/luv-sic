@@ -1,7 +1,7 @@
 import {fileURLToPath} from 'node:url'
 import {dirname,resolve} from 'node:path'
 import { createFileKit } from '../packages/core/src/fileKit.js'
-import {colorLog} from '../packages/core/src/colorLog.js'
+import {execSync} from 'node:child_process'
 
 type Version = `${number}.${number}.${number}`
 
@@ -26,21 +26,30 @@ const versionBump = async (digit:Digit) => {
   const rootPath = resolve(...[pathDir,'..',])
   const rootPackageJsonPath = rootPath + '/package.json'
 
-  const __changVersion = async (packageJsonPath:string) => {
-    const fileKit = await createFileKit(packageJsonPath)
-    fileKit.mFile((fileString)=>{
+  const fileKit = await createFileKit(rootPackageJsonPath)
+
+  let newVersion:string |undefined
+
+  fileKit.mFile((fileString:string)=>{
+    const fileJson = JSON.parse(fileString)
+    fileJson.version = digitBump(fileJson.version,digit)
+    newVersion = fileJson.version.slice()
+    return JSON.stringify(fileJson,null,2)
+  })
+  await fileKit.wFile()
+
+  for (const pkg of subPackageList) {
+    const fileKit = await createFileKit(rootPath+`/packages/${pkg}/package.json`)
+    fileKit.mFile((fileString) => {
       const fileJson = JSON.parse(fileString)
-      fileJson.version = digitBump(fileJson.version,digit)
-      console.log(colorLog({msg:fileJson.version,fg:'Red'}))
+      fileJson.version = newVersion
       return JSON.stringify(fileJson,null,2)
     })
     fileKit.wFile()
   }
 
-  await __changVersion(rootPackageJsonPath)
-  for (const pkg of subPackageList) {
-    __changVersion(rootPath+`/packages/${pkg}/package.json`)
-  }
+  const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
+  execSync(`git commit -i package.json packages/cli/package.json packages/core/package.json -m '${commitMsg}'`)
 }
 
 export {

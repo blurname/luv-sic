@@ -16,7 +16,9 @@
     "isolatedModules": true,
     "incremental": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "sourceMap": true,
+    "noUnusedLocals": true
   },
   "paths": {
       "@blurname/cli": ["./packages/cli/src"],

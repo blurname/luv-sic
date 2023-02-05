@@ -45,7 +45,7 @@ const versionBump = async (digit:Digit) => {
       fileJson.version = newVersion
       return JSON.stringify(fileJson,null,2)
     })
-    fileKit.wFile()
+    await fileKit.wFile()
   }
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`

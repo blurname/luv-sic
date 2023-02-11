@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 
-const gitCommitDesc = 'used for mb, quickly git commit which message is the changs of dependencies of package.json'
+const gitCommitDesc = 'quickly git commit which message is the changs of dependencies of package.json'
 
 const customPackageRepoMap: Record<string, string> = {}
 

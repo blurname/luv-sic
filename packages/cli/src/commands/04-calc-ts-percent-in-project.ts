@@ -1,5 +1,5 @@
 import { exec } from '@blurname/core/src/core'
-const calcTsPercentInProjectDesc = 'compute .ts/.ts+.js in project'
+const calcTsPercentInProjectDesc = 'calc .ts/.ts+.js in project'
 const calcTsPercentInProject = async () => {
   const { stdout: ts } = await exec('fd .ts')
   const { stdout: js } = await exec('fd .js')

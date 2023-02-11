@@ -15,7 +15,7 @@ import { colorLog } from '@blurname/core/src/colorLog'
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 
-const gitDropVersionDesc = 'used for mb, drop Commit by commitHash && commitPrefix which default prefix is VERSION'
+const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
 
 let options: Record<string, string> = {
   t: 'targetCommitHash',

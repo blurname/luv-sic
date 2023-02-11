@@ -1,5 +1,5 @@
 import { exec } from '@blurname/core/src/core'
-const calcWorkingTimeDesc = 'computing my Saturday working time'
+const calcWorkingTimeDesc = 'calc my Saturday working time'
 const calcWorkingTime = async () => {
   const inputTime = process.argv[3]
   const realTime = inputTime ?? '09:00'

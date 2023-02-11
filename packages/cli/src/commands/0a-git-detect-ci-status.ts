@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 
-const detectCIStatusDesc = 'used for mb, use glab to detect gitlab CI status'
+const detectCIStatusDesc = 'use glab to detect gitlab CI status'
 const detectCIStatus = async () => {
   let CIStatus = 'go'
   const version = execSync('git log --oneline | grep VERSION -m 1').toString().split('\n')[0].split('@').at(-1)

@@ -1,7 +1,7 @@
 import { writeFile } from '@blurname/core/src/core'
 import { commands } from '../main.js'
 // https://rsteube.github.io/carapace-bin/spec/examples.html
-const generateShellCompletionsDesc = `using carapace to custom my commands completions`
+const generateShellCompletionsDesc = `use Carapace to custom my commands completions`
 const generateShellCompletions = async () => {
   const keys = Object.keys(commands)
   let caraPaceSpec = `name: bl\ncommands:\n`

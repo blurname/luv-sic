@@ -10,7 +10,8 @@ const OPTION_DEFAULT = { // same default as `imagemin-svgo`
   floatPrecision: 2, // customize plugin option for `cleanupNumericValues`
   plugins: [
     'preset-default',
-    'removeScriptElement' // enable builtin plugin not included in default preset
+    'removeScriptElement', // enable builtin plugin not included in default preset
+    'removeXMLNS'
   ]
 }
 
@@ -31,6 +32,7 @@ export class SvgSimple extends LitElement {
   constructor(){
     super()
     document.addEventListener('paste', this.handlePaste)
+    this.optimizedText = optimize(this.text,OPTION_DEFAULT as any).data
   }
 
   handlePaste = async () => {

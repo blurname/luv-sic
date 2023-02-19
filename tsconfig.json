@@ -30,6 +30,9 @@
     },
     {
       "path": "./packages/cli/tsconfig.json"
+    },
+    {
+      "path": "./packages/svgminify/tsconfig.json"
     }
   ]
 }

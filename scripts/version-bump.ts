@@ -12,7 +12,7 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
-const subPackageList = ['core','cli']
+const subPackageList = ['core','cli','svgminify']
 
 const digitBump = (version:Version,digit:Digit) => {
   const versionList = version.split('.') 
@@ -49,7 +49,8 @@ const versionBump = async (digit:Digit) => {
   }
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
-  execSync(`git commit -i package.json packages/cli/package.json packages/core/package.json -m '${commitMsg}'`)
+  const subPackageJsonString = subPackageList.reduce((pre,cur) => `${pre} packages/${cur}/package.json` ,'')
+  execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }
 
 export {

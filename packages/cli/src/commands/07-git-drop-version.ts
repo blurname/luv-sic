@@ -23,6 +23,7 @@ let options: Record<string, string> = {
 }
 
 const gitRebaseInteractive = (scriptFilePath: string) => {
+  console.log(scriptFilePath)
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
       GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath),
@@ -78,7 +79,7 @@ const gitDropVersion = async () => {
   if (!argv.includes('-action')) {
     const [scriptFilePath] = process.argv.slice(1)
     const tmpPath = scriptFilePath.split('/')
-    tmpPath[tmpPath.length - 1] = '07-git-drop-version-action.ts'
+    tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.ts'
     const realPath = tmpPath.join('/')
     options = parseOptionList(argv, options)
     gitRebaseInteractive(realPath)

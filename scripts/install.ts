@@ -18,11 +18,11 @@ const df = async () => {
 }
 
 const main = async () => {
-  const [, , func] = process.argv
+  const [ , , func ] = process.argv
   if (func === 'part') {
     await part()
   } else if (func === 'df') {
     await df()
   }
 }
-void main()
+main()

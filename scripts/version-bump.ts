@@ -29,8 +29,8 @@ const versionBump = async (digit:Digit) => {
 
   let newVersion:string |undefined
 
-  fileKit.modify((fileString:string) => {
-    const fileJson = JSON.parse(fileString)
+  fileKit.modify((stringContent) => {
+    const fileJson = JSON.parse(stringContent)
     fileJson.version = __digitBump(fileJson.version, digit)
     newVersion = fileJson.version.slice()
     return JSON.stringify(fileJson, null, 2)
@@ -39,8 +39,8 @@ const versionBump = async (digit:Digit) => {
 
   for (const pkg of subPackageList) {
     const fileKit = createFileKit({ path: rootPath + `/packages/${pkg}/package.json` })
-    fileKit.modify((fileString) => {
-      const fileJson = JSON.parse(fileString)
+    fileKit.modify((stringContent) => {
+      const fileJson = JSON.parse(stringContent)
       fileJson.version = newVersion
       return JSON.stringify(fileJson, null, 2)
     })

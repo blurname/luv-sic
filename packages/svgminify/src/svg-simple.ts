@@ -201,7 +201,11 @@ export class SvgSimple extends LitElement {
     flex-direction: column; margin: 0px 20px;">
       <h1 style="color: #1661ff99">usage(proto/dashboard)</h1>
       <button style="
-      height: 100px;" @click=${this.handleCopy(usage)}>copy</button>
+      height: 100px;
+      font-size: 60px;
+      color: darkseagreen;
+      " @click=${this.handleCopy(usage)}>copy</button>
+
       <textarea rows="20" cols="40" readonly disabled style="resize: none;" >${usage}</textarea>
     </div>
     <div>

@@ -122,7 +122,7 @@ export class SvgSimple extends LitElement {
 
   handleCopy = (data:string) => {
     // navigator.clipboard.write([ new ClipboardItem({ 'text/plain': data }) ])
-    navigator.clipboard.writeText(data)
+    navigator.clipboard?.writeText(data)
   }
 
   handlePaste = (e:ClipboardEvent) => {
@@ -200,7 +200,9 @@ export class SvgSimple extends LitElement {
     <div style="display: flex;
     flex-direction: column; margin: 0px 20px;">
       <h1 style="color: #1661ff99">usage(proto/dashboard)</h1>
-      <button @click=${this.handleCopy(usage)}>copy</button>
+      <button style="
+      height: 100px;
+      border: 1px solid #0000ff55;" @click=${this.handleCopy(usage)}>copy</button>
       <textarea rows="20" cols="40" readonly disabled style="resize: none;" >${usage}</textarea>
     </div>
     <div>

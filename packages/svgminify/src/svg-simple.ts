@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js'
 import { optimize } from 'svgo'
-
+import { performNativeCopy } from '@blurname/core/src/browser/clipboard'
 const gopherSVG = `
 <svg width="800px" height="800px" viewBox="-46 0 348 348" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
 	<g>
@@ -123,7 +123,7 @@ export class SvgSimple extends LitElement {
 
   handleCopy = (data:string) => {
     // navigator.clipboard.write([ new ClipboardItem({ 'text/plain': data }) ])
-    navigator.clipboard?.writeText(data)
+    performNativeCopy([ { 'mimeType': 'text/plain', data } ])
   }
 
   handlePaste = (e:ClipboardEvent) => {
@@ -204,8 +204,8 @@ export class SvgSimple extends LitElement {
       <button style="
       height: 100px;
       font-size: 60px;
-      color: darkseagreen;
-      " @click=${this.handleCopy(usage)}>copy</button>
+      color: darkseagreen;"
+      @click=${() => this.handleCopy(usage)}>copy</button>
 
       <textarea rows="20" cols="40" readonly disabled style="resize: none;" >${usage}</textarea>
     </div>

@@ -89,7 +89,8 @@ const OPTION_DEFAULT = { // same default as `imagemin-svgo`
       name: 'preset-default',
       params: {
         overrides: {
-          'removeViewBox': false
+          'removeViewBox': false,
+          'cleanupIds': false
         }
       }
     },

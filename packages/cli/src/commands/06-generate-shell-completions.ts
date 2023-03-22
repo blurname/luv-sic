@@ -1,10 +1,10 @@
 import { writeFile } from '@blurname/core/src/core'
 import { commands } from '../main.js'
 // https://rsteube.github.io/carapace-bin/spec/examples.html
-const generateShellCompletionsDesc = `use Carapace to custom my commands completions`
+const generateShellCompletionsDesc = 'use Carapace to custom my commands completions'
 const generateShellCompletions = async () => {
   const keys = Object.keys(commands)
-  let caraPaceSpec = `name: bl\ncommands:\n`
+  let caraPaceSpec = 'name: bl\ncommands:\n'
   keys.forEach((k) => {
     caraPaceSpec += `  - name: ${k}\n`
   })
@@ -13,4 +13,4 @@ const generateShellCompletions = async () => {
 }
 export { generateShellCompletions, generateShellCompletionsDesc }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-//generateShellCompletions()
+// generateShellCompletions()

@@ -8,10 +8,10 @@ const partMountDrive = async () => {
   const fstabPath = '/etc/fstab'
   await exec(`mkdir ${mountPoint}`)
 
-  //await exec(`rm  -r ${mountPoint}`)
+  // await exec(`rm  -r ${mountPoint}`)
   await exec(`parted ${sdx} rm 1`)
 
-  //await exec(`sudo parted ${sdx} mklabel gpt`)
+  // await exec(`sudo parted ${sdx} mklabel gpt`)
   await exec(`parted ${sdx} -- mkpart primary ext4 1MiB 100%`)
 
   // 3. mkfs

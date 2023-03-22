@@ -2,7 +2,7 @@ import { exec } from '@blurname/core/src/core'
 
 const duCurrentFolderDesc = "list current folders' nodes' size"
 const duCurrentFolder = async () => {
-  const { stdout } = await exec(`ls`)
+  const { stdout } = await exec('ls')
   const files = stdout.split('\n').filter((n) => n !== '')
 
   // get filesize

@@ -46,6 +46,7 @@ const main = async () => {
   try {
     await commands[whichCommand]()
   } catch (err) {
+    console.log(err)
     console.log('wrong command')
     console.log('commandList', commandsDesc)
   }

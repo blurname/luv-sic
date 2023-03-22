@@ -4,20 +4,20 @@ const gitCommitDesc = 'quickly git commit which message is the changes of depend
 
 const customPackageRepoMap: Record<string, string> = {}
 
-const realPackagRepoMap = (packageName: string)=>{
+const realPackagRepoMap = (packageName: string) => {
   const pkgName = customPackageRepoMap[packageName]
   if (pkgName === undefined) return packageName
   return pkgName
 }
 
-const gitCommit = async ()=>{
-  const prefix = process.argv[2]
+const gitCommit = async () => {
+  const prefix = process.argv[3]
   const stdout = execSync(`git diff package.json | grep ${prefix}`)
   const packageJsonContent = stdout.toString()
   const commitMessage = packageJsonContent
     .split('\n')
-    .filter((s)=>s.startsWith('+'))
-    .reduce((pre, cur, index)=>{
+    .filter((s) => s.startsWith('+'))
+    .reduce((pre, cur, index) => {
       const parts = cur.split(':')
       const pacakgeName = realPackagRepoMap(parts[0].split('+')[1].trim().split('"')[1])
       const packageVersion = parts[1].split('"')[1]

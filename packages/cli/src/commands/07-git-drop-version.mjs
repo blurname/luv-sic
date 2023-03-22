@@ -17,6 +17,13 @@
 //
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const colorToken = {
   Red: '\x1b[31m',
@@ -106,12 +113,15 @@ const resolveOperations = (operations0) => {
 const gitDropVersion = async () => {
   const argv = process.argv
   if (!argv.includes('-action')) {
-    const [scriptFilePath] = process.argv.slice(1)
-    const tmpPath = scriptFilePath.split('/')
-    tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.mjs'
-    const realPath = tmpPath.join('/')
+    // const [scriptFilePath] = process.argv.slice(1)
+    // const tmpPath = scriptFilePath.split('/')
+
+    // tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.mjs'
+    // const realPath = tmpPath.join('/')
+    const actionPath = join(__dirname, '07-git-drop-version-action.mjs')
+    console.log(actionPath)
     options = parseOptionList(argv, options)
-    gitRebaseInteractive(realPath)
+    gitRebaseInteractive(actionPath)
   } else if (argv.includes('-action')) {
     options = parseOptionList(argv, options)
     await action()

@@ -5,12 +5,12 @@ import { duCurrentFolder, duCurrentFolderDesc } from './commands/03-du-current-f
 import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './commands/04-calc-ts-percent-in-project.js'
 import { calcWorkingTime, calcWorkingTimeDesc } from './commands/05-calc-working-time.js'
 import { generateShellCompletions, generateShellCompletionsDesc } from './commands/06-generate-shell-completions.js'
-import { gitDropVersion, gitDropVersionDesc } from './commands/07-git-drop-version.js'
+import { gitDropVersion, gitDropVersionDesc } from './commands/07-git-drop-version.mjs'
 import { gitCommit, gitCommitDesc } from './commands/08-git-package-commit.js'
 import { gitReplacePackage, gitReplacePackageDesc } from './commands/09-git-package-replace.js'
 import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-status.js'
 import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
-import {logRemoteJson, logRemoteJsonDesc} from './commands/0e-log-remote-json.js'
+import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
 
 export const commands = {
   switchNpmrc,

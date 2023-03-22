@@ -9,33 +9,62 @@
 //
 //
 
-
-import { parseOptionList } from '@blurname/core/src/cli'
-import { colorLog } from '@blurname/core/src/colorLog'
+// 2023.03.23 因为用 node 调用了 action 文件，不知道怎么让他调用 mjs 时，和 .ts 共存，所以就把依赖都内联。难受。
+// import { parseOptionList } from '@blurname/core/src/cli'
+// import { colorLog } from '@blurname/core/src/colorLog'
+//
+//
+//
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 
-const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
-
-let options: Record<string, string> = {
-  t: 'targetCommitHash',
-  k: 'VERSION', // keyword
+const colorToken = {
+  Red: '\x1b[31m',
+  Green: '\x1b[32m',
+  Reset: '\x1b[0m',
+  Yellow: '\x1b[33m'
+}
+const colorLog = ({ msg, fg }) => {
+  return `${colorToken['Reset']}${colorToken[fg]}${msg}${colorToken['Reset']}`
+}
+const reduceDash = (strHasDash) => {
+  return strHasDash.split('-').at(-1)
+}
+const parseOptionList = (argv, kvMapFromScript) => {
+  const parsedOptionList = {}
+  Object.keys(kvMapFromScript).forEach((k) => {
+    const paramK = argv.findIndex((arg) => {
+      return reduceDash(arg) === k
+    })
+    if (paramK !== -1) {
+      const paramV = argv[paramK + 1]
+      parsedOptionList[k] = paramV
+    }
+  })
+  return { ...kvMapFromScript, ...parsedOptionList }
 }
 
-const gitRebaseInteractive = (scriptFilePath: string) => {
+const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
+
+let options = {
+  t: 'targetCommitHash',
+  k: 'VERSION' // keyword
+}
+
+const gitRebaseInteractive = (scriptFilePath) => {
   console.log(scriptFilePath)
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
-      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath),
-    },
+      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath)
+    }
   })
   console.log(stdout.toString())
   console.log('err', stderr.toString())
 }
 
 // 设置环境变量
-const gitEdit = (scriptFilePath: string) => {
-  return `tsx ${scriptFilePath} -t ${options['t']} -k ${options['k']} -action`
+const gitEdit = (scriptFilePath) => {
+  return `node ${scriptFilePath} -t ${options['t']} -k ${options['k']} -action`
 }
 
 // 就地正法
@@ -47,9 +76,9 @@ const action = async () => {
 }
 
 // 处理文件内容
-const resolveOperations = (operations0: string) => {
+const resolveOperations = (operations0) => {
   const operations = operations0
-    //Replace comments
+    // Replace comments
     .replace(/#.*/g, '')
     // Each line would be a cell
     .split('\n')
@@ -79,7 +108,7 @@ const gitDropVersion = async () => {
   if (!argv.includes('-action')) {
     const [scriptFilePath] = process.argv.slice(1)
     const tmpPath = scriptFilePath.split('/')
-    tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.ts'
+    tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.mjs'
     const realPath = tmpPath.join('/')
     options = parseOptionList(argv, options)
     gitRebaseInteractive(realPath)

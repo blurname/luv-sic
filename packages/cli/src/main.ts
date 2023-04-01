@@ -11,6 +11,7 @@ import { gitReplacePackage, gitReplacePackageDesc } from './commands/09-git-pack
 import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-status.js'
 import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
 import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
+import { forgetLog, forgetLogDesc } from './commands/10-forget-log.js'
 
 export const commands = {
   switchNpmrc,
@@ -23,7 +24,8 @@ export const commands = {
   gitReplacePackage,
   startZellij,
   generateShellCompletions,
-  logRemoteJson
+  logRemoteJson,
+  forgetLog
 } as const
 type Commands = keyof typeof commands
 
@@ -38,7 +40,8 @@ const commandsDesc: { [k in Commands]: string } = {
   startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
   generateShellCompletions: generateShellCompletionsDesc,
-  logRemoteJson: logRemoteJsonDesc
+  logRemoteJson: logRemoteJsonDesc,
+  forgetLog: forgetLogDesc
 }
 
 const main = async () => {

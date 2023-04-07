@@ -3,12 +3,12 @@ import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
 
-const forgetLogDesc = 'forget console.log from givin commit to head'
+const forgetLogDesc = 'forget c with using inlcudesonsole.log from givin commit to head'
 const forgetLog = () => {
   const [, ,, commit] = process.argv
   const status = execSync('git status').toString()
   if (!status.includes('working tree clean')) {
-    console.log(colorLog({ msg: '因为脚本 will 改写文件，请保证 git status 结果是空的，防止潜在错误的数据处理对文件内容的意外操作，dont 让你的工作成果化为梦幻泡影', fg: 'Red' }))
+    console.log(colorLog({ msg: '因为脚本会改写文件，请保证 git status 结果是空的，防止潜在错误的数据处理对文件内容的意外操作，不要让你的工作成果化为梦幻泡影', fg: 'Red' }))
     return
   }
   console.log(colorLog({ msg: '空无一人这片沙滩', fg: 'Blue' }))
@@ -46,7 +46,7 @@ const forgetLog = () => {
     for (const line of contentArr) {
       let hasLog = false
       for (const v of value) {
-        if (v.includes(line)) {
+        if (line.trim().length > 0 && v.includes(line)) { // need to filter empty content with using inlcudes
           const firstIndex = value.findIndex(s => s === v)
           value = value.filter((s, index) => index !== firstIndex)
           hasLog = true

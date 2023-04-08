@@ -123,7 +123,7 @@ export class SvgSimple extends LitElement {
 
   handleCopy = (data:string) => {
     // navigator.clipboard.write([ new ClipboardItem({ 'text/plain': data }) ])
-    performNativeCopy([ { 'mimeType': 'text/plain', data } ])
+    performNativeCopy([{ 'mimeType': 'text/plain', data }])
   }
 
   handlePaste = (e:ClipboardEvent) => {
@@ -131,7 +131,7 @@ export class SvgSimple extends LitElement {
     if (text === undefined) return
     try {
       const svgF = this.parser.parseFromString(text, 'image/svg+xml')
-      if (svgF.childNodes[ 0 ].nodeName === 'svg') {
+      if (svgF.childNodes[0].nodeName === 'svg') {
         this.optimizedText = optimize(text, OPTION_DEFAULT as any).data
         this.text = text
         // this.actionText = 'optimizedSVG without <svg> has been wirtten to clipboard'
@@ -146,8 +146,8 @@ export class SvgSimple extends LitElement {
   }
 
   save = () => {
-    const oldSize = new Blob([ this.text ]).size
-    const newSize = new Blob([ this.optimizedText ]).size
+    const oldSize = new Blob([this.text]).size
+    const newSize = new Blob([this.optimizedText]).size
     return (oldSize - newSize) / oldSize
   }
 
@@ -164,7 +164,7 @@ export class SvgSimple extends LitElement {
         .replace(/>/g, '%3E')
         .replace(/\s+/g, ' ')
       const resultCss = `background-image: url("data:image/svg+xml,${encodedSVG}");`
-      return [ encodedSVG, resultCss ]
+      return [encodedSVG, resultCss]
     }
 
     return __encodeSVG(svgOuterHTML)
@@ -179,23 +179,36 @@ export class SvgSimple extends LitElement {
     const svgOptimizedSVG = svgOptimezed.documentElement.innerHTML
 
     const viewBox = svgOriginnal.documentElement.getAttribute('viewBox')
-    const [ width, height ] = [ svgOriginnal.documentElement.getAttribute('width'), svgOriginnal.documentElement.getAttribute('height') ]
+    const [width, height] = [svgOriginnal.documentElement.getAttribute('width'), svgOriginnal.documentElement.getAttribute('height')]
 
-    const [ ,, w, h ] = viewBox ? viewBox?.split(' ') : [ 0, 0, width, height ]
-    const finalViewBox = viewBox || [ 0, 0, w, h ]
+    const [,, w, h] = viewBox ? viewBox?.split(' ') : [0, 0, width, height]
+    const finalViewBox = viewBox || [0, 0, w, h]
 
     const dataUrl = this.toDataUrl(svgOriginnal.documentElement.outerHTML)
 
     const usage = `[${w},${h},\`${svgOptimizedSVG}\`]`
 
     return html`
+    <div>
+    <a style="color: #00fa" href="https://github.com/blurname/blurkit/blob/master/packages/svgminify/src/svg-simple.ts" target="_blank">source code url </a>
+    </div>
     <div id="text-container">
     <div>
       <h2>original</h2>
+      <button style="
+      height: 100px;
+      font-size: 60px;
+      color: darkseagreen;"
+      @click=${() => this.handleCopy(svgOriginnal.documentElement.outerHTML)}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${svgOriginnal.documentElement.outerHTML}</textarea>
     </div>
     <div>
       <h2>optimized</h2>
+      <button style="
+      height: 100px;
+      font-size: 60px;
+      color: darkseagreen;"
+      @click=${() => this.handleCopy(svgOptimezed.documentElement.outerHTML)}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${svgOptimezed.documentElement.outerHTML}</textarea>
     </div>
     <div style="display: flex;
@@ -211,11 +224,21 @@ export class SvgSimple extends LitElement {
     </div>
     <div>
       <h2>data url(OPT)</h2>
-      <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[ 0 ]}</textarea>
+      <button style="
+      height: 100px;
+      font-size: 60px;
+      color: darkseagreen;"
+      @click=${() => this.handleCopy(dataUrl[0])}>copy</button>
+      <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[0]}</textarea>
     </div>
     <div>
       <h2>__css(OPT)</h2>
-      <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[ 1 ]}</textarea>
+      <button style="
+      height: 100px;
+      font-size: 60px;
+      color: darkseagreen;"
+      @click=${() => this.handleCopy(dataUrl[1])}>copy</button>
+      <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[1]}</textarea>
     </div>
     </div>
     <h1>${this.actionText}</h1>

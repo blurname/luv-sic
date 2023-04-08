@@ -2,10 +2,9 @@
 心血来潮者，心中忽动耳
 
 ## package
-- cli: some scripts, npm i @bluname/cli -g, use `bl` as shell command, either check main.ts for details or just press `bl`
+- cli: some scripts, `npm i @bluname/cli -g`, use `blurkit` as shell command, either check main.ts for details or just press `blurkit`
 - core: some functions will be used by other packages
-- svgminify: a minify svg website written for daily use
-  - url: https://svgsimple.vercel.app, auto deployed by vercel, inspired by SVGOMG
+- svgminify: a svg minify website been written for daily use. https://svgsimple.vercel.app
 
 
 

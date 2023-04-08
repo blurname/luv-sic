@@ -7,7 +7,8 @@
     "build": "tsc"
   },
   "bin": {
-    "bl": "./dist/main.js"
+    "bl": "./dist/main.js",
+    "blurkit": "./dist/main.js"
   },
   "publishConfig": {
     "access": "public"

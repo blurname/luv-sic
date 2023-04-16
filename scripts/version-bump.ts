@@ -1,7 +1,7 @@
-import {fileURLToPath} from 'node:url'
-import {dirname,resolve} from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { dirname, resolve } from 'node:path'
 import { createFileKit } from '../packages/core/src/fileKit.js'
-import {execSync} from 'node:child_process'
+import { execSync } from 'node:child_process'
 
 type Version = `${number}.${number}.${number}`
 
@@ -12,10 +12,10 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
-const subPackageList = ['core','cli','svgminify']
+const subPackageList = ['core', 'cli', 'svgminify']
 
-const digitBump = (version:Version,digit:Digit) => {
-  const versionList = version.split('.') 
+const digitBump = (version:Version, digit:Digit) => {
+  const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
   versionList[digitNumber] = `${Number(versionList[digitNumber]) + 1}`
   return versionList.join('.')
@@ -23,33 +23,33 @@ const digitBump = (version:Version,digit:Digit) => {
 
 const versionBump = async (digit:Digit) => {
   const pathDir = dirname(fileURLToPath(import.meta.url))
-  const rootPath = resolve(...[pathDir,'..',])
+  const rootPath = resolve(...[pathDir, '..'])
   const rootPackageJsonPath = rootPath + '/package.json'
 
-  const fileKit = await createFileKit(rootPackageJsonPath)
+  const fileKit = createFileKit(rootPackageJsonPath)
 
   let newVersion:string |undefined
 
-  fileKit.mFile((fileString:string)=>{
+  fileKit.modify((fileString) => {
     const fileJson = JSON.parse(fileString)
-    fileJson.version = digitBump(fileJson.version,digit)
-    newVersion = fileJson.version.slice()
-    return JSON.stringify(fileJson,null,2)
+    fileJson.version = digitBump(fileJson.version, digit)
+    newVersion = fileJson.version
+    return JSON.stringify(fileJson, null, 2)
   })
-  await fileKit.wFile()
+  fileKit.commit()
 
   for (const pkg of subPackageList) {
-    const fileKit = await createFileKit(rootPath+`/packages/${pkg}/package.json`)
-    fileKit.mFile((fileString) => {
+    const fileKit = createFileKit(rootPath + `/packages/${pkg}/package.json`)
+    fileKit.modify((fileString) => {
       const fileJson = JSON.parse(fileString)
       fileJson.version = newVersion
-      return JSON.stringify(fileJson,null,2)
+      return JSON.stringify(fileJson, null, 2)
     })
-    await fileKit.wFile()
+    fileKit.commit()
   }
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
-  const subPackageJsonString = subPackageList.reduce((pre,cur) => `${pre} packages/${cur}/package.json` ,'')
+  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} packages/${cur}/package.json`, '')
   execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }
 
@@ -58,5 +58,5 @@ export {
 }
 
 versionBump('patch')
-//versionBump('minor')
-//versionBump('major')
+// versionBump('minor')
+// versionBump('major')

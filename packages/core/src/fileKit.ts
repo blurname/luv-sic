@@ -1,27 +1,22 @@
-import {readFile, writeFile} from 'node:fs/promises'
+import { readFileSync, writeFileSync } from 'node:fs'
 
-const createFileKit = async (path:string)=>{
-  let __rawFile = (await readFile(path)).toString()
-  let __modifiedFile : string | undefined
+const createFileKit = (path:string) => {
+  const _rawFile = readFileSync(path).toString()
+  let _modifiedFile : string | undefined
 
-  const rFile =() => {
-    return __rawFile
+  const modify = (modifyFn:(fileString:string)=>string) => {
+    if (_rawFile === undefined) throw new Error('no such file')
+    _modifiedFile = modifyFn(_rawFile.slice())
   }
 
-  const mFile = (modifyFn:(fileContent:any)=>string) =>{
-    if(__rawFile === undefined) throw new Error('no such file')
-    __modifiedFile = modifyFn(__rawFile.slice())
-  }
-
-  const wFile = async () => {
-    if(__modifiedFile === undefined) throw new Error('no file modified')
-    await writeFile(path,__modifiedFile)
+  const commit = () => {
+    if (_modifiedFile === undefined) throw new Error('no file modified')
+    writeFileSync(path, _modifiedFile)
   }
 
   return {
-    rFile,
-    mFile,
-    wFile
+    modify,
+    commit
   }
 }
 export {

@@ -12,8 +12,6 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
-const subPackageList = ['core', 'cli', 'svgminify']
-
 const digitBump = (version:Version, digit:Digit) => {
   const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
@@ -21,7 +19,7 @@ const digitBump = (version:Version, digit:Digit) => {
   return versionList.join('.')
 }
 
-const versionBump = async (digit:Digit) => {
+const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
   const pathDir = dirname(fileURLToPath(import.meta.url))
   const rootPath = resolve(...[pathDir, '..'])
   const rootPackageJsonPath = rootPath + '/package.json'
@@ -57,6 +55,6 @@ export {
   versionBump
 }
 
-versionBump('patch')
+// versionBump('patch')
 // versionBump('minor')
 // versionBump('major')

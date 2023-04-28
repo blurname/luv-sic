@@ -1,10 +1,10 @@
 type KvMapFromScript = { [k: string]: string }
 
-const reduceDash = <T extends string | String>(strHasDash: T) => {
+const reduceDash = <T extends string | string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
 }
 
-const parseOptionList = (argv: String[], kvMapFromScript: KvMapFromScript) => {
+const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
   const parsedOptionList: KvMapFromScript = {}
   Object.keys(kvMapFromScript).forEach((k) => {
     const paramK = argv.findIndex((arg) => {
@@ -17,12 +17,12 @@ const parseOptionList = (argv: String[], kvMapFromScript: KvMapFromScript) => {
   })
   return { ...kvMapFromScript, ...parsedOptionList }
 }
-//export { parseOptionList }
+// export { parseOptionList }
 //
-//const main = () => {
-//const result = parseOptionList(process.argv, options)
-//console.log(result)
-//}
-//main()
+// const main = () => {
+// const result = parseOptionList(process.argv, options)
+// console.log(result)
+// }
+// main()
 
 export { parseOptionList }

@@ -9,6 +9,8 @@
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "remesh": "^4.1.0",
+    "remesh-react": "^4.0.1",
     "rxjs": "^7.8.0"
   }
 }

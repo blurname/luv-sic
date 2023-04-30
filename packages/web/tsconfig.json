@@ -6,7 +6,11 @@
     "noEmit": false,
     "composite": true,
     "experimentalDecorators":true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "allowUnusedLabels": false,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "noImplicitAny": false
   },
   "include": ["src/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

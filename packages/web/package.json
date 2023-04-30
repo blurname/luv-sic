@@ -1,5 +1,5 @@
 {
-  "name": "@blurname/web",
+  "name": "@blurkit/web",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

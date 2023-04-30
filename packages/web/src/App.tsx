@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import { EditingPage } from './pages/EditingPage'
+// import { EditingPage } from './pages/EditingPage'
 import { Elevator } from './pages/Elevator'
 type Pages = 'editing' | 'elevator'
-function App() {
+function App () {
   const [activePage, setActivePage] = useState<Pages>('elevator')
   const divRef = useRef(null)
   return (

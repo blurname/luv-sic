@@ -12,6 +12,7 @@
     "build": "pnpm -r build",
     "typecheck": "tsc --noEmit",
     "dev:svgminify": "pnpm --filter @blurkit/svgminify dev",
+    "dev:web": "pnpm --filter @blurkit/web dev",
     "clean:dist": "tsx ./scripts/monorepo.ts clean-dist",
     "clean:node_modules": "tsx ./scripts/monorepo.ts clean-node-modules"
   },

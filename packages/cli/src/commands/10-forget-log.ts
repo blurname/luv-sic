@@ -41,6 +41,7 @@ const forgetLog = () => {
   for (const key in fileLogObj) {
     let value = fileLogObj[key]
     const path = join(...[rootPath, key])
+    if (path.includes('/dev/null')) continue
     const contentArr = readFileSync(path).toString().split('\n')
     const newContentArr = []
     for (const line of contentArr) {
@@ -59,6 +60,7 @@ const forgetLog = () => {
     writeFileSync(path, newContentArr.join('\n'))
   }
   execSync(`git commit -m 'DEL: console.log' -i ${pathList.join(' ')}`)
+  // execSync('git commit -am \'DEL: console.log\'')
   console.log(colorLog({ msg: '已将 log 清除干净，对应生成了一个 commit', fg: 'Green' }))
 }
 export {

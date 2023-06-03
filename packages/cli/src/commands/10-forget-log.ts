@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
 
-const forgetLogDesc = 'forget c with using inlcudesonsole.log from givin commit to head'
+const forgetLogDesc = 'forget console.log from givin commit to head'
 const forgetLog = () => {
   const [, ,, commit] = process.argv
   const status = execSync('git status').toString()

@@ -68,8 +68,8 @@ class createObjectDeepUpdate {
       return {
         ...currentObj,
         [v[depth]]: {
-          ...recUpdate(currentObj[v[depth]], depth + 1),
-        },
+          ...recUpdate(currentObj[v[depth]], depth + 1)
+        }
       }
     }
     const updated = recUpdate(obj, 0)
@@ -81,34 +81,34 @@ const deepObject = {
   a: 1,
   b: {
     bb1: 2,
-    bb2: 3,
+    bb2: 3
   },
   c: {
     cc: {
-      ccc: 4,
-    },
-  },
+      ccc: 4
+    }
+  }
 } as const
 
 const deepObject1 = {
   a: 1,
   b: {
     bb1: 2,
-    bb2: 3,
+    bb2: 3
   },
   c: {
-    ccc: 5,
-  },
+    ccc: 5
+  }
 } as const
 
 // const objectDeepUpdate = new createObjectDeepUpdate()
 
 // test1
-//const deepObjects = [deepObject]
+// const deepObjects = [deepObject]
 
-//objectDeepUpdate.generatePathMap(deepObjects, 'ccc')
+// objectDeepUpdate.generatePathMap(deepObjects, 'ccc')
 
-//const res = objectDeepUpdate.deepUpdate(deepObject, 'ccc', { a: 666 })
+// const res = objectDeepUpdate.deepUpdate(deepObject, 'ccc', { a: 666 })
 
 // test2
 // const deepObjects = [deepObject2]

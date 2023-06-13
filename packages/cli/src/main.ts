@@ -11,7 +11,7 @@ import { gitReplacePackage, gitReplacePackageDesc } from './commands/09-git-pack
 import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-status.js'
 import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
 import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
-import { forgetLog, forgetLogDesc } from './commands/10-forget-log.js'
+import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log.js'
 
 export const commands = {
   switchNpmrc,
@@ -25,11 +25,11 @@ export const commands = {
   startZellij,
   generateShellCompletions,
   logRemoteJson,
-  forgetLog
+  gitForgetLog
 } as const
 type Commands = keyof typeof commands
 
-const commandsDesc: { [k in Commands]: string } = {
+const commandsDesc: Record<Commands, string> = {
   calcTsPercentInProject: calcTsPercentInProjectDesc,
   calcWorkingTime: calcWorkingTimeDesc,
   duCurrentFolder: duCurrentFolderDesc,
@@ -37,11 +37,11 @@ const commandsDesc: { [k in Commands]: string } = {
   gitCommit: gitCommitDesc,
   gitDropVersion: gitDropVersionDesc,
   gitReplacePackage: gitReplacePackageDesc,
+  gitForgetLog: gitForgetLogDesc,
   startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
   generateShellCompletions: generateShellCompletionsDesc,
-  logRemoteJson: logRemoteJsonDesc,
-  forgetLog: forgetLogDesc
+  logRemoteJson: logRemoteJsonDesc
 }
 
 const main = async () => {

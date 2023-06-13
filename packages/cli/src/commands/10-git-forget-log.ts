@@ -3,8 +3,8 @@ import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
 
-const forgetLogDesc = 'forget console.log from givin commit to head'
-const forgetLog = () => {
+const gitForgetLogDesc = 'forget console.log from givin commit to head'
+const gitForgetLog = () => {
   const [, ,, commit] = process.argv
   const status = execSync('git status').toString()
   if (!status.includes('working tree clean')) {
@@ -64,5 +64,5 @@ const forgetLog = () => {
   console.log(colorLog({ msg: '已将 log 清除干净，对应生成了一个 commit', fg: 'Green' }))
 }
 export {
-  forgetLog, forgetLogDesc
+  gitForgetLog, gitForgetLogDesc
 }

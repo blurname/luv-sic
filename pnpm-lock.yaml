@@ -67,6 +67,15 @@ importers:
 
   packages/core: {}
 
+  packages/meta-script-list:
+    dependencies:
+      '@blurname/core':
+        specifier: workspace:*
+        version: link:../core
+      fzf:
+        specifier: ^0.5.2
+        version: 0.5.2
+
   packages/svgminify:
     dependencies:
       '@blurname/core':
@@ -2033,6 +2042,10 @@ packages:
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /fzf@0.5.2:
+    resolution: {integrity: sha512-Tt4kuxLXFKHy8KT40zwsUPUkg1CrsgY25FxA2U/j/0WgEDCk3ddc/zLTCCcbSHX9FcKtLuVaDGtGE/STWC+j3Q==}
+    dev: false
 
   /gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}

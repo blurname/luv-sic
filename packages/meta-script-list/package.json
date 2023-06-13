@@ -1,0 +1,27 @@
+{
+  "name": "@blurname/meta-script-list",
+  "version": "0.0.0",
+  "author": "blurname <naughtybao@outlook.com>",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "version-bump": "tsx ./scripts/monorepo.ts version-bump",
+    "tag-push": "pnpm build && changeset publish",
+    "release": "pnpm version-bump && pnpm tag-push",
+    "typecheck": "tsc --noEmit",
+    "dev:svgminify": "pnpm --filter @blurkit/svgminify dev",
+    "dev:web": "pnpm --filter @blurkit/web dev",
+    "clean:dist": "tsx ./scripts/monorepo.ts clean-dist",
+    "clean:node_modules": "tsx ./scripts/monorepo.ts clean-node-modules"
+  },
+  "bin": {
+    "msl": "./dist/main.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@blurname/core": "workspace:*",
+    "fzf": "^0.5.2"
+  }
+}

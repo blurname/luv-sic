@@ -1,11 +1,11 @@
 import * as readline from 'node:readline'
 import { getPackageJsonFile } from '@blurname/core/src/node/meta-file/npm'
-import { exec, execSync } from 'node:child_process'
+import { execSync } from 'node:child_process'
 import { Fzf } from 'fzf'
 import { colorLog } from '@blurname/core/src/colorLog'
 const main = async () => {
-  const pwd = execSync('pwd').toString().split('\n')[0]
-  const rootPackageJsonPath = pwd + '/package.json'
+  // const pwd = execSync('pwd').toString().split('\n')[0]
+  const rootPackageJsonPath = process.cwd() + '/package.json'
   const jsonFileKit = getPackageJsonFile(rootPackageJsonPath)
   const packageJson = JSON.parse(jsonFileKit.getFileContent()) as {scripts:Record<string, string>}
   const scriptKeyList:string[] = []
@@ -27,7 +27,8 @@ const main = async () => {
       process.exit()
     }
     if (key.name === 'return') {
-      exec(`npm run ${selectKey}`)
+      // console.log(execSync('ls').toString())
+      execSync('bash echo hihi')
       process.exit()
     }
 
@@ -50,19 +51,20 @@ const main = async () => {
     const entries = fzf.find(inputStr)
     resultList = []
     console.clear()
-    console.log(inputStr)
     let result = ''
     entries.forEach((entry:{item:string}, index:number) => {
       resultList.push(entry.item)
       if (index === selectIndex) {
         selectKey = entry.item
-        result += colorLog({ msg: `${entry.item}:${keyDescMap.get(entry.item)}\n`, fg: 'Green' })
+        result += colorLog({ msg: `${entry.item}: ${keyDescMap.get(entry.item)}\n`, fg: 'Green' })
       } else {
-        result += `${entry.item}:${keyDescMap.get(entry.item)}\n`
+        result += `${entry.item}: ${keyDescMap.get(entry.item)}\n`
       }
     }
     )
-    console.log(result)
+    const final = inputStr + '\n_______________\n' + result
+    // process.stdout.write("Type characters, 'x' to exit\n")
+    console.log(final)
   })
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

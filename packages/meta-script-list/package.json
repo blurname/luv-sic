@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "log": "echo hihi",
     "version-bump": "tsx ./scripts/monorepo.ts version-bump",
     "tag-push": "pnpm build && changeset publish",
     "release": "pnpm version-bump && pnpm tag-push",

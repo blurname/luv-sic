@@ -9,7 +9,7 @@ import { gitDropVersion, gitDropVersionDesc } from './commands/07-git-drop-versi
 import { gitCommit, gitCommitDesc } from './commands/08-git-package-commit.js'
 import { gitReplacePackage, gitReplacePackageDesc } from './commands/09-git-package-replace.js'
 import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-status.js'
-import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
+// import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
 import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
 import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log.js'
 
@@ -22,7 +22,7 @@ export const commands = {
   gitCommit,
   detectCIStatus,
   gitReplacePackage,
-  startZellij,
+  // startZellij,
   generateShellCompletions,
   logRemoteJson,
   gitForgetLog
@@ -38,7 +38,7 @@ const commandsDesc: Record<Commands, string> = {
   gitDropVersion: gitDropVersionDesc,
   gitReplacePackage: gitReplacePackageDesc,
   gitForgetLog: gitForgetLogDesc,
-  startZellij: startZellijDesc,
+  // startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
   generateShellCompletions: generateShellCompletionsDesc,
   logRemoteJson: logRemoteJsonDesc

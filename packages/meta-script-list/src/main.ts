@@ -23,3 +23,20 @@ const main = async () => {
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 main()
+
+// https://www.educative.io/answers/what-is-readlineemitkeypressevents-in-nodejs
+// const readline = require('readline');
+
+// console.log("Press any key")
+
+// readline.emitKeypressEvents(process.stdin);
+// if (process.stdin.isTTY)
+// process.stdin.setRawMode(true);
+
+// process.stdin.on('keypress', (str, key) => {
+// if(key.ctrl == true && key.name == 'c'){
+// process.exit()
+// }
+// console.log(str)
+// console.log(key)
+// })

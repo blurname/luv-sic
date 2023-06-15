@@ -14,9 +14,14 @@ const createFileKit = (path:string) => {
     writeFileSync(path, _modifiedFile)
   }
 
+  const getFileContent = () => {
+    return _rawFile
+  }
+
   return {
     modify,
-    commit
+    commit,
+    getFileContent
   }
 }
 export {

@@ -76,30 +76,33 @@ class createObjectDeepUpdate {
     return updated
   }
 }
+export {
+  createObjectDeepUpdate
+}
 
-const deepObject = {
-  a: 1,
-  b: {
-    bb1: 2,
-    bb2: 3
-  },
-  c: {
-    cc: {
-      ccc: 4
-    }
-  }
-} as const
+// const deepObject = {
+// a: 1,
+// b: {
+// bb1: 2,
+// bb2: 3
+// },
+// c: {
+// cc: {
+// ccc: 4
+// }
+// }
+// } as const
 
-const deepObject1 = {
-  a: 1,
-  b: {
-    bb1: 2,
-    bb2: 3
-  },
-  c: {
-    ccc: 5
-  }
-} as const
+// const deepObject1 = {
+// a: 1,
+// b: {
+// bb1: 2,
+// bb2: 3
+// },
+// c: {
+// ccc: 5
+// }
+// } as const
 
 // const objectDeepUpdate = new createObjectDeepUpdate()
 

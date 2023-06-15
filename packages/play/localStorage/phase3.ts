@@ -36,8 +36,8 @@ const createStorageKit = <T extends StorageKey>() => {
 }
 
 const storageKit = createStorageKit<MBStorage>()
-const res = storageKit.get('string:content')
-const res2 = storageKit.get('boolean:isSaved')
+// const res = storageKit.get('string:content')
+// const res2 = storageKit.get('boolean:isSaved')
 storageKit.set({ key: 'string:content', value: 'asdf' })
 storageKit.set({ key: 'boolean:isSaved', value: true })
 

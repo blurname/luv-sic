@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process'
+import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { versionBump } from './version-bump.js'
 const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify']
 
@@ -9,7 +10,8 @@ const monoRepo = () => {
   } else if (func === 'clean-node-modules') {
     cleanNodeModules()
   } else if (func === 'version-bump') {
-    versionBump(SUB_PACKAGE_LIST)('patch')
+    const needToBumpPkgList = detectSubVersionNeedToUpdate(SUB_PACKAGE_LIST)
+    versionBump(needToBumpPkgList)('patch')
   }
 }
 const cleanDist = () => {

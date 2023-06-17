@@ -3,7 +3,8 @@ import { getPackageJsonFile } from '@blurname/core/src/node/meta-file/npm'
 import { spawnSync } from 'node:child_process'
 import { Fzf } from 'fzf'
 import { colorLog } from '@blurname/core/src/colorLog'
-const main = async () => {
+const metaScriptFzfDesc = 'use fzf to search & execute script in project meta file '
+const metaScriptFzf = async () => {
   const logFzfResult = ({ entries, inputStr, selectIndex }:{entries:{item:string}[], inputStr:string, selectIndex:number}) => {
     let result = ''
     entries.forEach((entry, index:number) => {
@@ -21,8 +22,7 @@ const main = async () => {
     console.log(final)
   }
 
-  const rootPackageJsonPath = process.cwd() + '/package.json'
-  const jsonFileKit = getPackageJsonFile(rootPackageJsonPath)
+  const jsonFileKit = getPackageJsonFile()
   const packageJson = JSON.parse(jsonFileKit.getFileContent()) as {scripts:Record<string, string>}
 
   const scriptKeyList:string[] = []
@@ -77,7 +77,9 @@ const main = async () => {
   })
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-main()
+export {
+  metaScriptFzf, metaScriptFzfDesc
+}
 
 // https://www.educative.io/answers/what-is-readlineemitkeypressevents-in-nodejs
 // const readline = require('readline');

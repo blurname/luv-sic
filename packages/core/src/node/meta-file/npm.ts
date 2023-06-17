@@ -1,5 +1,6 @@
 import { createFileKit } from '../../fileKit.js'
-const getPackageJsonFile = (path: string) => {
+const getPackageJsonFile = () => {
+  const path = process.cwd() + '/package.json'
   const fileKit = createFileKit(path)
   return fileKit
 }

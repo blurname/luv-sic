@@ -12,6 +12,7 @@ import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-
 // import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
 import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
 import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log.js'
+import { metaScriptFzf, metaScriptFzfDesc } from './commands/11-meta-script-fzf.js'
 
 export const commands = {
   switchNpmrc,
@@ -25,7 +26,8 @@ export const commands = {
   // startZellij,
   generateShellCompletions,
   logRemoteJson,
-  gitForgetLog
+  gitForgetLog,
+  metaScriptFzf
 } as const
 type Commands = keyof typeof commands
 
@@ -41,7 +43,8 @@ const commandsDesc: Record<Commands, string> = {
   // startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
   generateShellCompletions: generateShellCompletionsDesc,
-  logRemoteJson: logRemoteJsonDesc
+  logRemoteJson: logRemoteJsonDesc,
+  metaScriptFzf: metaScriptFzfDesc
 }
 
 const main = async () => {

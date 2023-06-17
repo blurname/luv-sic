@@ -7,7 +7,7 @@
   "packageManager": "pnpm@7.25.0",
   "scripts": {
     "version-bump": "tsx ./scripts/monorepo.ts version-bump",
-    "tag-push": "pnpm build && changeset publish",
+    "tag-push": "pnpm build && pnpm -r publish",
     "release": "pnpm version-bump && pnpm tag-push",
     "build": "pnpm -r build",
     "typecheck": "tsc --noEmit",

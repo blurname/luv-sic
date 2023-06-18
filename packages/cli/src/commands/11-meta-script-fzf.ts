@@ -47,7 +47,9 @@ const metaScriptFzf = async () => {
   logFzfResult({ entries, inputStr: '', selectIndex: 0 })
 
   process.stdin.on('keypress', (str, key:{name:string, ctrl:boolean}) => {
-    if (key.ctrl === true && key.name === 'c') {
+    console.log(key.name)
+    if ((key.ctrl === true && key.name === 'c') ||
+      key.name === 'escape') {
       process.exit()
     }
     if (key.name === 'return') {

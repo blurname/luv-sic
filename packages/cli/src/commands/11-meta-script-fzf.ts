@@ -4,22 +4,35 @@ import { spawnSync } from 'node:child_process'
 import { Fzf } from 'fzf'
 import { colorLog } from '@blurname/core/src/colorLog'
 const metaScriptFzfDesc = 'use fzf to search & execute script in project meta file '
+// 1. https://blog.bitsrc.io/build-a-command-line-progress-bar-in-node-js-5702a3525a49
+// 2. https://github.com/npkgz/cli-progress
 const metaScriptFzf = async () => {
   const logFzfResult = ({ entries, inputStr, selectIndex }:{entries:{item:string}[], inputStr:string, selectIndex:number}) => {
-    let result = ''
+    const result = ''
     entries.forEach((entry, index:number) => {
       resultList.push(entry.item)
+      process.stdout.write('\n')
       if (index === selectIndex) {
         selectKey = entry.item
-        result += colorLog({ msg: `${entry.item}: ${keyDescMap.get(entry.item)}\n`, fg: 'Green' })
+        readline.cursorTo(process.stdout, 0)
+        // result += colorLog({ msg: `${entry.item}: ${keyDescMap.get(entry.item)}\n`, fg: 'Green' })
+        const final = colorLog({ msg: `${entry.item}: ${keyDescMap.get(entry.item)}`, fg: 'Green' })
+        process.stdout.write(final)
+        readline.clearLine(process.stdout, 1)
       } else {
-        result += `${entry.item}: ${keyDescMap.get(entry.item)}\n`
+        readline.cursorTo(process.stdout, 0)
+        // result += `${entry.item}: ${keyDescMap.get(entry.item)}${index === entries.length - 1 ? '' : '\n'}`
+        const final = `${entry.item}: ${keyDescMap.get(entry.item)}${index === entries.length - 1 ? '' : ''}`
+        process.stdout.write(final)
+        readline.clearLine(process.stdout, 1)
       }
     }
     )
-    const final = inputStr + '\n_______________\n' + result
-    console.clear()
-    console.log(final)
+    // const final = inputStr + '_______________'
+    // const final = inputStr
+    // console.clear()
+    // console.log(final)
+    // process.stdout.write('\x1B[?25l')
   }
 
   const jsonFileKit = getPackageJsonFile()
@@ -47,7 +60,7 @@ const metaScriptFzf = async () => {
   logFzfResult({ entries, inputStr: '', selectIndex: 0 })
 
   process.stdin.on('keypress', (str, key:{name:string, ctrl:boolean}) => {
-    console.log(key.name)
+    // console.log(key.name)
     if ((key.ctrl === true && key.name === 'c') ||
       key.name === 'escape') {
       process.exit()

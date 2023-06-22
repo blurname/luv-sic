@@ -1,10 +1,11 @@
-import { exec } from '@blurname/core/src/core'
+import { execSync } from 'child_process'
+
 const calcWorkingTimeDesc = 'calc my Saturday working time'
 const calcWorkingTime = async () => {
   const inputTime = process.argv[3]
   const realTime = inputTime ?? '09:00'
 
-  const { stdout: time } = await exec('timedatectl status')
+  const time = execSync('timedatectl status').toString()
 
   const local = time.split('\n')[0]
   const dateIndex = local.indexOf(':')

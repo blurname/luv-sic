@@ -1,4 +1,5 @@
-import { exec } from '@blurname/core/src/core'
+import { execSync } from 'node:child_process'
+
 // use sudo to execute this script
 const partMountDrive = async () => {
   const sdx = process.argv[2]
@@ -6,26 +7,26 @@ const partMountDrive = async () => {
   const sdx1 = `${sdx}1`
   const mountPoint = '/mnt/data'
   const fstabPath = '/etc/fstab'
-  await exec(`mkdir ${mountPoint}`)
+  execSync(`mkdir ${mountPoint}`)
 
-  // await exec(`rm  -r ${mountPoint}`)
-  await exec(`parted ${sdx} rm 1`)
+  // execSync(`rm  -r ${mountPoint}`)
+  execSync(`parted ${sdx} rm 1`)
 
-  // await exec(`sudo parted ${sdx} mklabel gpt`)
-  await exec(`parted ${sdx} -- mkpart primary ext4 1MiB 100%`)
+  // execSync(`sudo parted ${sdx} mklabel gpt`)
+  execSync(`parted ${sdx} -- mkpart primary ext4 1MiB 100%`)
 
   // 3. mkfs
-  await exec(`mkfs.ext4 ${sdx1}`)
+  execSync(`mkfs.ext4 ${sdx1}`)
 
-  await exec(`mount ${sdx1} ${mountPoint}`)
-  await exec(`chmod 777 ${mountPoint}`)
-  await exec(`ln -sfT ${mountPoint} ~/data`)
+  execSync(`mount ${sdx1} ${mountPoint}`)
+  execSync(`chmod 777 ${mountPoint}`)
+  execSync(`ln -sfT ${mountPoint} ~/data`)
 
   // 4. append to fstab
-  const { stdout: UUIDmessage } = await exec(`blkid ${sdx1}`)
+  const UUIDmessage = execSync(`blkid ${sdx1}`).toString()
   const UUID = UUIDmessage.split(' ')[1].split('=')[1].split('"')[1]
   const appendMessage = `\n# ${sdx1}\nUUID=${UUID} /home/mnt/data ext4 rw,relatime 0 2`
-  await exec(`echo "${appendMessage}" >> ${fstabPath} `)
+  execSync(`echo "${appendMessage}" >> ${fstabPath} `)
   console.log('done')
 }
 

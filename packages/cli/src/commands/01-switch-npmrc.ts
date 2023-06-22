@@ -1,14 +1,15 @@
-import { exec, access } from '@blurname/core/src/core'
+import { access } from '@blurname/core/src/core'
+import { execSync } from 'node:child_process'
 const switchNpmrcDesc = 'to switch weather use user .npmrc'
 const switchNpmrc = async () => {
   const homePath = process.env.HOME
   try {
     await access(`${homePath}/.npmrc`)
-    await exec(`mv ${homePath}/.npmrc ${homePath}/.npmrb`)
+    execSync(`mv ${homePath}/.npmrc ${homePath}/.npmrb`)
     console.log('switch .npmrc to .npmrb')
   } catch (error) {
     await access(`${homePath}/.npmrb`)
-    await exec(`mv ${homePath}/.npmrb ${homePath}/.npmrc`)
+    execSync(`mv ${homePath}/.npmrb ${homePath}/.npmrc`)
     console.log('switch .npmrb to .npmrc')
   }
 }

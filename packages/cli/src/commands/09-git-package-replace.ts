@@ -1,16 +1,16 @@
 import { parseOptionList } from '@blurname/core/src/cli'
 import { colorLog } from '@blurname/core/src/colorLog'
-import { exec as pExec, pSpawn } from '@blurname/core/src/core'
+import { execSync, spawnSync } from 'node:child_process'
 import { readFile, writeFile, stat } from 'node:fs/promises'
 
-const gitReplacePackageDesc = `replace package version in  package.json`
+const gitReplacePackageDesc = 'replace package version in  package.json'
 
 let options: Record<string, string> = {
-  t: 'imock',
+  t: 'imock'
 }
 
 const gitReplacePackage = async () => {
-  //let targetRepo
+  // let targetRepo
   const argv = process.argv
   options = parseOptionList(argv, options)
 
@@ -21,12 +21,11 @@ const gitReplacePackage = async () => {
     return
   }
 
-  const { stdout: logOut } = await pExec('git log --oneline | grep VERSION -m 1')
-  const content = logOut.toString().split('\n')[0]
+  const logOut = execSync('git log --oneline | grep VERSION -m 1').toString()
+  const content = logOut.split('\n')[0]
   const versionCommit = content.split('@').at(-1)
-  const { stdout: pwdOut } = await pExec('pwd')
-  if (pwdOut === undefined) return
-  const repoName = pwdOut.toString().split('/').at(-1)!.split('\n')[0]
+  const pwdout = execSync('pwd').toString()
+  const repoName = pwdout.split('/').at(-1)!.split('\n')[0]
   const packageName = repoName
 
   const packageJsonContent = (await readFile(`../${options['t']}/package.json`)).toString().split('\n').reverse()
@@ -44,11 +43,11 @@ const gitReplacePackage = async () => {
   console.log(
     `已将 ${colorLog({ msg: options['t'], fg: 'Yellow' })} 下的 ${colorLog({
       msg: repoName,
-      fg: 'Yellow',
-    })} 版本号修改`,
+      fg: 'Yellow'
+    })} 版本号修改`
   )
   console.log(colorLog({ msg: '结果', fg: 'Green' }))
 
-  await pSpawn('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${options['t']}`, stdio: 'inherit' })
+  spawnSync('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${options['t']}`, stdio: 'inherit' })
 }
 export { gitReplacePackage, gitReplacePackageDesc }

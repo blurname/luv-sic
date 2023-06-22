@@ -1,8 +1,8 @@
-import { exec } from '@blurname/core/src/core'
+import { execSync } from 'node:child_process'
 const calcTsPercentInProjectDesc = 'calc .ts/.ts+.js in project'
 const calcTsPercentInProject = async () => {
-  const { stdout: ts } = await exec('fd .ts')
-  const { stdout: js } = await exec('fd .js')
+  const ts = execSync('fd .ts').toString()
+  const js = execSync('fd .js').toString()
   const tsSize = ts.split('\n').length - 1
   const jsSize = js.split('\n').length - 1
   const percent = (tsSize / (tsSize + jsSize)) * 100

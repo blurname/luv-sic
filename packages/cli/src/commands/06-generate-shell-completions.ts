@@ -1,4 +1,5 @@
-import { writeFile } from '@blurname/core/src/core'
+
+import { writeFileSync } from 'fs'
 import { commands } from '../main.js'
 // https://rsteube.github.io/carapace-bin/spec/examples.html
 const generateShellCompletionsDesc = 'use Carapace to custom my commands completions'
@@ -9,7 +10,7 @@ const generateShellCompletions = async () => {
     caraPaceSpec += `  - name: ${k}\n`
   })
   console.log(caraPaceSpec)
-  await writeFile('/home/bl/df/config/.config/carapace/specs/bl.yaml', caraPaceSpec)
+  writeFileSync('/home/bl/df/config/.config/carapace/specs/bl.yaml', caraPaceSpec)
 }
 export { generateShellCompletions, generateShellCompletionsDesc }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

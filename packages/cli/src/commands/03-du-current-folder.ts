@@ -1,13 +1,13 @@
-import { exec } from '@blurname/core/src/core'
+import { execSync } from 'node:child_process'
 
 const duCurrentFolderDesc = "list current folders' nodes' size"
 const duCurrentFolder = async () => {
-  const { stdout } = await exec('ls')
+  const stdout = execSync('ls').toString()
   const files = stdout.split('\n').filter((n) => n !== '')
 
   // get filesize
   const fileSizes = files.map(async (n) => {
-    const { stdout: size } = await exec(`du -sh ${n}`)
+    const size = execSync(`du -sh ${n}`).toString()
     return size
   })
 

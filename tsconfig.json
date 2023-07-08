@@ -5,6 +5,7 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "lib": ["DOM","ESNext"],
+    "jsx": "react",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -35,7 +36,7 @@
       "path": "./packages/svgminify/tsconfig.json"
     },
     {
-      "path": "./packages/web/tsconfig.json"
+      "path": "./packages/lost/tsconfig.json"
     }
   ]
 }

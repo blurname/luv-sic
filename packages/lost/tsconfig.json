@@ -10,7 +10,8 @@
     "allowUnusedLabels": false,
     "noUnusedParameters": false,
     "noUnusedLocals": false,
-    "noImplicitAny": false
+    "noImplicitAny": true,
+    "jsx": "react"
   },
   "include": ["src/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

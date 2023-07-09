@@ -1,3 +1,4 @@
+import { createUrlInit } from '@blurname/core/src/browser/url'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useRefresh } from '../hooks/useRefresh'
@@ -27,6 +28,19 @@ const text = `只要想起一生中后悔的事
 梅花便落满了南山`
 const textList = text.split('\n')
 
+const urlConfig = {
+  'dt': () => ({
+    background: '#0556a0',
+    color: '#e7f6ff'
+  }),
+  'mb': () => ({
+    background: '#f5f5f5',
+    color: '#101010'
+  })
+}
+const urlInit = createUrlInit(urlConfig)
+const style = urlInit()
+
 const Lock = () => {
   const time = new Date()
   const refresh = useRefresh()
@@ -39,14 +53,14 @@ const Lock = () => {
       clearInterval(id)
     }
   }, [])
+  // createUrl
   // const hour = convertToChinaNum(time.getHours())
   // const minute = convertToChinaNum(time.getMinutes())
   // const second = convertToChinaNum(time.getSeconds())
   const hour = time.getHours()
   const minute = time.getMinutes()
-  // const second = time.getSeconds()
   return (
-    <StyledLock className="lock" >
+    <StyledLock className="lock" style={style}>
       <div className="time">
     <div className="h"> {hour} </div>
     <div className="m"> {minute} </div>
@@ -62,13 +76,6 @@ const Lock = () => {
 
 // https://juejin.cn/post/6892372242143903758 numTo汉字
 
-// dt
-// background: #0556a0;
-// color: #e7f6ff;
-
-// mb
-// background: #f5f5f5;
-// color: #101010;
 const StyledLock = styled.div`
   width: 100%;
   height: 100%;
@@ -76,8 +83,8 @@ const StyledLock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
-  color: #101010;
+  //background: #f5f5f5;
+  //color: #101010;
   font-weight: 100;
   .time {
     text-align: right;

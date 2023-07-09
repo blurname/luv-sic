@@ -7,6 +7,7 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
+    "@blurname/core": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remesh": "^4.1.0",

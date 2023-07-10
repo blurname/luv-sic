@@ -36,6 +36,11 @@ const urlConfig = {
   'mb': () => ({
     background: '#f5f5f5',
     color: '#101010'
+  }),
+  'night': () => ({
+    background: '#101010',
+    color: '#f5f5f5',
+    filter: 'brightness(20%)'
   })
 }
 const urlInit = createUrlInit(urlConfig)

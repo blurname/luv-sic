@@ -10,6 +10,10 @@ const genQuery = <T extends object>(domainSate:T, { getStateFn }:{getStateFn:(st
   return query
 }
 
+type __Entry = {
+  [k:string]: ({ getState, dispatch }:{ getState:(state:any) => any, dispatch:({ type, payload }:{type:string, payload:any}) => void}, { ...args }:any) => void
+}
+
 const genEntryKey = <T extends object>(entry:T):{[key in keyof T]:key} => {
   const entryKey:any = {}
   for (const key of Object.keys(entry)) {
@@ -41,30 +45,33 @@ type CreateDomainProps<Name extends string, State extends LiteralObj> = {
   name: Name
   __initalState: State
   __reducer: __Reducer<Name, State>
+  __entry: __Entry
   queryParams: QueryParams<string>
 }
 
-type CreateDomainResult<Name extends string, State extends LiteralObj > = {
+type CreateDomainResult<Name extends string, State extends LiteralObj, Entry extends __Entry> = {
   name: Name
   __initalState: State
-   __reducer: __Reducer<Name, State>
-  // __entry: ()=>any
+  __reducer: __Reducer<Name, State>
+  __entry: Entry
   query: ReturnType<typeof genQuery<State>>
-  // entryKey: ReturnType<typeof genEntryKey<T>>
-
+  entryKey: ReturnType<typeof genEntryKey<Entry>>
 }
 
 const createDomain = <Name extends string, State extends LiteralObj > ({
   name,
   __initalState,
   __reducer,
+  __entry,
   queryParams
-}:CreateDomainProps<Name, State>):CreateDomainResult<Name, State> => {
+}:CreateDomainProps<Name, State>):CreateDomainResult<Name, State, typeof __entry> => {
   return {
     name,
     __initalState,
     __reducer,
-    query: genQuery(__initalState, queryParams)
+    __entry,
+    query: genQuery(__initalState, queryParams),
+    entryKey: genEntryKey(__entry)
   }
 }
 
@@ -75,21 +82,26 @@ const abc = createDomain({
       x: -1,
       y: -1
     },
-    isShallowEditing: false, // 浅编辑，可以通过上下左右移动，editingPos
-    isDeepEditing: false // 深编辑，同文本编辑
+    isShallowEditing: false,
+    isDeepEditing: false
   },
   __reducer: (state, action) => {
     const { payload, type } = action
     return state
   },
-
+  __entry: {
+    'asdf': ({ getState, dispatch }, { sdf }) => {
+      console.log('a')
+    }
+  },
   queryParams: {
     getStateFn: (state) => {
       return state.aa
     }
   }
 })
-const a = abc
+const a = abc.__entry
+const b = abc.entryKey
 
 export {
   DomainUtil

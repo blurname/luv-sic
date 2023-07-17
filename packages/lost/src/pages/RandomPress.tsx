@@ -26,8 +26,8 @@ const urlConfig = {
 const t0 = '东西南北    宛尔目前    春夏秋冬    生于笔下'
 const t1 = '好雨知时节    当春乃发生'
 const t2 = '晚风吻尽荷花叶    让我醉到在池边'
-const t3 = '还没好好的感受    雪花绽放的气候'
-const t4 = '北国风光    千里冰封    万里雪飘'
+const t3 = '已惯天涯莫浪愁，寒云衰草渐成秋'
+const t4 = '还没好好的感受    雪花绽放的气候'
 const tList = [t1, t2, t3, t4]
 const urlInit = createUrlInit(urlConfig)
 const style = urlInit()
@@ -36,19 +36,19 @@ const RandomPress = () => {
   const [screenKey, setScreenKey] = useState('')
   const [isPressed, setIsPressed] = useState(false)
 
-  useEffect(() => {
-    const aaa = fromEvent(document, 'keyup')
-      .subscribe((ke) => {
-        console.log(screenKey)
-        setScreenKey(ke.key)
-        if (!isPressed) {
-          setIsPressed(true)
-        }
-      })
-    return () => {
-      aaa.unsubscribe()
-    }
-  }, [isPressed])
+  // useEffect(() => {
+  // const aaa = fromEvent(document, 'keyup')
+  // .subscribe((ke) => {
+  // console.log(screenKey)
+  // setScreenKey(ke.key)
+  // if (!isPressed) {
+  // setIsPressed(true)
+  // }
+  // })
+  // return () => {
+  // aaa.unsubscribe()
+  // }
+  // }, [isPressed])
 
   const res = screenKey.charCodeAt(0)
   let renderText = ''

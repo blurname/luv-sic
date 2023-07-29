@@ -1,5 +1,5 @@
 
-type Fn = ()=> any
+type Fn = ()=> string | object
 const createUrlInit = <const T extends Record<string, Fn>> (config:T) => {
   // write to globalThis, know the number of url parameter used
   // @ts-ignore

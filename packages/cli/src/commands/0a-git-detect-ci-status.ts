@@ -6,7 +6,7 @@ const detectCIStatus = async () => {
   const version = execSync('git log --oneline | grep VERSION -m 1').toString().split('\n')[0].split('@').at(-1)
   while (CIStatus === 'go') {
     console.log('月球漫步中')
-    await sleep(30000)
+    await sleep(15000)
     const status = execSync(`glab ci list | grep ${version} -m 1 `).toString()
     if (status.includes('success')) {
       CIStatus = 'success'

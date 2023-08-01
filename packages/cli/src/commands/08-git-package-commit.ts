@@ -1,3 +1,4 @@
+import { colorLog } from '@blurname/core/src/colorLog'
 import { execSync } from 'node:child_process'
 
 const gitCommitDesc = 'quickly git commit which message is the changes of dependencies of package.json'
@@ -11,12 +12,13 @@ const realPackagRepoMap = (packageName: string) => {
 }
 
 const gitCommit = async () => {
-  const prefix = process.argv[3]
-  const stdout = execSync(`git diff package.json | grep ${prefix}`)
+  // const prefix = process.argv[3]
+  const stdout = execSync('git diff package.json')
   const packageJsonContent = stdout.toString()
   const commitMessage = packageJsonContent
     .split('\n')
     .filter((s) => s.startsWith('+'))
+    .filter(s => !s.includes('package.json')) // 过滤文件变化的 message
     .reduce((pre, cur, index) => {
       const parts = cur.split(':')
       const pacakgeName = realPackagRepoMap(parts[0].split('+')[1].trim().split('"')[1])
@@ -28,10 +30,9 @@ const gitCommit = async () => {
       return `${pre}&${nameVersion}`
     }, 'UPG:')
     .trimEnd()
-  console.log(commitMessage)
-  // const stdout2 = execSync(`git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`)
+  console.log(colorLog({ msg: commitMessage, fg: 'Blue' }))
   const stdout2 = execSync(
-    `npm i && git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`
+   `npm i && git commit -i package.json package-lock.json .ci/.cache-key-file -m '${commitMessage}'`
   )
   console.log(stdout2.toString())
 }

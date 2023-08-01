@@ -1,6 +1,6 @@
 {
   "name": "@blurname/blurkit",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "private": false,
@@ -16,7 +16,6 @@
     "clean-dist": "tsx ./scripts/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./scripts/monorepo.ts clean-node-modules",
     "clean-lock": "tsx ./scripts/monorepo.ts clean-lock"
-
   },
   "devDependencies": {
     "@dr-js/dev": "^0.5.9",

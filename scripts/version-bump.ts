@@ -40,7 +40,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
     const fileKit = createFileKit(rootPath + `/packages/${pkg}/package.json`)
     fileKit.modify((fileString) => {
       const fileJson = JSON.parse(fileString)
-      fileJson.version = newVersion
+      fileJson.version = digitBump(fileJson.version, digit)
       return JSON.stringify(fileJson, null, 2)
     })
     fileKit.commit()

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useRefresh } from '../hooks/useRefresh'
 import { fromEvent } from 'rxjs'
+import { buffer, filter, map, debounceTime, bufferCount, scan, take, switchMap } from 'rxjs/operators'
 
 const urlConfig = {
   'dt': () => ({
@@ -32,23 +33,56 @@ const tList = [t1, t2, t3, t4]
 const urlInit = createUrlInit(urlConfig)
 const style = urlInit()
 
+const chun = ['c', 'h', 'u', 'n']
+const xia = ['x', 'i', 'a']
+const qiu = ['q', 'i', 'u']
+const dong = ['d', 'o', 'n', 'g']
+
 const RandomPress = () => {
   const [screenKey, setScreenKey] = useState('')
   const [isPressed, setIsPressed] = useState(false)
 
-  // useEffect(() => {
-  // const aaa = fromEvent(document, 'keyup')
-  // .subscribe((ke) => {
-  // console.log(screenKey)
-  // setScreenKey(ke.key)
-  // if (!isPressed) {
-  // setIsPressed(true)
-  // }
-  // })
-  // return () => {
-  // aaa.unsubscribe()
-  // }
-  // }, [isPressed])
+  useEffect(() => {
+    const keyDown$ = fromEvent(document, 'keydown')
+    // 使用buffer操作符将连续的按键事件缓存为数组
+    const keyCombination$ = keyDown$
+      .pipe(
+        filter((event: KeyboardEvent) => targetKeys.includes(event.key)), // 过滤目标按键
+        buffer(keyDown$.pipe(debounceTime(300))), // 在最后一个按键后等待 300ms 触发缓存
+        // filter((event: KeyboardEvent) => event.key === targetKeys[0]), // 监听第一个按键
+        // debounceTime(1000),
+        // bufferCount(3), // 在 300ms 内连续按下的按键都会被缓存
+        filter((keys: KeyboardEvent[]) => {
+          console.log(keys)
+          return keys.length === targetKeys.length
+        }), // 确保按键数量与目标组合键一致
+        filter((keys: KeyboardEvent[]) => {
+          console.log('keys', keys)
+          for (let i = 1; i < keys.length; i++) {
+            if (keys[i].key !== targetKeys[i]) {
+              return false
+            }
+          }
+          return true
+        })
+      )
+    // 订阅组合键事件
+    const sub = keyCombination$.subscribe(combo => {
+      console.log('combo', combo)
+      if (combo === 'chun') {
+        console.log('chun')
+      } else if (combo.indexOf('xia') !== -1) {
+        console.log('xia')
+      } else if (combo.indexOf('qiu') !== -1) {
+        console.log('qiu')
+      } else if (combo === 'dong') {
+        console.log('dong')
+      }
+    })
+    return () => {
+      sub.unsubscribe()
+    }
+  }, [])
 
   const res = screenKey.charCodeAt(0)
   let renderText = ''

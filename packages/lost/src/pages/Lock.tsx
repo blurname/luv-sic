@@ -2,6 +2,7 @@ import { createUrlInit } from '@blurname/core/src/browser/url'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useRefresh } from '../hooks/useRefresh'
+import { themeConfig } from '../misc/urlConfig'
 
 const text = `只要想起一生中后悔的事
 
@@ -28,22 +29,7 @@ const text = `只要想起一生中后悔的事
 梅花便落满了南山`
 const textList = text.split('\n')
 
-const urlConfig = {
-  'dt': () => ({
-    background: '#0556a0',
-    color: '#e7f6ff'
-  }),
-  'mb': () => ({
-    background: '#f5f5f5',
-    color: '#101010'
-  }),
-  'night': () => ({
-    background: '#101010',
-    color: '#f5f5f5',
-    filter: 'brightness(20%)'
-  })
-}
-const urlInit = createUrlInit(urlConfig)
+const urlInit = createUrlInit(themeConfig)
 const style = urlInit()
 
 const Lock = () => {
@@ -58,10 +44,6 @@ const Lock = () => {
       clearInterval(id)
     }
   }, [])
-  // createUrl
-  // const hour = convertToChinaNum(time.getHours())
-  // const minute = convertToChinaNum(time.getMinutes())
-  // const second = convertToChinaNum(time.getSeconds())
   const hour = time.getHours()
   const minute = time.getMinutes()
   return (

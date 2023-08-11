@@ -1,5 +1,4 @@
 import { Fzf } from 'fzf'
-import { spawnSync } from 'node:child_process'
 import { colorLog } from '@blurname/core/src/colorLog'
 import * as readline from 'node:readline'
 
@@ -9,12 +8,17 @@ type Props = {
     msg?: (item:string)=>string
   }
 }
+
+type RunFzfProps = {
+  runCallback : (selectKey:string) => void
+}
 const createFzfKit = ({ fzfStringList, config }:Props) => {
   const fzf = new Fzf(fzfStringList)
   const inputList:string[] = []
   let selectIndex = 0
   let selectKey = fzfStringList[0]
   let resultList: string[] = []
+
   const logFzfResult = ({ findedItemList, inputStr, selectIndex }:{findedItemList:{item:string}[], inputStr:string, selectIndex:number}) => {
     let result = ''
     findedItemList.forEach((entry, index:number) => {
@@ -39,14 +43,14 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
     console.log(final)
   }
 
-  const runFzf = () => {
+  const runFzf = ({ runCallback }:RunFzfProps) => {
     readline.emitKeypressEvents(process.stdin)
 
     if (process.stdin.isTTY) { process.stdin.setRawMode(true) }
 
     const firstFindedItemList = fzf.find('')
     logFzfResult({ findedItemList: firstFindedItemList, inputStr: '', selectIndex: 0 })
-    process.stdin.on('keypress', (str, key:{name:string, ctrl:boolean}) => {
+    const keyPressCallback = (str:string, key:{name:string, ctrl:boolean}) => {
       // =====================
       // exit: esc/ ctrl+c
       // up: arrow up
@@ -58,7 +62,7 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
         process.exit()
       }
       if (key.name === 'return') {
-        spawnSync('npm', ['run', selectKey], { stdio: 'inherit' })
+        runCallback(selectKey)
         process.exit()
       }
 
@@ -81,7 +85,8 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
       const findedItemList = fzf.find(inputStr)
       resultList = []
       logFzfResult({ findedItemList, inputStr, selectIndex })
-    })
+    }
+    process.stdin.on('keypress', keyPressCallback)
   }
   return {
     logFzfResult,

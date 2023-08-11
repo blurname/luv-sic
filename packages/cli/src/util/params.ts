@@ -1,12 +1,13 @@
 // accept params style
 
 // xxx=yyy
+// TODO: bl: type
 const getCLIParams = () => {
   const paramList = process.argv.slice(2)
-  const paramKV = {}
+  const paramKV = {} as any
   paramList.forEach((s) => {
     const kvRes = s.split('=')
-    if (kvRes.length == 2) {
+    if (kvRes.length === 2) {
       paramKV[kvRes[0]] = kvRes[1]
     } else if (kvRes.length === 1) {
       paramKV[kvRes[0]] = true

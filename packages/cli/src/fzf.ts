@@ -39,8 +39,9 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
     }
     )
     const final = inputStr + '\n_______________\n' + result
+    process.stdout.clearLine(1) // this reduce the flicking, but why?
     console.clear()
-    console.log(final)
+    process.stdout.write(final)
   }
 
   const runFzf = ({ runCallback }:RunFzfProps) => {

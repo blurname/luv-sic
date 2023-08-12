@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useColorList } from '../hooks/useColorList/index.js'
-import { StaticMovableList } from '../rxjs-animation/MovableList.js'
+import { createStaticMovableList } from '../rxjs-animation/MovableList.js'
 import { createDragable } from '../rxjs-animation/DOM.js'
 
 export function GridDemo () {
@@ -26,7 +26,7 @@ export function GridDemo () {
       y: containerRect.y
     }
 
-    const movableList = StaticMovableList({
+    const movableList = createStaticMovableList({
       mode: 'Grid',
       width: size.width,
       height: size.height,

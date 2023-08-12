@@ -1,3 +1,4 @@
+/* eslint-disable import/group-exports */
 import { combineLatest } from 'rxjs'
 import { map, tap, publish, refCount } from 'rxjs/operators'
 import { Movable, MovablePosition, MovableInfo, EasingType } from './Movable.js'
@@ -186,6 +187,7 @@ const createVerticalLayout = (spacing = 0): LayoutFn => {
       latestY += item.height + spacing
       rectList.push(rect)
     }
+    console.log('rectList', rectList)
 
     return rectList
   }
@@ -369,7 +371,7 @@ const createMoverMap = (keyList: string[], rectList: Rect[]): MoverMap => {
   return moverMap
 }
 
-export const StaticMovableList = (options: StaticMovableListOptions) => {
+export const createStaticMovableList = (options: StaticMovableListOptions) => {
   const layout = createLayout(options)
 
   const sizeList = createSizeList(options)
@@ -400,8 +402,10 @@ export const StaticMovableList = (options: StaticMovableListOptions) => {
   let keyList = [...originKeyList]
 
   let rectList = layout(sizeList)
+  console.log('rectList', rectList)
 
   const moverMap = createMoverMap(keyList, rectList)
+  console.log('moverMap', moverMap)
 
   const moverList = Object.values(moverMap)
 
@@ -599,4 +603,3 @@ export const StaticMovableList = (options: StaticMovableListOptions) => {
     actions
   }
 }
-

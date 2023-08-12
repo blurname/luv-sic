@@ -1,3 +1,4 @@
+/* eslint-disable import/group-exports */
 import { Subject, merge } from 'rxjs'
 import {
   withLatestFrom,
@@ -67,7 +68,7 @@ export const Movable = (initialPosition: MovablePosition = { x: 0, y: 0 }) => {
 
   const interactionPosition$ = interactionPositionSubject.pipe(startWith(null))
 
-  const moveTo$ = moveToSubject.asObservable()
+  const moveTo$ = moveToSubject.asObservable() // 讲用处 https://stackoverflow.com/a/71934215
   const animateTo$ = animateToSubject.asObservable()
 
   const starting$ = startingSubject.pipe(
@@ -84,7 +85,7 @@ export const Movable = (initialPosition: MovablePosition = { x: 0, y: 0 }) => {
 
   // positions
   const moveToPosition$ = moveTo$.pipe(
-    tap<MovablePosition>((position) => {
+    tap<MovablePosition>((position) => { // used for execute side effect, but will be deprecated in 8.0 https://rxjs.dev/api/index/function/tap
       positionSubject.next(position)
     })
   )

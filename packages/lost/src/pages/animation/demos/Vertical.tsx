@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useColorList } from '../hooks/useColorList/index.js'
-import { StaticMovableList } from '../rxjs-animation/MovableList.js'
+import { createStaticMovableList } from '../rxjs-animation/MovableList.js'
 import { createDragable } from '../rxjs-animation/DOM.js'
 
 export function VerticalDemo () {
@@ -23,7 +23,7 @@ export function VerticalDemo () {
       y: containerRect.y
     }
 
-    const movableList = StaticMovableList({
+    const movableList = createStaticMovableList({
       mode: 'Vertical',
       heightList,
       keyList,

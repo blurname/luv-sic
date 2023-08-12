@@ -7,14 +7,19 @@ const gitViewDiff = () => {
 
   const { paramList, paramKV } = getCLIParams()
   const isInteractive = paramKV['-I']
-  const notDeleteFile = Boolean(paramKV['-ND'])
+  const keepFile = Boolean(paramKV['--keep'])
+  const useNvim = Boolean(paramKV['--nvim']) // ref: https://writings.sh/post/code-review-by-nvim-diffview
 
   const runCallback = (selectKey:string) => {
     const commitHash = selectKey.split(' ')[0]
     const diffFile = `__${commitHash}__view.diff`
-    execSync(`git diff ${commitHash} > ${diffFile}`)
-    spawnSync(editor, [`${diffFile}`], { stdio: 'inherit' }) // 不能用 spawn，会让 stdin.on() 持续监听 keypress 事件，打开编辑文件有问题
-    !notDeleteFile && execSync(`rm ${diffFile}`) // 燕过无痕，删了它
+    if (useNvim) {
+      spawnSync(editor, ['-c', `DiffviewOpen ${commitHash}`], { stdio: 'inherit' }) // nvim 需要安装 diffview.nvim 插件
+    } else {
+      execSync(`git diff ${commitHash} > ${diffFile}`)
+      spawnSync(editor, [`${diffFile}`], { stdio: 'inherit' }) // 不能用 spawn，会让 stdin.on() 持续监听 keypress 事件，打开编辑文件有问题
+      !keepFile && execSync(`rm ${diffFile}`) // 燕过无痕，删了它
+    }
   }
 
   if (isInteractive) {

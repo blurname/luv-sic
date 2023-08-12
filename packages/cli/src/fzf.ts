@@ -40,6 +40,7 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
     )
     const final = inputStr + '\n_______________\n' + result
     process.stdout.clearLine(1) // this reduce the flicking, but why?
+    process.stdout.cursorTo(0) // keep cursor pos for experience
     console.clear()
     process.stdout.write(final)
   }

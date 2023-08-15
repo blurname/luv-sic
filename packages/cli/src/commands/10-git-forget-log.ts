@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
+import { getGitRootPath } from '../util/git.js'
 
 const gitForgetLogDesc = 'forget console.log from givin commit to head'
 const gitForgetLog = () => {
@@ -36,7 +37,7 @@ const gitForgetLog = () => {
     return
   }
 
-  const rootPath = execSync('git rev-parse --show-toplevel').toString().split('\n')[0]
+  const rootPath = getGitRootPath()
   const pathList = [] as string[]
   for (const key in fileLogObj) {
     let value = fileLogObj[key]

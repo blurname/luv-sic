@@ -29,6 +29,7 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
       if (config?.msg) {
         msg = config.msg(entry.item)
       }
+
       if (index === selectIndex) {
         selectKey = entry.item
         result += colorLog({ msg, fg: 'Green' })

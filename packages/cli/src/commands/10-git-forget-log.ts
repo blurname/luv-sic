@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
-import { getGitRootPath } from '../util/git.js'
+import { execGitDiff, getGitRootPath } from '../util/git.js'
 import { getCLIParams } from '../util/params.js'
 import { createFzfKit } from '../util/fzf.js'
 
@@ -20,8 +20,7 @@ const gitForgetLog = () => {
 
   const runCallback = (selectKey:string) => {
     const commitHash = selectKey.split(' ')[0]
-    const diff = execSync(`git diff ${commitHash}`)
-    const diffString = diff.toString()
+    const diffString = execGitDiff({ type: 'hash', commitHash })
     const diffLines = diffString.split('\n')
     const fileLogObj = {} as Record<string, string[]>
     let currentFileKey = ''

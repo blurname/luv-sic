@@ -1,5 +1,6 @@
 import { colorLog } from '@blurname/core/src/colorLog'
 import { execSync } from 'node:child_process'
+import { execGitDiff } from '../util/git.js'
 
 const gitCommitDesc = 'quickly git commit which message is the changes of dependencies of package.json'
 
@@ -13,8 +14,8 @@ const realPackagRepoMap = (packageName: string) => {
 
 const gitCommit = async () => {
   // const prefix = process.argv[3]
-  const stdout = execSync('git diff package.json')
-  const packageJsonContent = stdout.toString()
+  //
+  const packageJsonContent = execGitDiff({ type: 'file', fileName: 'package.json' })
   const commitMessage = packageJsonContent
     .split('\n')
     .filter((s) => s.startsWith('+'))

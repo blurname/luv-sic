@@ -9,59 +9,30 @@
 //
 //
 
-// 2023.03.23 因为用 node 调用了 action 文件，不知道怎么让他调用 mjs 时，和 .ts 共存，所以就把依赖都内联。难受。
-// import { parseOptionList } from '@blurname/core/src/cli'
-// import { colorLog } from '@blurname/core/src/colorLog'
-//
-//
-//
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// 2023.03.23 因为用 node 调用了 action 文件，不知道怎么让他调用 mjs 时，和 .ts 共存，所以就把依赖都内联。难受。 done
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { parseOptionList } from '@blurname/core/src/cli'
+import { createFzfKit } from '../fzf.js'
+import { getLogList } from '../util/git.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
-const colorToken = {
-  Red: '\x1b[31m',
-  Green: '\x1b[32m',
-  Reset: '\x1b[0m',
-  Yellow: '\x1b[33m'
-}
-const colorLog = ({ msg, fg }) => {
-  return `${colorToken['Reset']}${colorToken[fg]}${msg}${colorToken['Reset']}`
-}
-const reduceDash = (strHasDash: string) => {
-  return strHasDash.split('-').at(-1)
-}
-const parseOptionList = (argv: any[], kvMapFromScript: {t?: string; k?: string}) => {
-  const parsedOptionList = {}
-  Object.keys(kvMapFromScript).forEach((k) => {
-    const paramK = argv.findIndex((arg: any) => {
-      return reduceDash(arg) === k
-    })
-    if (paramK !== -1) {
-      const paramV = argv[paramK + 1]
-      parsedOptionList[k] = paramV
-    }
-  })
-  return { ...kvMapFromScript, ...parsedOptionList }
-}
 
 const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
 
 let options = {
   t: 'targetCommitHash',
-  k: 'VERSION' // keyword
-}
+  k: 'VERSION',
+  i: false
+} as any
 
 const gitRebaseInteractive = (scriptFilePath: string) => {
-  console.log(scriptFilePath)
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
       GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath)
@@ -102,7 +73,7 @@ const resolveOperations = (operations0: string) => {
     }
     return op
   })
-  newOperations.forEach((op: string | string[]) => {
+  newOperations.forEach((op: string) => {
     if (op.includes('drop')) {
       console.log(colorLog({ msg: op, fg: 'Red' }))
     } else {
@@ -115,16 +86,19 @@ const resolveOperations = (operations0: string) => {
 const gitDropVersion = async () => {
   const argv = process.argv
   if (!argv.includes('-action')) {
-    // const [scriptFilePath] = process.argv.slice(1)
-    // const tmpPath = scriptFilePath.split('/')
-
-    // tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.mjs'
-    // const realPath = tmpPath.join('/')
-    console.log(join(__dirname, '../../dist/commands/07-git-drop-version-action.mjs'))
     const actionPath = join(__dirname, '../../dist/commands/07-git-drop-version-action.mjs')
-    console.log(actionPath)
+    const runCallback = (selectKey:string) => {
+      const commitHash = selectKey.split(' ')[0]
+      options.t = commitHash
+      gitRebaseInteractive(actionPath)
+    }
     options = parseOptionList(argv, options)
-    gitRebaseInteractive(actionPath)
+    if (options.i) {
+      const fzfKit = createFzfKit({ fzfStringList: getLogList() })
+      fzfKit.runFzf({ runCallback })
+    } else {
+      gitRebaseInteractive(actionPath)
+    }
   } else if (argv.includes('-action')) {
     options = parseOptionList(argv, options)
     await action()

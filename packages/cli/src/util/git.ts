@@ -25,7 +25,13 @@ const execGitDiff = (props:ExecGitDiffProps) => {
   return diff
 }
 
+const getLogList = (logNum = 30) => {
+  const recentCommitsList = execSync(`git log --oneline -${logNum}`).toString().split('\n')
+  return recentCommitsList
+}
+
 export {
   getGitRootPath,
+  getLogList,
   execGitDiff
 }

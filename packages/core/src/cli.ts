@@ -11,7 +11,7 @@ const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
       return reduceDash(arg) === k
     })
     if (paramK !== -1) {
-      const paramV = argv[paramK + 1]
+      const paramV = argv[paramK + 1] || true
       parsedOptionList[k] = paramV as string
     }
   })

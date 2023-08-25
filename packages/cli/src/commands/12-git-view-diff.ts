@@ -1,6 +1,7 @@
 import { execSync, spawnSync } from 'node:child_process'
 import { getCLIParams } from '../util/params.js'
 import { createFzfKit } from '../util/fzf.js'
+import { getLogList } from '../util/git.js'
 const gitViewDiffDesc = 'fuzzy find git diff between Head to givin hash, then use terminal editor to view it by env.EDITOR'
 const gitViewDiff = () => {
   const editor = process.env.EDITOR || 'vi'
@@ -23,8 +24,7 @@ const gitViewDiff = () => {
   }
 
   if (isInteractive) {
-    const recentCommitsList = execSync('git log --oneline -30').toString().split('\n')
-    const fzfKit = createFzfKit({ fzfStringList: recentCommitsList })
+    const fzfKit = createFzfKit({ fzfStringList: getLogList() })
     fzfKit.runFzf({ runCallback })
   } else {
     runCallback(paramList[1])

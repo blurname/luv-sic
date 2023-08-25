@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { colorLog } from '@blurname/core/src/colorLog'
-import { execGitDiff, getGitRootPath } from '../util/git.js'
+import { execGitDiff, getGitRootPath, getLogList } from '../util/git.js'
 import { getCLIParams } from '../util/params.js'
 import { createFzfKit } from '../util/fzf.js'
 
@@ -69,8 +69,7 @@ const gitForgetLog = () => {
     console.log(colorLog({ msg: '已将 log 清除干净，对应生成了一个 commit', fg: 'Green' }))
   }
   if (isInteractive) {
-    const recentCommitsList = execSync('git log --oneline -30').toString().split('\n')
-    const fzfKit = createFzfKit({ fzfStringList: recentCommitsList })
+    const fzfKit = createFzfKit({ fzfStringList: getLogList() })
     fzfKit.runFzf({ runCallback })
   } else {
     runCallback(paramList[1])

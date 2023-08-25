@@ -15,6 +15,8 @@
 //
 //
 //
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
@@ -34,13 +36,13 @@ const colorToken = {
 const colorLog = ({ msg, fg }) => {
   return `${colorToken['Reset']}${colorToken[fg]}${msg}${colorToken['Reset']}`
 }
-const reduceDash = (strHasDash) => {
+const reduceDash = (strHasDash: string) => {
   return strHasDash.split('-').at(-1)
 }
-const parseOptionList = (argv, kvMapFromScript) => {
+const parseOptionList = (argv: any[], kvMapFromScript: {t?: string; k?: string}) => {
   const parsedOptionList = {}
   Object.keys(kvMapFromScript).forEach((k) => {
-    const paramK = argv.findIndex((arg) => {
+    const paramK = argv.findIndex((arg: any) => {
       return reduceDash(arg) === k
     })
     if (paramK !== -1) {
@@ -58,7 +60,7 @@ let options = {
   k: 'VERSION' // keyword
 }
 
-const gitRebaseInteractive = (scriptFilePath) => {
+const gitRebaseInteractive = (scriptFilePath: string) => {
   console.log(scriptFilePath)
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
@@ -70,7 +72,7 @@ const gitRebaseInteractive = (scriptFilePath) => {
 }
 
 // 设置环境变量
-const gitEdit = (scriptFilePath) => {
+const gitEdit = (scriptFilePath: any) => {
   return `node ${scriptFilePath} -t ${options['t']} -k ${options['k']} -action`
 }
 
@@ -83,7 +85,7 @@ const action = async () => {
 }
 
 // 处理文件内容
-const resolveOperations = (operations0) => {
+const resolveOperations = (operations0: string) => {
   const operations = operations0
     // Replace comments
     .replace(/#.*/g, '')
@@ -93,14 +95,14 @@ const resolveOperations = (operations0) => {
     .filter(Boolean)
   const opKeyword = options['k']
 
-  const newOperations = operations.map((op) => {
+  const newOperations = operations.map((op: string) => {
     if (op.includes(opKeyword)) {
       // String.replace is case sensitive, 好耶
       return op.replace('pick', 'drop')
     }
     return op
   })
-  newOperations.forEach((op) => {
+  newOperations.forEach((op: string | string[]) => {
     if (op.includes('drop')) {
       console.log(colorLog({ msg: op, fg: 'Red' }))
     } else {
@@ -118,7 +120,8 @@ const gitDropVersion = async () => {
 
     // tmpPath[tmpPath.length - 1] = 'commands/07-git-drop-version-action.mjs'
     // const realPath = tmpPath.join('/')
-    const actionPath = join(__dirname, '07-git-drop-version-action.mjs')
+    console.log(join(__dirname, '../../dist/commands/07-git-drop-version-action.mjs'))
+    const actionPath = join(__dirname, '../../dist/commands/07-git-drop-version-action.mjs')
     console.log(actionPath)
     options = parseOptionList(argv, options)
     gitRebaseInteractive(actionPath)

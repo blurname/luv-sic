@@ -1,35 +1,73 @@
 import styled from 'styled-components'
 import React, { KeyboardEventHandler, useCallback, useEffect, useMemo, useState } from 'react'
-
-type Tab = {
-  key: string
-  name: string
-}
+import { useRefresh } from '../hooks/useRefresh.js'
 
 const STORAGE_PREFIX = 'LOST_BUFFER'
 
-const storageStore = () => {
-  const _tabData = new Map<string, string>()
+type TabItem = {
+    key: string
+    zIndex: number
+    content: string
+  }
+
+const createStorageStore = () => {
+  const _tabData = new Map<string, TabItem>()
+
+  const getNextZ = () => {
+    let maxZ = 0
+    for (const i of _tabData) {
+      const ti = i[1]
+      if (ti.zIndex > maxZ) {
+        maxZ = ti.zIndex
+      }
+    }
+    return maxZ + 1
+  }
 
   const init = () => {
     for (let x = 0; x < localStorage.length; x++) {
       const key = localStorage.key(x)
       if (key?.includes(STORAGE_PREFIX)) {
-        _tabData.set(key, localStorage.getItem(key) as string)
+        _tabData.set(key, JSON.parse(localStorage.getItem(key) as string)as TabItem)
       }
     }
+
+    console.log('tabSize', _tabData.size)
     if (_tabData.size === 0) {
-      _tabData.set(`${STORAGE_PREFIX}_1`, '')
+      const newKey = `${STORAGE_PREFIX}_1`
+      _tabData.set(newKey, {
+        key: newKey,
+        content: '',
+        zIndex: getNextZ()
+      })
     }
+  }
+
+  const newItem = () => {
+    const nextZ = getNextZ()
+
+    const newKey = `${STORAGE_PREFIX}_${nextZ}`
+
+    const ti:TabItem = {
+      key: newKey,
+      zIndex: nextZ,
+      content: ''
+    }
+    _tabData.set(newKey, ti)
+    localStorage.setItem(newKey, JSON.stringify(ti))
+    return ti
   }
 
   const updateItem = (key:string, content:string) => {
-    _tabData.set(key, content)
-    localStorage.setItem(key, _tabData.get(key) as string)
+    const oldTi = _tabData.get(key)!
+    const newTi: TabItem = { ...oldTi, content }
+
+    _tabData.set(key, newTi)
+    localStorage.setItem(key, JSON.stringify(newTi))
   }
 
   const save = (key:string) => {
-    localStorage.setItem(key, _tabData.get(key) as string)
+    localStorage.setItem(key, JSON.stringify(_tabData.get(key)))
   }
 
   const deleteItem = (key:string) => {
@@ -42,25 +80,28 @@ const storageStore = () => {
   }
 
   const getTablist = () => {
-    const tabList:Tab[] = []
-    for (const kv of _tabData) {
-      const key = kv[0]
-      tabList.push({ key, name: key })
+    const tabList:TabItem[] = []
+    for (const td of _tabData) {
+      const ti = td[1]
+      tabList.push(ti)
     }
-    return tabList
+
+    return tabList.sort((a, b) => {
+      return a.zIndex - b.zIndex
+    })
   }
 
   return {
     _tabData,
     init,
-    updateItem, deleteItem,
+    newItem, updateItem, deleteItem,
     save,
     getTabSize, getTablist
   }
 }
 
 type EditorProps = {
-    store: ReturnType<typeof storageStore>
+    store: ReturnType<typeof createStorageStore>
   }
 const Tabs = ({ store }:EditorProps) => {
   const [tabList, setTabList] = useState(() => {
@@ -83,16 +124,19 @@ const Tabs = ({ store }:EditorProps) => {
 
   const handleDelete = (key:string):React.MouseEventHandler<HTMLDivElement> => (e) => {
     store.deleteItem(key)
-    // if (key === activeTab) {
-    //   setActiveTab()
-    // }
+    const newTabList = store.getTablist()!
+    const nextKey = newTabList.at(-1)['key']
+    console.log('nextKey', nextKey)
+    setTabList(newTabList)
+    setActiveTab(nextKey)
   }
 
   const defaultValue = useMemo(() => {
-    return store._tabData.get(activeTab)
+    return store._tabData.get(activeTab)?.content
   }, [activeTab])
 
   const Editor = useCallback(() => {
+    console.log('changedefault', activeTab)
     return (
       <StyledEditor
       onKeyUp={onKeyUp}
@@ -105,11 +149,12 @@ const Tabs = ({ store }:EditorProps) => {
   }, [activeTab])
 
   const addNewTab = () => {
-    const newKey = `${STORAGE_PREFIX}_${store.getTabSize() + 1}`
-    store.updateItem(newKey, '')
-    store.save(newKey)
+    // const newKey = `${STORAGE_PREFIX}_${}`
+    // store.updateItem(newKey, '')
+    // store.save(newKey)
+    const ti = store.newItem()
     setTabList(store.getTablist())
-    setActiveTab(newKey)
+    setActiveTab(ti.key)
   }
   useEffect(() => {
     const keyCB = (e:KeyboardEvent) => {
@@ -134,7 +179,7 @@ const Tabs = ({ store }:EditorProps) => {
               isactive={t.key === activeTab}
               onClick={onClick(t.key)}
               >
-              <span>{t.name}</span>
+              <span>{t.key}</span>
               <div className="del-btn" onClick={handleDelete(t.key)}>x</div>
               <div className="divider" />
               </StyledTab>
@@ -189,7 +234,7 @@ const StyledTab = styled.div<StyledTabProps>`
 `
 
 const Buffer = () => {
-  const store = storageStore()
+  const store = createStorageStore()
   store.init()
 
   return (

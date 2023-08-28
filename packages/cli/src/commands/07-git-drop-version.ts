@@ -29,7 +29,7 @@ const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which defa
 let options = {
   t: 'targetCommitHash',
   k: 'VERSION',
-  i: false
+  I: false
 } as any
 
 const gitRebaseInteractive = (scriptFilePath: string) => {

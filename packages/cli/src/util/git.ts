@@ -17,11 +17,10 @@ type ExecGitDiffProps =
 const execGitDiff = (props:ExecGitDiffProps) => {
   let diff
   if (props.type === 'hash') {
-    diff = spawnSync('git ', ['diff', props.commitHash]).output.toString()
+    diff = spawnSync('git', ['diff', props.commitHash]).output.toString()
   } else {
-    diff = spawnSync('git ', ['diff', props.fileName]).output.toString()
+    diff = spawnSync('git', ['diff', props.fileName]).output.toString()
   }
-  console.log(diff)
   return diff
 }
 

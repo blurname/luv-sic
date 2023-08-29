@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import React, { KeyboardEventHandler, useCallback, useEffect, useMemo, useState } from 'react'
-import { useRefresh } from '../hooks/useRefresh.js'
+import keys from 'ctrl-keys'
+
+const handler = keys()
 
 const STORAGE_PREFIX = 'LOST_BUFFER'
 
@@ -118,7 +120,6 @@ const Tabs = ({ store }:EditorProps) => {
   }
 
   const onBlur:React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
-    console.log('blur', activeTab)
     store.save(activeTab)
   }
 
@@ -126,7 +127,6 @@ const Tabs = ({ store }:EditorProps) => {
     store.deleteItem(key)
     const newTabList = store.getTablist()!
     const nextKey = newTabList.at(-1)['key']
-    console.log('nextKey', nextKey)
     setTabList(newTabList)
     setActiveTab(nextKey)
   }
@@ -149,13 +149,32 @@ const Tabs = ({ store }:EditorProps) => {
   }, [activeTab])
 
   const addNewTab = () => {
-    // const newKey = `${STORAGE_PREFIX}_${}`
-    // store.updateItem(newKey, '')
-    // store.save(newKey)
     const ti = store.newItem()
     setTabList(store.getTablist())
     setActiveTab(ti.key)
   }
+
+  // useEffect(() => {
+  //   const combo = (e:KeyboardEvent) => {
+  //     handler
+  //       .add('ctrl+n', (e) => {
+  //         e?.preventDefault()
+  //         addNewTab()
+  //         console.log('ctrl+n')
+  //       })
+  //       .add('ctrl+w', (e) => {
+  //         e?.preventDefault()
+  //         handleDelete(activeTab)(undefined as any)
+  //         console.log('ctrl+w')
+  //       })
+  //     handler.handle(e)
+  //   }
+  //   document.addEventListener('keydown', combo)
+  //   return () => {
+  //     document.removeEventListener('keydown', combo)
+  //   }
+  // }, [activeTab, tabList])
+
   useEffect(() => {
     const keyCB = (e:KeyboardEvent) => {
       if (e.ctrlKey && e.key === 's') {
@@ -177,9 +196,10 @@ const Tabs = ({ store }:EditorProps) => {
               <StyledTab
               key={t.key}
               isactive={t.key === activeTab}
-              onClick={onClick(t.key)}
               >
-              <span>{t.key}</span>
+              <span
+              onClick={onClick(t.key)}
+              >{t.key}</span>
               <div className="del-btn" onClick={handleDelete(t.key)}>x</div>
               <div className="divider" />
               </StyledTab>
@@ -207,7 +227,7 @@ background:${props => props.isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63
 `
 
 type StyledTabProps = {
-    isActive:boolean
+    isactive:boolean
 }
 
 const StyledEditor = styled.textarea`

@@ -1,7 +1,7 @@
 import { Remesh } from 'remesh'
-import { from, map, merge, tap } from 'rxjs'
-import { uuid } from './uuid.js'
-import { TodoRepoExtern } from './Buffer-extern.js'
+// import { from, map, merge, tap } from 'rxjs'
+// import { uuid } from './uuid.js'
+// import { TodoRepoExtern } from './Buffer-extern.js'
 
 const STORAGE_PREFIX = 'LOST_BUFFER'
 type Buffer = {
@@ -13,7 +13,7 @@ type Buffer = {
 export const BufferDomain = Remesh.domain({
   name: 'BufferDomain',
   impl: (domain) => {
-    const repo = domain.getExtern(TodoRepoExtern)
+    // const repo = domain.getExtern(TodoRepoExtern)
 
     const BufferListState = domain.state<Buffer[]>({
       name: 'BufferListState',
@@ -25,6 +25,19 @@ export const BufferDomain = Remesh.domain({
       impl ({ get }) {
         const bufferList = get(BufferListState())
         return bufferList
+      }
+    })
+
+    const ActiveBufferState = domain.state<Buffer | undefined>({
+      name: 'ActiveBufferState',
+      default: undefined
+    })
+
+    const ActiveBufferQuery = domain.query({
+      name: 'ActiveBufferQuery',
+      impl ({ get }) {
+        const activeBuffer = get(ActiveBufferState())
+        return activeBuffer
       }
     })
 
@@ -47,24 +60,24 @@ export const BufferDomain = Remesh.domain({
       impl ({ get }) {
         const bufferList = get(BufferListState())
         const nextZ = get(BufferNextZQuery())
-        const newKey = `${STORAGE_PREFIX}_${nextZ}`
-        const buffer:Buffer = {
-          key: newKey,
+        const newBuffer:Buffer = {
+          key: `${STORAGE_PREFIX}_${nextZ}`,
           zIndex: nextZ,
-          content: ''
+          content: `${STORAGE_PREFIX}_${nextZ}`
         }
 
-        return [BufferListState().new([...bufferList, buffer])]
+        return [BufferListState().new([...bufferList, newBuffer]), ActiveBufferState().new(newBuffer)]
       }
     })
 
-    const RemoveBufferCommand = domain.command({
+    const DelBufferCommand = domain.command({
       name: 'RemoveTodoCommand',
       impl ({ get }, key: Buffer['key']) {
         const todoList = get(BufferListState())
         const newTodoList = todoList.filter((buffer) => buffer.key !== key)
+        const newActiveBuffer = newTodoList.at(-1)
 
-        return [BufferListState().new(newTodoList)]
+        return [BufferListState().new(newTodoList), ActiveBufferState().new(newActiveBuffer)]
       }
     })
 
@@ -86,14 +99,47 @@ export const BufferDomain = Remesh.domain({
       }
     })
 
+    const UpdateActiveBufferCommand = domain.command({
+      name: 'UpdateBufferContentCommand',
+      impl ({ get }, key :Buffer['key']) {
+        const bufferList = get(BufferListState())
+        const nextBuffer = bufferList.find(buf => buf.key === key)
+
+        return [ActiveBufferState().new(nextBuffer)]
+      }
+    })
+    // domain.effect({
+    //   name: 'InitEffect',
+    //   impl: () => {
+    //     for (let x = 0; x < localStorage.length; x++) {
+    //       const key = localStorage.key(x)
+    //       if (key?.includes(STORAGE_PREFIX)) {
+    //         _tabData.set(key, JSON.parse(localStorage.getItem(key) as string)as TabItem)
+    //       }
+    //     }
+    //
+    //     console.log('tabSize', _tabData.size)
+    //     if (_tabData.size === 0) {
+    //       const newKey = `${STORAGE_PREFIX}_1`
+    //       _tabData.set(newKey, {
+    //         key: newKey,
+    //         content: '',
+    //         zIndex: getNextZ()
+    //       })
+    //     }
+    //   }
+    // })
+
     return {
       query: {
-        BufferListQuery
+        BufferListQuery,
+        ActiveBufferQuery
       },
       command: {
         AddBufferCommand,
-        RemoveBufferCommand,
-        UpdateBufferContentCommand
+        DelBufferCommand,
+        UpdateBufferContentCommand,
+        UpdateActiveBufferCommand
         // ToggleTodoCompletedCommand,
         // ToggleAllTodoCompletedCommand,
         // UpdateTodoCommand,

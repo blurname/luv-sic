@@ -4,27 +4,11 @@ import keys from 'ctrl-keys'
 
 const handler = keys()
 
-const STORAGE_PREFIX = 'LOST_BUFFER'
-
-type TabItem = {
-    key: string
-    zIndex: number
-    content: string
-  }
-
 const createStorageStore = () => {
   const _tabData = new Map<string, TabItem>()
 
-  const getNextZ = () => {
-    let maxZ = 0
-    for (const i of _tabData) {
-      const ti = i[1]
-      if (ti.zIndex > maxZ) {
-        maxZ = ti.zIndex
-      }
-    }
-    return maxZ + 1
-  }
+  // const getNextZ = () => {
+  // }
 
   const init = () => {
     for (let x = 0; x < localStorage.length; x++) {
@@ -43,42 +27,6 @@ const createStorageStore = () => {
         zIndex: getNextZ()
       })
     }
-  }
-
-  const newItem = () => {
-    const nextZ = getNextZ()
-
-    const newKey = `${STORAGE_PREFIX}_${nextZ}`
-
-    const ti:TabItem = {
-      key: newKey,
-      zIndex: nextZ,
-      content: ''
-    }
-    _tabData.set(newKey, ti)
-    localStorage.setItem(newKey, JSON.stringify(ti))
-    return ti
-  }
-
-  const updateItem = (key:string, content:string) => {
-    const oldTi = _tabData.get(key)!
-    const newTi: TabItem = { ...oldTi, content }
-
-    _tabData.set(key, newTi)
-    localStorage.setItem(key, JSON.stringify(newTi))
-  }
-
-  const save = (key:string) => {
-    localStorage.setItem(key, JSON.stringify(_tabData.get(key)))
-  }
-
-  const deleteItem = (key:string) => {
-    _tabData.delete(key)
-    localStorage.removeItem(key)
-  }
-
-  const getTabSize = () => {
-    return _tabData.size
   }
 
   const getTablist = () => {

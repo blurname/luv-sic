@@ -1,35 +1,39 @@
 import localforage from 'localforage'
 import type { Buffer } from './Buffer.js'
-import { TodoRepoExtern } from './Buffer-extern.js'
+import { BufferRepoExtern } from './Buffer-extern.js'
 
 const storageKey = 'buffer-data'
-const getTodoList = async () => {
+const getBufferList = async () => {
   return localforage.getItem<Buffer[]>(storageKey).then((value) => value ?? [])
 }
 
-export const TodoRepoExternImpl = TodoRepoExtern.impl({
-  async getTodoList () {
-    return getTodoList()
-  },
-  async addTodo (todo: Buffer) {
-    const data = await getTodoList()
-    await localforage.setItem(storageKey, data.concat(todo))
+const BufferRepoExternImpl = BufferRepoExtern.impl({
+
+  async getBufferList () {
+    return getBufferList()
   },
 
-  async removeTodoByIds (ids) {
-    const data = await getTodoList()
+  async addBuffer (buffer: Buffer) {
+    const data = await getBufferList()
+    await localforage.setItem(storageKey, data.concat(buffer))
+  },
+
+  async removeBuffer (key) {
+    const data = await getBufferList()
     await localforage.setItem(
       storageKey,
-      data.filter((item) => !ids.includes(item.key))
+      data.filter((item) => item.key !== key)
     )
   },
 
-  async updateTodo (updateTodo) {
-    const data = await getTodoList()
+  async updateBuffer (updateBuffer) {
+    const data = await getBufferList()
     await localforage.setItem(
       storageKey,
-      data.map((todo) => (todo.key === updateTodo.key ? { ...todo, ...updateTodo } : todo))
+      data.map((buffer) => (buffer.key === updateBuffer.key ? { ...buffer, ...updateBuffer } : buffer))
     )
   }
-
 })
+export {
+  BufferRepoExternImpl
+}

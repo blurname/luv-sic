@@ -1,27 +1,37 @@
 import styled from 'styled-components'
 const StyledEditor = styled.textarea`
-  // outline: none;
+  flex: 1;
+  border: none;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: #f5f5f5;
+  border: 2px solid #0556a0;
+  resize: none;
 `
 const StyledBufferList = styled.div`
   display: flex;
   cursor: default;
   user-select: none;
   font-size: 12px;
+  overflow-x: scroll;
 
   .add-btn {
     &:hover {
-      background:${props => props.isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; ;
+      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; ;
     }
 `
 type StyledBufferProps = {
-    isactive:boolean
+    $isactive:boolean
 }
 const StyledBuffer = styled.div<StyledBufferProps>`
   display: flex;
   span {
-  background: ${props => props.isactive ? 'rgba(135, 63, 234, 0.4)' : 'whtie'};
+  background: ${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'whtie'};
   &:hover {
-    background:${props => props.isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; 
+    background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; 
   }
     }
   .del-btn {

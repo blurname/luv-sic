@@ -17,8 +17,13 @@ const BufferDomain = Remesh.domain({
 
     const InitBufferListCommand = domain.command({
       name: 'InitBufferListCommand',
-      impl: (_, bufferList: Buffer[]) => {
-        return [BufferListState().new(bufferList)]
+      impl: ({ get }, bufferList: Buffer[]) => {
+        const nextBufferList = bufferList
+        if (bufferList.length === 0) {
+          return [AddBufferCommand()]
+        }
+        const { maxZBuffer } = get(BufferListMaxZQuery(nextBufferList))
+        return [BufferListState().new(nextBufferList), UpdateActiveBufferCommand(maxZBuffer.key)]
       }
     })
 
@@ -48,17 +53,27 @@ const BufferDomain = Remesh.domain({
       }
     })
 
-    const BufferNextZQuery = domain.query({
+    const NextZQuery = domain.query({
       name: 'BufferNextZQuery',
       impl ({ get }) {
-        const bufferList = get(BufferListQuery())
-        let maxZ = 0
+        const { maxZ } = get(BufferListMaxZQuery())
+        return maxZ + 1
+      }
+    })
+
+    const BufferListMaxZQuery = domain.query({
+      name: 'BufferMaxZQuery',
+      impl ({ get }, bufferListFromProps?:Buffer[]) {
+        const bufferList = bufferListFromProps || get(BufferListQuery())
+        let maxZ = bufferList[0]?.zIndex
+        let maxZBuffer: Buffer = bufferList[0]
         for (const buffer of bufferList) {
           if (buffer.zIndex > maxZ) {
             maxZ = buffer.zIndex
+            maxZBuffer = buffer
           }
         }
-        return maxZ + 1
+        return { maxZ, maxZBuffer }
       }
     })
 
@@ -66,14 +81,14 @@ const BufferDomain = Remesh.domain({
       name: 'AddBufferCommand',
       impl ({ get }) {
         const bufferList = get(BufferListState())
-        const nextZ = get(BufferNextZQuery())
+        const nextZ = get(NextZQuery())
         const newBuffer:Buffer = {
           key: `${STORAGE_PREFIX}_${nextZ}`,
           zIndex: nextZ,
           content: `${STORAGE_PREFIX}_${nextZ}`
         }
 
-        return [BufferListState().new([...bufferList, newBuffer]), ActiveBufferState().new(newBuffer), AddBufferEvent(newBuffer)]
+        return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]
       }
     })
 
@@ -82,13 +97,14 @@ const BufferDomain = Remesh.domain({
     })
 
     const DelBufferCommand = domain.command({
-      name: 'RemoveTodoCommand',
+      name: 'DelBufferCommand',
       impl ({ get }, key: Buffer['key']) {
         const todoList = get(BufferListState())
         const newTodoList = todoList.filter((buffer) => buffer.key !== key)
-        const newActiveBuffer = newTodoList.at(-1)
+        const nextBuffer = newTodoList.at(-1)
+        if (!nextBuffer) return null // 哇哦,自动实现了没有下一个就不删除的功能
 
-        return [BufferListState().new(newTodoList), ActiveBufferState().new(newActiveBuffer), DelBufferEvent(key)]
+        return [BufferListState().new(newTodoList), UpdateActiveBufferCommand(nextBuffer.key), DelBufferEvent(key)]
       }
     })
 
@@ -121,9 +137,10 @@ const BufferDomain = Remesh.domain({
 
     const UpdateActiveBufferCommand = domain.command({
       name: 'UpdateBufferContentCommand',
-      impl ({ get }, key :Buffer['key']) {
+      impl: ({ get }, key :Buffer['key']) => {
         const bufferList = get(BufferListState())
         const nextBuffer = bufferList.find(buf => buf.key === key)
+        if (!nextBuffer) return null
 
         return [ActiveBufferState().new(nextBuffer)]
       }
@@ -132,7 +149,7 @@ const BufferDomain = Remesh.domain({
     domain.effect({
       name: 'FromRepoToStateEffect',
       impl () {
-        return from(repo.getBufferList()).pipe(map((todos) => InitBufferListCommand(todos)))
+        return from(repo.getBufferList()).pipe(map((bufferList) => InitBufferListCommand(bufferList)))
       }
     })
 
@@ -149,28 +166,6 @@ const BufferDomain = Remesh.domain({
       }
     })
 
-    // domain.effect({
-    //   name: 'InitEffect',
-    //   impl: () => {
-    //     for (let x = 0; x < localStorage.length; x++) {
-    //       const key = localStorage.key(x)
-    //       if (key?.includes(STORAGE_PREFIX)) {
-    //         _tabData.set(key, JSON.parse(localStorage.getItem(key) as string)as TabItem)
-    //       }
-    //     }
-    //
-    //     console.log('tabSize', _tabData.size)
-    //     if (_tabData.size === 0) {
-    //       const newKey = `${STORAGE_PREFIX}_1`
-    //       _tabData.set(newKey, {
-    //         key: newKey,
-    //         content: '',
-    //         zIndex: getNextZ()
-    //       })
-    //     }
-    //   }
-    // })
-
     return {
       query: {
         BufferListQuery,
@@ -181,10 +176,6 @@ const BufferDomain = Remesh.domain({
         DelBufferCommand,
         UpdateBufferContentCommand,
         UpdateActiveBufferCommand
-        // ToggleTodoCompletedCommand,
-        // ToggleAllTodoCompletedCommand,
-        // UpdateTodoCommand,
-        // ClearCompletedCommand
       }
       // event: { AddTodoFailedEvent }
     }

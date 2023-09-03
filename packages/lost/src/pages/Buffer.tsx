@@ -1,10 +1,10 @@
 import React, { KeyboardEventHandler, useCallback, useEffect } from 'react'
-import keys from 'ctrl-keys'
+import keys, { Callback } from 'ctrl-keys'
 import { Remesh } from 'remesh'
 import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'remesh-react'
 import { BufferDomain } from '../domain/Buffer.js'
 import { StyledBuffer, StyledBufferList, StyledEditor } from './styles.js'
-import { BufferRepoExternImpl } from '../domain/localforge-extern.js'
+import { BufferRepoExternImpl } from '../domain/localforage-extern.js'
 
 const handler = keys()
 
@@ -20,11 +20,11 @@ const BufferContent = () => {
   const activeBuffer = useRemeshQuery(domain.query.ActiveBufferQuery())
 
   const onKeyUp:KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer.key, content: e.currentTarget.value }))
+    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
   }
 
   const onBlur:React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
-    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer.key, content: e.currentTarget.value }))
+    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
   }
 
   const handleDelete = (key:string):React.MouseEventHandler<HTMLDivElement> => (e) => {
@@ -39,37 +39,40 @@ const BufferContent = () => {
     if (activeBuffer?.key) {
       return (
       <StyledEditor
-      onKeyUp={onKeyUp}
-      onBlur={onBlur}
-      onClick={onBlur}
-      style={{ flex: 1 }}
-      defaultValue={activeBuffer?.content}
+        onKeyUp={onKeyUp}
+        onBlur={onBlur}
+        onClick={onBlur}
+        defaultValue={activeBuffer?.content}
       />
       )
     }
     return null
   }, [activeBuffer?.key])
 
-  // useEffect(() => {
-  //   const combo = (e:KeyboardEvent) => {
-  //     handler
-  //       .add('ctrl+n', (e) => {
-  //         e?.preventDefault()
-  //         addNewTab()
-  //         console.log('ctrl+n')
-  //       })
-  //       .add('ctrl+w', (e) => {
-  //         e?.preventDefault()
-  //         handleDelete(activeTab)(undefined as any)
-  //         console.log('ctrl+w')
-  //       })
-  //     handler.handle(e)
-  //   }
-  //   document.addEventListener('keydown', combo)
-  //   return () => {
-  //     document.removeEventListener('keydown', combo)
-  //   }
-  // }, [activeTab, tabList])
+  useEffect(() => {
+    const handleAdd:Callback = (e) => {
+      e?.preventDefault()
+      send(domain.command.AddBufferCommand())
+    }
+    const handleDelete:Callback = (e) => {
+      e?.preventDefault()
+      send(domain.command.DelBufferCommand(activeBuffer?.key))
+    }
+
+    handler
+      .add('ctrl+n', handleAdd)
+      .add('ctrl+w', handleDelete)
+    const combo = (e:KeyboardEvent) => {
+      handler.handle(e)
+    }
+    document.addEventListener('keydown', combo)
+    return () => {
+      handler
+        .remove('ctrl+n', handleAdd)
+        .remove('ctrl+w', handleDelete)
+      document.removeEventListener('keydown', combo)
+    }
+  }, [activeBuffer?.key])
 
   useEffect(() => {
     const keyCB = (e:KeyboardEvent) => {
@@ -91,7 +94,7 @@ const BufferContent = () => {
         return (
             <StyledBuffer
               key={t.key}
-              isactive={t.key === activeBuffer?.key}
+              $isactive={t.key === activeBuffer?.key}
               >
               <span
               onClick={onClick(t.key)}

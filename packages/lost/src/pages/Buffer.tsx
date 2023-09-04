@@ -54,14 +54,27 @@ const BufferContent = () => {
       e?.preventDefault()
       send(domain.command.AddBufferCommand())
     }
+
     const handleDelete:Callback = (e) => {
       e?.preventDefault()
       send(domain.command.DelBufferCommand(activeBuffer?.key))
     }
 
+    const handleNextBuffer = (e) => {
+      e?.preventDefault()
+      send(domain.command.UpdateActiveBufferByDirectionCommand('next'))
+    }
+
+    const handlePrevBuffer = (e) => {
+      e?.preventDefault()
+      send(domain.command.UpdateActiveBufferByDirectionCommand('prev'))
+    }
+
     handler
       .add('ctrl+n', handleAdd)
       .add('ctrl+w', handleDelete)
+      .add('ctrl+pagedown', handleNextBuffer)
+      .add('ctrl+pageup', handlePrevBuffer)
     const combo = (e:KeyboardEvent) => {
       handler.handle(e)
     }
@@ -70,6 +83,8 @@ const BufferContent = () => {
       handler
         .remove('ctrl+n', handleAdd)
         .remove('ctrl+w', handleDelete)
+        .remove('ctrl+pagedown', handleNextBuffer)
+        .remove('ctrl+pageup', handlePrevBuffer)
       document.removeEventListener('keydown', combo)
     }
   }, [activeBuffer?.key])

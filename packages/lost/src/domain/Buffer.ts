@@ -146,6 +146,24 @@ const BufferDomain = Remesh.domain({
       }
     })
 
+    const UpdateActiveBufferByDirectionCommand = domain.command({
+      name: 'UpdateBufferContentCommand',
+      impl: ({ get }, dir: 'next' | 'prev') => {
+        const bufferList = get(BufferListState())
+        const activeBuffer = get(ActiveBufferState())
+        const activeIndex = bufferList.findIndex((buf) => buf.key === activeBuffer?.key)
+        let nextBuffer:Buffer
+        if (dir === 'next') {
+          nextBuffer = bufferList[activeIndex + 1]
+        } else {
+          nextBuffer = bufferList[activeIndex - 1]
+        }
+        if (!nextBuffer) return null
+
+        return [ActiveBufferState().new(nextBuffer)]
+      }
+    })
+
     domain.effect({
       name: 'FromRepoToStateEffect',
       impl () {
@@ -175,7 +193,8 @@ const BufferDomain = Remesh.domain({
         AddBufferCommand,
         DelBufferCommand,
         UpdateBufferContentCommand,
-        UpdateActiveBufferCommand
+        UpdateActiveBufferCommand,
+        UpdateActiveBufferByDirectionCommand
       }
       // event: { AddTodoFailedEvent }
     }

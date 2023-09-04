@@ -21,7 +21,7 @@ const StyledBufferList = styled.div`
 
   .add-btn {
     &:hover {
-      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; ;
+      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'rgba(135, 63, 234, 0.1)'};
     }
 `
 type StyledBufferProps = {
@@ -30,21 +30,21 @@ type StyledBufferProps = {
 const StyledBuffer = styled.div<StyledBufferProps>`
   display: flex;
   span {
-  background: ${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'whtie'};
-  &:hover {
-    background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.4)' : 'rgba(135, 63, 234, 0.1)'}; 
+    background: ${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'whtie'};
+    &:hover {
+      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'rgba(135, 63, 234, 0.1)'}; 
+    }
   }
-    }
   .del-btn {
-      &:hover {
-        background: #f009;
-        }
+    &:hover {
+      background: #f009;
     }
+  }
   .divider {
-      width: 2px;
-      background: rgba(15, 6, 2, 0.4);
-      margin-right: 10px;
-    }
+    width: 2px;
+    background: rgba(15, 6, 2, 0.4);
+    margin-right: 10px;
+  }
 `
 export {
   StyledEditor,

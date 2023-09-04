@@ -56,7 +56,7 @@ const BufferDomain = Remesh.domain({
     const NextZQuery = domain.query({
       name: 'BufferNextZQuery',
       impl ({ get }) {
-        const { maxZ } = get(BufferListMaxZQuery())
+        const { maxZ = 0 } = get(BufferListMaxZQuery())
         return maxZ + 1
       }
     })

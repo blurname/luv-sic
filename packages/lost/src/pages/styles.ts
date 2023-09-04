@@ -9,7 +9,7 @@ const StyledEditor = styled.textarea`
   -moz-box-shadow: none;
   box-shadow: none;
   background: #f5f5f5;
-  border: 2px solid #0556a0;
+  border: 2px solid rgba(0, 132, 255, 0.133);
   resize: none;
 `
 const StyledBufferList = styled.div`
@@ -37,7 +37,7 @@ const StyledBuffer = styled.div<StyledBufferProps>`
     }
   .del-btn {
       &:hover {
-        background: red;
+        background: #f009;
         }
     }
   .divider {

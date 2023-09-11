@@ -85,7 +85,7 @@ const BufferDomain = Remesh.domain({
         const newBuffer:Buffer = {
           key: `${STORAGE_PREFIX}_${nextZ}`,
           zIndex: nextZ,
-          content: `${STORAGE_PREFIX}_${nextZ}`
+          content: ''
         }
 
         return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]

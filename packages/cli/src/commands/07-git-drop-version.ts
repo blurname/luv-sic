@@ -93,7 +93,7 @@ const gitDropVersion = async () => {
       gitRebaseInteractive(actionPath)
     }
     options = parseOptionList(argv, options)
-    if (options.i) {
+    if (options['I']) {
       const fzfKit = createFzfKit({ fzfStringList: getLogList() })
       fzfKit.runFzf({ runCallback })
     } else {

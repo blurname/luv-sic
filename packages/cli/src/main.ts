@@ -2,7 +2,7 @@
 
 import { switchNpmrc, switchNpmrcDesc } from './commands/01-switch-npmrc.js'
 import { duCurrentFolder, duCurrentFolderDesc } from './commands/03-du-current-folder.js'
-import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './commands/04-calc-ts-percent-in-project.js'
+// import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './commands/04-calc-ts-percent-in-project.js'
 import { calcWorkingTime, calcWorkingTimeDesc } from './commands/05-calc-working-time.js'
 import { generateShellCompletions, generateShellCompletionsDesc } from './commands/06-generate-shell-completions.js'
 import { gitDropVersion, gitDropVersionDesc } from './commands/07-git-drop-version.js'
@@ -10,7 +10,7 @@ import { gitCommit, gitCommitDesc } from './commands/08-git-package-commit.js'
 import { gitReplacePackage, gitReplacePackageDesc } from './commands/09-git-package-replace.js'
 import { detectCIStatus, detectCIStatusDesc } from './commands/0a-git-detect-ci-status.js'
 // import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
-import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
+// import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
 import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log.js'
 import { metaScriptFzf, metaScriptFzfDesc } from './commands/11-meta-script-fzf.js'
 import { gitViewDiff, gitViewDiffDesc } from './commands/12-git-view-diff.js'
@@ -18,7 +18,7 @@ import { gitViewDiff, gitViewDiffDesc } from './commands/12-git-view-diff.js'
 export const commands = {
   switchNpmrc,
   duCurrentFolder,
-  calcTsPercentInProject,
+  // calcTsPercentInProject,
   calcWorkingTime,
   gitDropVersion,
   gitCommit,
@@ -26,7 +26,7 @@ export const commands = {
   gitReplacePackage,
   // startZellij,
   generateShellCompletions,
-  logRemoteJson,
+  // logRemoteJson,
   gitForgetLog,
   metaScriptFzf,
   gitViewDiff
@@ -34,7 +34,7 @@ export const commands = {
 type Commands = keyof typeof commands
 
 const commandsDesc: Record<Commands, string> = {
-  calcTsPercentInProject: calcTsPercentInProjectDesc,
+  // calcTsPercentInProject: calcTsPercentInProjectDesc,
   calcWorkingTime: calcWorkingTimeDesc,
   duCurrentFolder: duCurrentFolderDesc,
   detectCIStatus: detectCIStatusDesc,
@@ -45,7 +45,7 @@ const commandsDesc: Record<Commands, string> = {
   // startZellij: startZellijDesc,
   switchNpmrc: switchNpmrcDesc,
   generateShellCompletions: generateShellCompletionsDesc,
-  logRemoteJson: logRemoteJsonDesc,
+  // logRemoteJson: logRemoteJsonDesc,
   metaScriptFzf: metaScriptFzfDesc,
   gitViewDiff: gitViewDiffDesc
 }

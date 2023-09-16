@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-
+// 1. html like (<meta charset="utf-8">
+// <div>
+//    <span data-text="" />
+//    <span data-richtext="" />
+//    <span data-ita="" />
+//    <span style="white-space:pre-wrap"></span>
+// </div>
+// )
+//
 const Paste = () => {
   const [rendertText, setRendertText] = useState('')
   useEffect(() => {

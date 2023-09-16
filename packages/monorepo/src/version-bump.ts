@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
-import { createFileKit } from '../packages/core/src/fileKit.js'
+import { createFileKit } from '@blurname/core/src/fileKit'
 import { execSync } from 'node:child_process'
 
 type Version = `${number}.${number}.${number}`
@@ -20,8 +20,8 @@ const digitBump = (version:Version, digit:Digit) => {
 }
 
 const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
-  const pathDir = dirname(fileURLToPath(import.meta.url))
-  const rootPath = resolve(...[pathDir, '..'])
+  const pathDir = dirname(fileURLToPath(import.meta.url)) // repoRoot/packages/package/src
+  const rootPath = resolve(...[pathDir, '..', '..', '..'])
   const rootPackageJsonPath = rootPath + '/package.json'
 
   const fileKit = createFileKit(rootPackageJsonPath)
@@ -47,6 +47,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
   }
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
+  // console.log('commitMsg', commitMsg)
   const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} packages/${cur}/package.json`, '')
   execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@blurname/monorepo",
+  "version": "0.0.0",
+  "author": "blurname <naughtybao@outlook.com>",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "exports": {
+    "./src/*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@blurname/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      "./src/*": "./dist/*.js"
+    }
+  }
+}

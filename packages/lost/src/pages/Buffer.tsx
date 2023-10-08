@@ -5,6 +5,7 @@ import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'reme
 import { BufferDomain } from '../domain/Buffer.js'
 import { StyledBuffer, StyledBufferList, StyledEditor } from './styles.js'
 import { BufferRepoExternImpl } from '../domain/localforage-extern.js'
+import Editor from '@monaco-editor/react'
 
 const handler = keys()
 
@@ -19,13 +20,13 @@ const BufferContent = () => {
   const bufferList = useRemeshQuery(domain.query.BufferListQuery())
   const activeBuffer = useRemeshQuery(domain.query.ActiveBufferQuery())
 
-  const onKeyUp:KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
-  }
-
-  const onBlur:React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
-    send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
-  }
+  // const onKeyUp:KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+  //   send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
+  // }
+  //
+  // const onBlur:React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
+  //   send(domain.command.UpdateBufferContentCommand({ key: activeBuffer?.key, content: e.currentTarget.value }))
+  // }
 
   const handleDelete = (key:string):React.MouseEventHandler<HTMLDivElement> => (e) => {
     send(domain.command.DelBufferCommand(key))
@@ -35,19 +36,19 @@ const BufferContent = () => {
     send(domain.command.AddBufferCommand())
   }
 
-  const Editor = useCallback(() => {
-    if (activeBuffer?.key) {
-      return (
-      <StyledEditor
-        onKeyUp={onKeyUp}
-        onBlur={onBlur}
-        onClick={onBlur}
-        defaultValue={activeBuffer?.content}
-      />
-      )
-    }
-    return null
-  }, [activeBuffer?.key])
+  // const Editor = useCallback(() => {
+  //   if (activeBuffer?.key) {
+  //     return (
+  //     <StyledEditor
+  //       onKeyUp={onKeyUp}
+  //       onBlur={onBlur}
+  //       onClick={onBlur}
+  //       defaultValue={activeBuffer?.content}
+  //     />
+  //     )
+  //   }
+  //   return null
+  // }, [activeBuffer?.key])
 
   useEffect(() => {
     const handleAdd:Callback = (e) => {
@@ -121,8 +122,47 @@ const BufferContent = () => {
       })}
       <div className="add-btn" onClick={handleNewBuffer} >+</div>
       </StyledBufferList>
-      <Editor/>
+      <BufferEditor dv={activeBuffer?.content} bufferKey={activeBuffer?.key} />
+      {/* <Editor/> */}
       </>
+  )
+}
+
+function BufferEditor ({ dv, bufferKey }) {
+  const domain = useRemeshDomain(BufferDomain())
+  const send = useRemeshSend()
+  function handleEditorChange (value, event) {
+    // console.log(value)
+    // here is the current value
+
+    send(domain.command.UpdateBufferContentCommand({ key: bufferKey, content: value }))
+  }
+
+  function handleEditorDidMount (editor, monaco) {
+    console.log('onMount: the editor instance:', editor)
+    console.log('onMount: the monaco instance:', monaco)
+  }
+
+  function handleEditorWillMount (monaco) {
+    console.log('beforeMount: the monaco instance:', monaco)
+  }
+
+  function handleEditorValidation (markers) {
+    // model markers
+    // markers.forEach(marker => console.log('onValidate:', marker.message));
+  }
+
+  return (
+    <Editor
+      height="90vh"
+      defaultLanguage="Markdown"
+      value={dv}
+      onChange={handleEditorChange}
+      onMount={handleEditorDidMount}
+      beforeMount={handleEditorWillMount}
+      onValidate={handleEditorValidation}
+      theme="light"
+    />
   )
 }
 

@@ -164,8 +164,8 @@ function BufferEditor ({ dv, bufferKey }) {
       onMount={handleEditorDidMount}
       beforeMount={handleEditorWillMount}
       onValidate={handleEditorValidation}
-      theme="nord"
-      // theme="light"
+      // theme="nord"
+      theme="light"
     />
   )
 }

@@ -30,13 +30,13 @@
       "path": "./tsconfig.node.json"
     },
     {
-      "path": "./packages/cli/tsconfig.json"
+      "path": "./package/cli/tsconfig.json"
     },
     {
-      "path": "./packages/svgminify/tsconfig.json"
+      "path": "./package/svgminify/tsconfig.json"
     },
     {
-      "path": "./packages/lost/tsconfig.json"
+      "path": "./package/lost/tsconfig.json"
     }
   ]
 }

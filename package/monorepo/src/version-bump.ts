@@ -20,7 +20,7 @@ const digitBump = (version:Version, digit:Digit) => {
 }
 
 const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
-  const pathDir = dirname(fileURLToPath(import.meta.url)) // repoRoot/packages/package/src
+  const pathDir = dirname(fileURLToPath(import.meta.url)) // repoRoot/package/package/src
   const rootPath = resolve(...[pathDir, '..', '..', '..'])
   const rootPackageJsonPath = rootPath + '/package.json'
 
@@ -37,7 +37,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
   fileKit.commit()
 
   for (const pkg of subPackageList) {
-    const fileKit = createFileKit(rootPath + `/packages/${pkg}/package.json`)
+    const fileKit = createFileKit(rootPath + `/package/${pkg}/package.json`)
     fileKit.modify((fileString) => {
       const fileJson = JSON.parse(fileString)
       fileJson.version = digitBump(fileJson.version, digit)
@@ -48,7 +48,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
   // console.log('commitMsg', commitMsg)
-  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} packages/${cur}/package.json`, '')
+  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} package/${cur}/package.json`, '')
   execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }
 

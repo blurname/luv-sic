@@ -3,20 +3,20 @@ import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { versionBump } from './version-bump.js'
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
-// 1. the sub package's root directory name must be packages // TODO: bl: use arbitrary name
+// 1. the sub package's root directory name must be package // TODO: bl: use arbitrary name
 const creteMonoRepo = (subPackageList:string[]) => () => {
   const cleanDist = () => {
     const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf dist packages/{${pkgStr}}/dist`)
+    execSync(`rm -rf dist package/{${pkgStr}}/dist`)
   }
 
   const cleanNodeModules = () => {
     const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf node_modules packages/{${pkgStr}}/node_modules`)
+    execSync(`rm -rf node_modules package/{${pkgStr}}/node_modules`)
   }
   const cleanLock = () => {
     const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf pnpm-lock.yaml packages/{${pkgStr}}/pnpm-lock.yaml`)
+    execSync(`rm -rf pnpm-lock.yaml package/{${pkgStr}}/pnpm-lock.yaml`)
   }
 
   const func = process.argv[2]

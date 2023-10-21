@@ -6,13 +6,18 @@
   "scripts": {
     "build": "tsc"
   },
+  "files": ["dist"],
   "exports": {
-    "./src/*": "./src/*.ts"
+    ".":{
+      "development":"./src/*"
+    } 
   },
   "publishConfig": {
     "access": "public",
     "exports": {
-      "./src/*": "./dist/*.js"
+      ".": {
+        "import": "./dist/*"
+      }
     }
   }
 }

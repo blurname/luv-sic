@@ -9,10 +9,7 @@
   "exports": {
     "./src/*": "./src/*.ts"
   },
-  "devDependencies": {
-    "@blurname/core": "workspace:*"
-  },
-  "peerDependencies": {
+  "dependencies": {
     "@blurname/core": "workspace:*"
   },
   "publishConfig": {

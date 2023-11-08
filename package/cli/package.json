@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "files": [
+    "dist"
+  ],
   "bin": {
     "bl": "./dist/main.js",
     "blurkit": "./dist/main.js"

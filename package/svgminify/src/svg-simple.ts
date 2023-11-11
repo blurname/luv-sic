@@ -186,7 +186,7 @@ export class SvgSimple extends LitElement {
 
     const dataUrl = this.toDataUrl(svgOriginnal.documentElement.outerHTML)
 
-    const usage = `[${w},${h},\`${svgOptimizedSVG}\`]`
+    const usage = `[${w}, ${h}, \`${svgOptimizedSVG}\`]`
 
     return html`
     <div>

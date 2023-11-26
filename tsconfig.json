@@ -22,21 +22,21 @@
     "noUnusedLocals": true
   },
   "paths": {
-      "@blurname/cli": ["./packages/cli/src"],
-      "@blurname/core": ["./packages/core/src"]
+      "@blurname/cli": ["./pkg/cli/src"],
+      "@blurname/core": ["./pkg/core/src"]
     },
   "references": [
     {
       "path": "./tsconfig.node.json"
     },
     {
-      "path": "./package/cli/tsconfig.json"
+      "path": "./pkg/cli/tsconfig.json"
     },
     {
-      "path": "./package/svgminify/tsconfig.json"
+      "path": "./pkg/svgminify/tsconfig.json"
     },
     {
-      "path": "./package/lost/tsconfig.json"
+      "path": "./pkg/lost/tsconfig.json"
     }
   ]
 }

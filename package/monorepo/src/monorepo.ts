@@ -5,25 +5,25 @@ import { versionBump } from './version-bump.js'
 
 // 1. the sub package's root directory name must be package // TODO: bl: use arbitrary name
 type ExtraFunc = {
-  [k:string]:(subPackageList:string[])=> void
+  [k:string]:(subPkgList:string[])=> void
 }
 type CreteMonoRepoProps = {
- subPackageList: string[]
+ subPkgList: string[]
  extraFunc?: ExtraFunc
 }
-const creteMonorepo = ({ subPackageList, extraFunc }:CreteMonoRepoProps) => () => {
+const creteMonorepo = ({ subPkgList, extraFunc }:CreteMonoRepoProps) => () => {
   const cleanDist = () => {
-    const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf dist package/{${pkgStr}}/dist`)
+    const pkgStr = subPkgList.join(',')
+    execSync(`rm -rf dist pkg/{${pkgStr}}/dist`)
   }
 
   const cleanNodeModules = () => {
-    const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf node_modules package/{${pkgStr}}/node_modules`)
+    const pkgStr = subPkgList.join(',')
+    execSync(`rm -rf node_modules pkg/{${pkgStr}}/node_modules`)
   }
   const cleanLock = () => {
-    const pkgStr = subPackageList.join(',')
-    execSync(`rm -rf pnpm-lock.yaml package/{${pkgStr}}/pnpm-lock.yaml`)
+    const pkgStr = subPkgList.join(',')
+    execSync(`rm -rf pnpm-lock.yaml pkg/{${pkgStr}}/pnpm-lock.yaml`)
   }
 
   const func = process.argv[2]
@@ -33,13 +33,13 @@ const creteMonorepo = ({ subPackageList, extraFunc }:CreteMonoRepoProps) => () =
   } else if (func === 'clean-node-modules') {
     cleanNodeModules()
   } else if (func === 'version-bump') {
-    const needToBumpPkgList = detectSubVersionNeedToUpdate(subPackageList)
+    const needToBumpPkgList = detectSubVersionNeedToUpdate(subPkgList)
     versionBump(needToBumpPkgList)('patch')
   } else if (func === 'clean-lock') {
     cleanLock()
   } else {
     if (extraFunc && typeof extraFunc[func] === 'function') {
-      extraFunc[func](subPackageList)
+      extraFunc[func](subPkgList)
     }
   }
 }

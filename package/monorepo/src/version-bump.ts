@@ -37,7 +37,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
   fileKit.commit()
 
   for (const pkg of subPackageList) {
-    const fileKit = createFileKit(rootPath + `/package/${pkg}/package.json`)
+    const fileKit = createFileKit(rootPath + `/pkg/${pkg}/package.json`)
     fileKit.modify((fileString) => {
       const fileJson = JSON.parse(fileString)
       fileJson.version = digitBump(fileJson.version, digit)
@@ -48,7 +48,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
 
   const commitMsg = `VERSION: @blurname/blurkit@${newVersion}`
   // console.log('commitMsg', commitMsg)
-  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} package/${cur}/package.json`, '')
+  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} pkg/${cur}/package.json`, '')
   execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }
 

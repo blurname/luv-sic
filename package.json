@@ -14,7 +14,8 @@
     "dev-lost": "pnpm --filter @blurkit/lost dev",
     "clean-dist": "tsx ./scripts/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./scripts/monorepo.ts clean-node-modules",
-    "clean-lock": "tsx ./scripts/monorepo.ts clean-lock"
+    "clean-lock": "tsx ./scripts/monorepo.ts clean-lock",
+    "test-command": "echo test"
   },
   "devDependencies": {
     "@dr-js/dev": "^0.5.9",

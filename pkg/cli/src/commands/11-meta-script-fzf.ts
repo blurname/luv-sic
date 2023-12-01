@@ -21,6 +21,7 @@ const metaScriptFzf = async () => {
   }
   const runCallback = (selectKey:string) => {
     spawnSync('npm', ['run', selectKey], { stdio: 'inherit' })
+    console.log(`npm run ${selectKey}`)
   }
 
   const fzfKit = createFzfKit({ fzfStringList: scriptKeyList, config })

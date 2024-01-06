@@ -10,16 +10,21 @@
   "dependencies": {
     "@blurname/core": "workspace:*",
     "@monaco-editor/react": "^4.6.0",
+    "@zip.js/zip.js": "^2.7.32",
     "ctrl-keys": "^1.0.1",
+    "fig-to-json": "^1.0.4",
     "install": "^0.13.0",
+    "kiwi-schema": "^0.5.0",
     "localforage": "^1.10.0",
     "monaco-editor": "^0.44.0",
     "npm": "^10.2.0",
+    "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remesh": "^4.1.0",
     "remesh-react": "^4.0.1",
     "rxjs": "^7.8.1",
-    "styled-components": "^6.0.3"
+    "styled-components": "^6.0.3",
+    "uzip": "^0.20201231.0"
   }
 }

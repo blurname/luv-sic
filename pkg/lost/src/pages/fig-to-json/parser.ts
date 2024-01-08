@@ -1,18 +1,15 @@
-(
-  typeof exports !== 'undefined' ? exports
-    : typeof window !== 'undefined' ? window
-      : globalThis
-).Fig = {
+const createFig = () => ({
   parse ({ bytes, pako, kiwi }) {
     const header = String.fromCharCode(...bytes.slice(0, 8))
-    if (header !== 'fig-kiwi' && header !== 'fig-jam.') {
-      throw new Error('Invalid header')
-    }
+    // if (header !== 'fig-kiwi' && header !== 'fig-jam.') {
+    //   throw new Error('Invalid header')
+    // }
 
     const view = new DataView(bytes.buffer)
     const version = view.getUint32(8, true)
     const chunks = []
     let offset = 12
+    console.log(bytes.length)
 
     while (offset < bytes.length) {
       const chunkLength = view.getUint32(offset, true)
@@ -20,11 +17,14 @@
       chunks.push(bytes.slice(offset, offset + chunkLength))
       offset += chunkLength
     }
+    console.log('chunks', chunks)
 
     if (chunks.length < 2) throw new Error('Not enough chunks')
     const encodedSchema = pako.inflateRaw(chunks[0])
     const encodedData = pako.inflateRaw(chunks[1])
     const schema = kiwi.compileSchema(kiwi.decodeBinarySchema(encodedSchema))
+    console.log('kiwi.decodeBinarySchema(encodedSchema)', kiwi.decodeBinarySchema(encodedSchema))
+    console.log('schema', schema)
     const { nodeChanges, blobs } = schema.decodeMessage(encodedData)
     const nodes = new Map()
 
@@ -180,4 +180,7 @@
         return path
     }
   }
+})
+export {
+  createFig
 }

@@ -41,6 +41,7 @@ const FigToJson = () => {
       const entries = String.fromCharCode(...bytes.slice(0, 2)) === 'PK'
         ? await new zip.ZipReader(new zip.Uint8ArrayReader(new Uint8Array(arrayBuffer))).getEntries()
         : [{ filename: 'lalala', bytes: new Uint8Array(arrayBuffer) }]
+      // console.log(String.fromCharCode(...bytes.slice(0, 2)))
       // console.log(arrayBuffer)
 
       // const fileEntries = []
@@ -50,8 +51,29 @@ const FigToJson = () => {
         // fileEntries.push(entry)
 
         if (entry.getData) {
-          entry.getData(new zip.Uint8ArrayWriter()).then(
-            bytes => console.log(fig.parse({ bytes, pako, kiwi })))
+          const byte = await entry.getData(new zip.Uint8ArrayWriter())
+
+          // (byte) => {
+          // console.log('aaa', String.fromCharCode(...byte.slice(0, 1000)))
+          console.log(fig.parse({ bytes: byte, pako, kiwi }))
+          // }
+        } else {
+          console.log(fig.parse({ bytes: entry.bytes, pako, kiwi }))
+          // showPreview(entry.filename, entry.bytes, originalFilePrefix)
+        }
+      }
+      for (const entry of entries) {
+      // if (entry.directory) continue
+      // sidebar.append(createElement('option', { textContent: entry.filename }))
+        // fileEntries.push(entry)
+
+        if (entry.getData) {
+          const byte = await entry.getData(new zip.Uint8ArrayWriter())
+
+          // (byte) => {
+          // console.log('aaa', String.fromCharCode(...byte.slice(0, 1000)))
+          console.log(fig.parse({ bytes: byte, pako, kiwi }))
+          // }
         } else {
           console.log(fig.parse({ bytes: entry.bytes, pako, kiwi }))
           // showPreview(entry.filename, entry.bytes, originalFilePrefix)
@@ -65,18 +87,22 @@ const FigToJson = () => {
     reader.readAsArrayBuffer(file)
   }
   useEffect(() => {
-    let offset = 0
+    let offset = 12 // figma is 12
 
-    // const bytes = fromHex(compactToTwoSpace(b))
-    const bytes = base64DecToArr(base64)// fromHex(compactToTwoSpace(b))
+    const bytes = fromHex(compactToTwoSpace(hex))
+    // const bytes = base64DecToArr(base64)// fromHex(compactToTwoSpace(b))
+    // console.log(fig.parse({ bytes, pako, kiwi }))
 
+    console.log(bytes)
     const view = new DataView(bytes.buffer)
+    const version = view.getUint8(1, true)
+    console.log('aaa', version)
     console.log(bytes.length)
 
     const chunks = []
     console.log('bytes', bytes.length)
     while (offset < bytes.length) {
-      const chunkLength = view.getUint16(offset, true)
+      const chunkLength = view.getUint32(offset, true)
       console.log('chunkLength', chunkLength)
       // offset += 4
       chunks.push(bytes.slice(offset, offset + chunkLength))

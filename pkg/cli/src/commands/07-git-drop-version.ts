@@ -18,8 +18,8 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { colorLog } from '@blurname/core/src/colorLog'
 import { parseOptionList } from '@blurname/core/src/cli'
-import { createFzfKit } from '../fzf.js'
 import { getLogList } from '../util/git.js'
+import { createFzfKit } from '../util/fzf.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

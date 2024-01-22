@@ -1,6 +1,6 @@
 import { getPackageJsonFile } from '@blurname/core/src/node/meta-file/npm'
 import { createFzfKit } from '../util/fzf.js'
-import { spawnSync } from 'node:child_process'
+import { execSync, spawnSync } from 'node:child_process'
 import { colorLog } from '@blurname/core/src/colorLog'
 const metaScriptFzfDesc = 'use fzf to search & execute script in project meta file '
 const metaScriptFzf = async () => {
@@ -22,7 +22,10 @@ const metaScriptFzf = async () => {
   }
   const runCallback = (selectKey:string) => {
     spawnSync('npm', ['run', selectKey], { stdio: 'inherit' })
-    colorLog({ msg: `npm run ${selectKey}`, fg: 'Green' })
+    const res = execSync('env | grep -i tmux').toString()
+    if (res.includes('TERM_PROGRAM=tmux')) {
+      spawnSync('tmux', ['send-keys', `npm run ${selectKey}`], { stdio: 'inherit' })
+    }
   }
 
   const fzfKit = createFzfKit({ fzfStringList: scriptKeyList, config })

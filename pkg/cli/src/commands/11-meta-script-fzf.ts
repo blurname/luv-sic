@@ -22,9 +22,10 @@ const metaScriptFzf = async () => {
   const runCallback = (selectKey:string) => {
     spawnSync('npm', ['run', selectKey], { stdio: 'inherit' })
 
+    const envStr = execSync('env').toString()
     try { // tmux
-      const tmuxQueryRes = execSync('env | grep -i tmux').toString()
-      if (tmuxQueryRes.includes('TERM_PROGRAM=tmux')) {
+      const isTmuxQueryRes = envStr.includes('tmux')
+      if (isTmuxQueryRes) {
         spawnSync('tmux', ['send-keys', `npm run ${selectKey}`], { stdio: 'inherit' })
       }
     } catch (e) {
@@ -32,8 +33,8 @@ const metaScriptFzf = async () => {
     }
 
     try { // zellij
-      const zellijQueryRes = execSync('env | grep -i ZELLIJ').toString()
-      if (zellijQueryRes.includes('ZELLIJ')) {
+      const isZellijQueryRes = envStr.includes('ZELLIJ')
+      if (isZellijQueryRes) {
         spawnSync('zellij', ['action', 'write-chars', `npm run ${selectKey}`], { stdio: 'inherit' })
       }
     } catch (e) {

@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
-import { createFileKit } from '@blurname/core/src/fileKit'
+import { createFileKit } from '@blurname/core/src/node/fileKit.js'
 import { execSync } from 'node:child_process'
 
 type Version = `${number}.${number}.${number}`

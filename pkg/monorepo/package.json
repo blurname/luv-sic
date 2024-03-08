@@ -9,9 +9,6 @@
   "exports": {
     "./src/*": "./src/*.ts"
   },
-  "dependencies": {
-    "@blurname/core": "workspace:*"
-  },
   "publishConfig": {
     "access": "public",
     "exports": {

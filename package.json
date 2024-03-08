@@ -10,14 +10,18 @@
     "release": "pnpm version-bump && pnpm tag-push",
     "build": "pnpm -r build",
     "typecheck": "tsc --noEmit",
-    "dev-svgminify": "pnpm --filter @blurkit/svgminify dev",
-    "dev-lost": "pnpm --filter @blurkit/lost dev",
+    "dev-svgminify": "cd pkg/svgminify && npm run dev",
+    "dev-lost": "cd pkg/lost && npm run dev",
     "clean-dist": "tsx ./scripts/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./scripts/monorepo.ts clean-node-modules",
     "clean-lock": "tsx ./scripts/monorepo.ts clean-lock",
     "test-command": "echo test"
   },
+  "workspaces": [
+    "pkg/*"
+  ],
   "devDependencies": {
+    "@blurname/core": "workspace:*",
     "@dr-js/dev": "^0.5.9",
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",

@@ -6,5 +6,13 @@ export default defineConfig({
   server: {
     host: true
   },
-  plugins: [react()]
+  plugins: [react()],
+  optimizeDeps: {
+    include: ['@bluranme/core']
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@bluranme\/core/, /node_modules/]
+    }
+  }
 })

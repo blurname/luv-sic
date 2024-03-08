@@ -1,4 +1,4 @@
-import { access } from '@blurname/core/src/core'
+import { access } from 'node:fs/promises'
 import { execSync } from 'node:child_process'
 const switchNpmrcDesc = 'to switch weather use user .npmrc'
 const switchNpmrc = async () => {

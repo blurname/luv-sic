@@ -2,9 +2,9 @@ import React, { KeyboardEventHandler, useCallback, useEffect } from 'react'
 import keys, { Callback } from 'ctrl-keys'
 import { Remesh } from 'remesh'
 import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'remesh-react'
-import { BufferDomain } from '../domain/Buffer.js'
-import { StyledBuffer, StyledBufferList, StyledEditor } from './styles.js'
-import { BufferRepoExternImpl } from '../domain/localforage-extern.js'
+import { BufferDomain } from '../domain/Buffer'
+import { StyledBuffer, StyledBufferList, StyledEditor } from './styles'
+import { BufferRepoExternImpl } from '../domain/localforage-extern'
 import Editor from '@monaco-editor/react'
 
 const handler = keys()

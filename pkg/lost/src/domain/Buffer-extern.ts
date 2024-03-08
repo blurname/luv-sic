@@ -1,5 +1,5 @@
 import { Remesh } from 'remesh'
-import type { Buffer } from './Buffer.js'
+import type { Buffer } from './Buffer'
 
 type BufferRepo = {
   getBufferList: () => Promise<Buffer[]>

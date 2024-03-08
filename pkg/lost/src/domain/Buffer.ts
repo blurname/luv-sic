@@ -1,7 +1,6 @@
 import { Remesh } from 'remesh'
 import { from, map, merge, tap } from 'rxjs'
-// import { uuid } from './uuid.js'
-import { BufferRepoExtern } from './Buffer-extern.js'
+import { BufferRepoExtern } from './Buffer-extern'
 
 const STORAGE_PREFIX = 'LOST_BUFFER'
 type Buffer = {

@@ -1,7 +1,7 @@
 import { createUrlInit } from '@blurname/core/src/browser/url'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useRefresh } from '../hooks/useRefresh'
+import { useRefresh } from '../hook/useRefresh'
 import { themeConfig } from '../misc/urlConfig'
 
 const text = `只要想起一生中后悔的事

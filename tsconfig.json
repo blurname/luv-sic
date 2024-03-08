@@ -27,9 +27,6 @@
     },
   "references": [
     {
-      "path": "./tsconfig.node.json"
-    },
-    {
       "path": "./pkg/cli/tsconfig.json"
     },
     {

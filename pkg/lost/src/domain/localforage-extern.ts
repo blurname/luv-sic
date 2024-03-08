@@ -1,6 +1,6 @@
 import localforage from 'localforage'
-import type { Buffer } from './Buffer.js'
-import { BufferRepoExtern } from './Buffer-extern.js'
+import type { Buffer } from './Buffer'
+import { BufferRepoExtern } from './Buffer-extern'
 
 const storageKey = 'buffer-data'
 const getBufferList = async () => {

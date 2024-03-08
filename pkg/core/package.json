@@ -4,15 +4,7 @@
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "type-check": "tsc"
   },
-  "exports": {
-    "./src/*": "./src/*.ts"
-  },
-  "publishConfig": {
-    "access": "public",
-    "exports": {
-      "./src/*": "./dist/*.js"
-    }
-  }
+  "files": ["./src"]
 }

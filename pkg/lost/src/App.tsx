@@ -5,7 +5,7 @@ import { createUrlInit } from '@blurname/core/src/browser/url'
 import { Paste } from './pages/Paste'
 // import { Buffer } from './pages/Buffer'
 import { colorLog } from '@blurname/core/src/colorLog'
-const urlConfig = {
+ const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
   'paste': () => 'paste',

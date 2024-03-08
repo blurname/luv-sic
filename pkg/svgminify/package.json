@@ -4,8 +4,8 @@
   "version": "0.0.31",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build"
+    "dev": "rsbuild dev",
+    "build": "rsbuild build"
   },
   "dependencies": {
     "lit": "^2.7.5",

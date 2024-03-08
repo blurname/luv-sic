@@ -1,7 +1,6 @@
 {
   "name": "@blurkit/lost",
   "version": "0.0.9",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "rsbuild dev",

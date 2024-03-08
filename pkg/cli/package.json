@@ -17,7 +17,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@blurname/core": "workspace:*",
     "fzf": "^0.5.2"
   }
 }

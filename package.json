@@ -2,7 +2,6 @@
   "name": "@blurname/blurkit",
   "version": "0.0.45",
   "author": "blurname <naughtybao@outlook.com>",
-  "type": "module",
   "private": false,
   "scripts": {
     "version-bump": "tsx ./scripts/monorepo.ts version-bump",
@@ -10,21 +9,24 @@
     "release": "pnpm version-bump && pnpm tag-push",
     "build": "pnpm -r build",
     "typecheck": "tsc --noEmit",
-    "dev-svgminify": "pnpm --filter @blurkit/svgminify dev",
-    "dev-lost": "pnpm --filter @blurkit/lost dev",
+    "dev-svgminify": "cd pkg/svgminify && npm run dev",
+    "dev-lost": "cd pkg/lost && npm run dev",
     "clean-dist": "tsx ./scripts/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./scripts/monorepo.ts clean-node-modules",
     "clean-lock": "tsx ./scripts/monorepo.ts clean-lock",
     "test-command": "echo test"
   },
+  "workspaces": [
+    "pkg/*"
+  ],
   "devDependencies": {
-    "@dr-js/dev": "^0.5.9",
+    "@rsbuild/core": "^0.4.12",
+    "@rsbuild/plugin-node-polyfill": "^0.4.12",
+    "@rsbuild/plugin-react": "^0.4.12",
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
-    "@vitejs/plugin-react": "^4.0.1",
-    "esbuild": "^0.18.11",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-lit": "^1.8.3",
@@ -33,7 +35,6 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "tsx": "^3.13.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.3.9"
+    "typescript": "^5.1.6"
   }
 }

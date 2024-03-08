@@ -1,14 +1,13 @@
 {
   "name": "@blurkit/lost",
   "version": "0.0.9",
-  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build"
+    "dev": "rsbuild dev",
+    "build": "rsbuild build"
   },
   "dependencies": {
-    "@blurname/core": "workspace:*",
+    "@blurname/core": "*",
     "@monaco-editor/react": "^4.6.0",
     "ctrl-keys": "^1.0.1",
     "install": "^0.13.0",
@@ -21,5 +20,9 @@
     "remesh-react": "^4.0.1",
     "rxjs": "^7.8.1",
     "styled-components": "^6.0.3"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^0.4.12",
+    "@rsbuild/plugin-react": "^0.4.12"
   }
 }

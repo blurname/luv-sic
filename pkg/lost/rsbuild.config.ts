@@ -7,5 +7,9 @@ export default {
   }),
   defaultEntry: {
     index: './src/App.tsx'
+  },
+  html: {
+    title: '追忆',
+    favicon: './public/dear.png'
   }
 }

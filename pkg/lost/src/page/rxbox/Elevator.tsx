@@ -5,13 +5,13 @@ type ElevatorState = {
   direction: 'up' | 'down' | 'stop'
   clickedFloors: number[]
 }
-export function Elevator() {
+export function Elevator () {
   const [floor] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   const elevatorRef = useRef<HTMLDivElement>(null)
   const [elevatorState, setElevatorState] = useState<ElevatorState>({
     currentFloor: 1,
     direction: 'stop',
-    clickedFloors: [],
+    clickedFloors: []
   })
   useEffect(() => {
     elevator(elevatorRef.current!).subscribe((x: ElevatorState) => {
@@ -19,7 +19,7 @@ export function Elevator() {
       setElevatorState({
         currentFloor: x.currentFloor,
         direction: isStop ? 'stop' : x.direction,
-        clickedFloors: isStop ? [] : x.clickedFloors,
+        clickedFloors: isStop ? [] : x.clickedFloors
       })
     })
   }, [])
@@ -28,7 +28,7 @@ export function Elevator() {
       targetFloor,
       currentFloor: elevatorState.currentFloor,
       direction: elevatorState.direction,
-      clickedFloors: elevatorState.clickedFloors,
+      clickedFloors: elevatorState.clickedFloors
     })
     elevatorRef.current!.dispatchEvent(ne)
   }
@@ -62,9 +62,9 @@ const elevator = (ref: HTMLElement) => {
             ({
               currentFloor: maxFloor - x,
               direction: 'down',
-              clickedFloors: [...clickedFloors, targetFloor],
-            } as ElevatorState),
-        ),
+              clickedFloors: [...clickedFloors, targetFloor]
+            } as ElevatorState)
+        )
       )
       const up = interval(1000).pipe(
         take(maxFloor - currentFloor + 1),
@@ -73,12 +73,12 @@ const elevator = (ref: HTMLElement) => {
             ({
               currentFloor: x + currentFloor,
               direction: 'up',
-              clickedFloors: [...clickedFloors, targetFloor],
-            } as ElevatorState),
-        ),
+              clickedFloors: [...clickedFloors, targetFloor]
+            } as ElevatorState)
+        )
       )
       return concat(up, down)
-    }),
+    })
   )
 }
 const getMaxClickedFloors = (floors: nubmer[], currentFloor: number) => {

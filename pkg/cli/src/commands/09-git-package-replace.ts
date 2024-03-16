@@ -1,5 +1,5 @@
-import { parseOptionList } from '@blurname/core/src/cli'
-import { colorLog } from '@blurname/core/src/colorLog'
+import { parseOptionList } from '@blurname/core/src/node/cli.js'
+import { colorLog } from '@blurname/core/src/colorLog.js'
 import { execSync, spawnSync } from 'node:child_process'
 import { readFile, writeFile, stat } from 'node:fs/promises'
 

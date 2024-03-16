@@ -16,8 +16,8 @@ import { join } from 'node:path'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { colorLog } from '@blurname/core/src/colorLog'
-import { parseOptionList } from '@blurname/core/src/cli'
+import { colorLog } from '@blurname/core/src/colorLog.js'
+import { parseOptionList } from '@blurname/core/src/node/cli.js'
 import { getLogList } from '../util/git.js'
 import { createFzfKit } from '../util/fzf.js'
 

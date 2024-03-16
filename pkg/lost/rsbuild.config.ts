@@ -5,6 +5,9 @@ export default {
   ...defineConfig({
     plugins: [pluginReact()]
   }),
+  server: {
+    port: 1230
+  },
   defaultEntry: {
     index: './src/App.tsx'
   },

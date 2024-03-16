@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-type TextList = { type:string, text: string }[]
+type TextList = { type:string, text: string, url?: string }[]
 const Paste = () => {
   const [rendertTextList, setRendertTextList] = useState<TextList>([])
   useEffect(() => {
@@ -25,10 +25,12 @@ const Paste = () => {
         for (const type of clipboardItem.types) {
           const blob = await clipboardItem.getType(type)
           const text = await blob.text()
-          renderList.push({ type, text })
           if (type.includes('image')) {
-            String.fromCharCode()
-            console.log('image type', blob, new Uint8Array(blob), text)
+            const url = URL.createObjectURL(blob)
+            console.log('image', text)
+            renderList.push({ type, text, url })
+          } else {
+            renderList.push({ type, text })
           }
         }
       }
@@ -64,7 +66,10 @@ const Paste = () => {
       return (
         <div key={index}>
         <h1>{t.type}</h1>
-        <p>{t.text}</p>
+        {
+          t.type.includes('image') ? <img src={t.url} / >
+            : <p>{t.text}</p>
+        }
         </div>
       )
     })}

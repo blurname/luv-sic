@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "lit": "^2.7.5",
-    "svgo": "^3.0.2"
+    "svgo": "^3.0.2",
+    "@rsbuild/core": "^0.4.12",
+    "@rsbuild/plugin-react": "^0.4.12"
   }
 }

@@ -52,6 +52,6 @@ export type {
   Tab
 }
 export {
-  // TabList,
+  TabList,
   useTabList
 }

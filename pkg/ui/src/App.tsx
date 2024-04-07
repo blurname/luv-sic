@@ -28,7 +28,7 @@ function App () {
       <Button disabled>disabled button</Button>
       <Button loading>disabled button</Button>
       {TabListRender}
-      <Input/>
+      <Input />
     </div>
   )
 }

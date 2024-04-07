@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from './component/Button'
 import { Tab, useTabList } from './component/Tab'
 import { Input } from './component/Input'
+import { SelfControlInput } from './component/SelfControlInput'
 const tabList: Tab[] = [
   {
     label: 'tab1',
@@ -29,6 +30,7 @@ function App () {
       <Button loading>disabled button</Button>
       {TabListRender}
       <Input />
+      <SelfControlInput handleConfirm={(i) => { console.log(i) }} initialValue={''} />
     </div>
   )
 }

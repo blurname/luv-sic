@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from './component/Button'
-import { ThemeProvider } from 'styled-components'
-import { COLOR_TOKEN } from './colorToken'
 import { Tab, TabList } from './component/Tab'
 import { Input } from './component/Input'
-const theme = {
-  ...COLOR_TOKEN
-}
 const tabList: Tab[] = [
   {
     label: 'tab1',
@@ -33,11 +28,9 @@ function App () {
 
   return (
     <div className="App" style={{ display: 'flex' }}>
-    <ThemeProvider theme={theme}>
       <Button>i am a button</Button>
       <TabList activeTab={activeTab} tabList={tabList} onClick={handleTabClick} />
       <Input/>
-    </ThemeProvider>
     </div>
   )
 }

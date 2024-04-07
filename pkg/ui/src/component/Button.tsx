@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { COLOR_TOKEN } from '../colorToken'
+
 type Props = {
   children: React.ReactNode
 } & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
@@ -10,13 +12,13 @@ const Button = ({ children, ...attr }:Props) => {
 }
 const StyledButton = styled.button`
   border: none;
-  background: ${props => props.theme.button.bg};
-  outline: 1px solid ${props => props.theme.border};
+  background: ${COLOR_TOKEN.button.bg};
+  outline: 1px solid ${COLOR_TOKEN.border};
   &:hover {
-    background: ${props => props.theme.button.hover};
+    background: ${COLOR_TOKEN.button.hover};
   }
   &:active {
-    background: ${props => props.theme.button.active};
+    background: ${COLOR_TOKEN.button.active};
   }
 `
 export {

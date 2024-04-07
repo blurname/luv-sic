@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { COLOR_TOKEN } from '../colorToken'
 type Tab = {
   label: string
   value: string | number
@@ -22,13 +23,13 @@ const TabList = ({ activeTab, tabList, onClick }:Props) => {
 const StyledTabList = styled.div`
   .tab {
     border: none;
-    background: ${props => props.theme.button.bg};
+    background: ${COLOR_TOKEN.button.bg};
     &:hover {
-      background: ${props => props.theme.button.hover};
+      background: ${COLOR_TOKEN.button.hover};
     }
     &:active,
     &.active {
-      background: ${props => props.theme.button.active};
+      background: ${COLOR_TOKEN.button.active};
     }
     }
 `

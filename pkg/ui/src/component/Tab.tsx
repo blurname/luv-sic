@@ -15,7 +15,7 @@ const TabList = ({ activeTab, tabList, onClick }:Props) => {
   {tabList.map((tab) => {
     const className = activeTab.value === tab.value ? 'tab active' : 'tab'
     return (
-        <button className={className} onClick={() => { onClick(tab) }}>{tab.label}</button>
+        <button key={tab.value} className={className} onClick={() => { onClick(tab) }}>{tab.label}</button>
     )
   })}
   </StyledTabList>

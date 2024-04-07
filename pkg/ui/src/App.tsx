@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from './component/Button'
-import { Tab, TabList } from './component/Tab'
+import { Tab, TabList, useTabList } from './component/Tab'
 import { Input } from './component/Input'
 const tabList: Tab[] = [
   {
@@ -21,15 +21,11 @@ const tabList: Tab[] = [
   }
 ]
 function App () {
-  const [activeTab, setActiveTab] = useState(tabList[0])
-  const handleTabClick = (tab) => {
-    setActiveTab(tab)
-  }
-
+  const { TabListRender } = useTabList(tabList)
   return (
     <div className="App" style={{ display: 'flex' }}>
       <Button>i am a button</Button>
-      <TabList activeTab={activeTab} tabList={tabList} onClick={handleTabClick} />
+      {TabListRender}
       <Input/>
     </div>
   )

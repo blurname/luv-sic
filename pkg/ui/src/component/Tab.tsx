@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { COLOR_TOKEN } from '../colorToken'
 type Tab = {
@@ -33,9 +33,25 @@ const StyledTabList = styled.div`
     }
     }
 `
+const useTabList = (tabList:Tab[]) => {
+  const [activeTab, setActiveTab] = useState(tabList[0])
+  const handleTabClick = (tab) => {
+    setActiveTab(tab)
+  }
+  const TabListRender = useMemo(() => {
+    return (
+      <TabList activeTab={activeTab} tabList={tabList} onClick={handleTabClick} />
+    )
+  }, [activeTab, tabList])
+  return {
+    activeTab,
+    TabListRender
+  }
+}
 export type {
   Tab
 }
 export {
-  TabList
+  // TabList,
+  useTabList
 }

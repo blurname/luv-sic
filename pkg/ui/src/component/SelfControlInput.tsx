@@ -29,6 +29,7 @@ const SelfControlInput = ({ handleConfirm, initialValue }:Props) => {
 
   const className = isFocused ? 'focused' : ''
   return <StyledInput
+  value={value}
   className={className}
   onFocus={ handleFocus}
   onBlur={handleBlur}

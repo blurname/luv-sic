@@ -7,7 +7,7 @@
     "version-bump": "tsx ./script/monorepo.ts version-bump",
     "tag-push": "pnpm build && pnpm -r publish",
     "release": "pnpm version-bump && pnpm tag-push",
-    "build": "pnpm -r build",
+    "build": "npx turbo build",
     "typecheck": "tsc --noEmit",
     "start-dev-svgminify": "cd pkg/svgminify && npm run dev",
     "start-dev-lost": "cd pkg/lost && npm run dev",

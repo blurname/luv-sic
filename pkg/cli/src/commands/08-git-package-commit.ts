@@ -1,4 +1,4 @@
-import { colorLog } from '@blurname/core/src/colorLog'
+import { colorLog } from '@blurname/core/src/colorLog.js'
 import { execSync } from 'node:child_process'
 import { execGitDiff } from '../util/git.js'
 

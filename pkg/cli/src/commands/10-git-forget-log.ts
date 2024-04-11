@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
-import { colorLog } from '@blurname/core/src/colorLog'
+import { colorLog } from '@blurname/core/src/colorLog.js'
 import { execGitDiff, getGitRootPath, getLogList } from '../util/git.js'
 import { getCLIParams } from '../util/params.js'
 import { createFzfKit } from '../util/fzf.js'

@@ -1,5 +1,5 @@
 import { Fzf } from 'fzf'
-import { colorLog } from '@blurname/core/src/colorLog'
+import { colorLog } from '@blurname/core/src/colorLog.js'
 import * as readline from 'node:readline'
 
 type Props = {

@@ -5,12 +5,14 @@ import { createUrlInit } from '@blurname/core/src/browser/url'
 import { Paste } from './page/Paste'
 import { Buffer } from './page/Buffer'
 import { RxGround } from './page/RxGround'
+import { Play } from './page/Play'
 const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
   'paste': () => 'paste',
   'buffer': () => 'buffer',
-  'effect': () => 'effect'
+  'effect': () => 'effect',
+  'play': () => 'play'
 }
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
@@ -22,6 +24,7 @@ function App () {
       {page === 'buffer' && <Buffer/>}
       {page === 'press' && <RandomPress/>}
       {page === 'paste' && <Paste/>}
+      {page === 'play' && <Play/>}
     </div>
   )
 }

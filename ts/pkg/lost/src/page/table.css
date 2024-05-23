@@ -4,6 +4,7 @@
 .table {
   border-collapse: collapse;
   border: 1px solid rgb(140 140 140);
+  display: grid;
 }
 
 /* th, */
@@ -28,6 +29,10 @@
 
   border-top: 1px solid rgb(187, 187, 187);
   border-left: 1px solid rgb(187, 187, 187);
+}
+.cross {
+  grid-column-start: 5;
+  grid-column-end: 1;
 }
 
 .td:last-of-type {

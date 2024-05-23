@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import {cells,heightList,table,widthList} from './tableConstant'
+import { cells, heightList, table, widthList } from './tableConstant'
 import './table.css'
 
 // const TableTable = () => {
@@ -42,24 +42,37 @@ const DivTable = () => {
   const contentRenderer = useMemo(() => {
     return table.map((row, x) => {
       const height = heightList[x]
-      return <div className="tr" key={x} data-y={x} style={{ height, display: 'flex' }}>
-        {
-          row.map((cellKey, y) => {
-            const cell = cells[cellKey]
-            const width = widthList[y]
-            return <div
-            className="td"
+      // return  //<div className="tr" key={x} data-y={x} style={{ height, display: 'flex' }}>
+      return row.map((cellKey, y) => {
+        let className = 'td'
+        if (x === 2 && y === 2) {
+          className += ' cross'
+        }
+        const cell = cells[cellKey]
+        const width = widthList[y]
+        return <div
+            className={className}
             style={{ width }}
             dangerouslySetInnerHTML={{ __html: cell.data }}
             />
-          })
-        }
-      </div>
+      })
+      // </div>
     })
   }, [])
+  let gtc = ''
+  for (const width of widthList) {
+    gtc += `${width}px `
+  }
+  // grid-template-columns
   const totalWidth = widthList.reduce((pre, cur) => pre + cur, 0)
   console.log('🟦[blue]->totalWidth: ', totalWidth)
-  return <div className="table" style={{ width: totalWidth, marginTop: 2 }}>
+  const style = {
+    width: totalWidth,
+    marginTop: 2,
+    gridTemplateColumns: gtc
+  }
+  console.log('🟦[blue]->gtc: ', gtc)
+  return <div className="table" style={style}>
   {contentRenderer}
   </div>
 }

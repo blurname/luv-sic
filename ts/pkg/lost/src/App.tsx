@@ -6,13 +6,15 @@ import { Paste } from './page/Paste'
 import { Buffer } from './page/Buffer'
 import { RxGround } from './page/RxGround'
 import { Play } from './page/Play'
+import { Table } from './page/Table'
 const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
   'paste': () => 'paste',
   'buffer': () => 'buffer',
   'effect': () => 'effect',
-  'play': () => 'play'
+  'play': () => 'play',
+  'table': () => 'table'
 }
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
@@ -25,6 +27,7 @@ function App () {
       {page === 'press' && <RandomPress/>}
       {page === 'paste' && <Paste/>}
       {page === 'play' && <Play/>}
+      {page === 'table' && <Table/>}
     </div>
   )
 }

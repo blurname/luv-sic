@@ -1,0 +1,39 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+.table {
+  border-collapse: collapse;
+  border: 1px solid rgb(140 140 140);
+}
+
+/* th, */
+/* td { */
+/*   border: 1px solid rgb(160 160 160); */
+/* } */
+.td {
+  overflow: hidden;
+  word-break: break-all;
+  white-space: pre-wrap;
+  padding: 4px;
+  font-family: Roboto, BlinkMacSystemFont, "Helvetica Neue", Arial, "Microsoft Yahei", "WenQuanYi Micro Hei", "Pingfang SC", sans-serif;
+  display: flex;
+
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+
+  border-top: 1px solid rgb(187, 187, 187);
+  border-left: 1px solid rgb(187, 187, 187);
+}
+
+.td:last-of-type {
+  text-align: center;
+}
+
+.tbody > .tr:nth-of-type(even) {
+  background-color: rgb(237 238 242);
+}

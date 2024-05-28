@@ -11,7 +11,7 @@
   ],
   "bin": {
     "bl": "./dist/main.js",
-    "blurkit": "./dist/main.js"
+    "luv-sic": "./dist/main.js"
   },
   "publishConfig": {
     "access": "public"

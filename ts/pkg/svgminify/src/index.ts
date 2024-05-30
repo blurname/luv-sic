@@ -195,15 +195,19 @@ export class SvgSimple extends LitElement {
     <div id="text-container">
     <div>
       <h2>original</h2>
+      <div style="display: flex; flex-direction: column;">
       <button style="
       height: 100px;
       font-size: 60px;
       color: darkseagreen;"
       @click=${() => this.handleCopy(svgOriginnal.documentElement.outerHTML)}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${svgOriginnal.documentElement.outerHTML}</textarea>
+      </div>
     </div>
     <div>
       <h2>optimized</h2>
+
+      <div style="display: flex; flex-direction: column;">
       <button style="
       height: 100px;
       font-size: 60px;
@@ -211,9 +215,12 @@ export class SvgSimple extends LitElement {
       @click=${() => this.handleCopy(svgOptimezed.documentElement.outerHTML)}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${svgOptimezed.documentElement.outerHTML}</textarea>
     </div>
+    </div>
     <div style="display: flex;
     flex-direction: column; margin: 0px 20px;">
       <h1 style="color: #1661ff99">usage(proto/dashboard)</h1>
+
+      <div style="display: flex; flex-direction: column;">
       <button style="
       height: 100px;
       font-size: 60px;
@@ -222,8 +229,11 @@ export class SvgSimple extends LitElement {
 
       <textarea rows="20" cols="40" readonly disabled style="resize: none;" >${usage}</textarea>
     </div>
+    </div>
     <div>
       <h2>data url(OPT)</h2>
+
+      <div style="display: flex; flex-direction: column;">
       <button style="
       height: 100px;
       font-size: 60px;
@@ -231,14 +241,17 @@ export class SvgSimple extends LitElement {
       @click=${() => this.handleCopy(dataUrl[0])}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[0]}</textarea>
     </div>
+    </div>
     <div>
       <h2>__css(OPT)</h2>
+      <div style="display: flex; flex-direction: column;">
       <button style="
       height: 100px;
       font-size: 60px;
       color: darkseagreen;"
       @click=${() => this.handleCopy(dataUrl[1])}>copy</button>
       <textarea rows="20" cols="20" readonly disabled style="resize: none;" >${dataUrl[1]}</textarea>
+      </div>
     </div>
     </div>
     <h1>${this.actionText}</h1>
@@ -272,6 +285,8 @@ export class SvgSimple extends LitElement {
 
     #text-container {
       display: flex;
+      width: 100%;
+      justify-content: center;
     }
 
     #svg-container {
@@ -286,6 +301,7 @@ export class SvgSimple extends LitElement {
     .per-svg {
       display: flex;
       flex: 1;
+      justify-content: center;
     }
   `
 }

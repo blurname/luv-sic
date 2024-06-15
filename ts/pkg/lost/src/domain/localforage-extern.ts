@@ -1,5 +1,5 @@
 import localforage from 'localforage'
-import type { Buffer } from './Buffer'
+import { SHARING_MARK, type Buffer } from './Buffer'
 import { BufferRepoExtern } from './Buffer-extern'
 
 const storageKey = 'buffer-data'

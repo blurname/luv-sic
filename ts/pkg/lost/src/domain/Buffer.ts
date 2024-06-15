@@ -3,6 +3,7 @@ import { from, map, merge, tap } from 'rxjs'
 import { BufferRepoExtern } from './Buffer-extern'
 
 const STORAGE_PREFIX = 'LOST_BUFFER'
+const SHARING_MARK = '#[sharing31415926]'
 type Buffer = {
   key: string
   zIndex: number
@@ -19,10 +20,10 @@ const BufferDomain = Remesh.domain({
       impl: ({ get }, bufferList: Buffer[]) => {
         const nextBufferList = bufferList
         if (bufferList.length === 0) {
-          return [AddBufferCommand()]
+          return [AddBufferCommand(), AddBufferFromSharingCommand()]
         }
         const { maxZBuffer } = get(BufferListMaxZQuery(nextBufferList))
-        return [BufferListState().new(nextBufferList), UpdateActiveBufferCommand(maxZBuffer.key)]
+        return [BufferListState().new(nextBufferList), UpdateActiveBufferCommand(maxZBuffer.key), AddBufferFromSharingCommand()]
       }
     })
 
@@ -86,6 +87,25 @@ const BufferDomain = Remesh.domain({
           zIndex: nextZ,
           content: ''
         }
+
+        return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]
+      }
+    })
+
+    const AddBufferFromSharingCommand = domain.command({
+      name: 'AddBufferFromSharingCommand',
+      impl ({ get }) {
+        const url = location.href
+        if (!url.includes(SHARING_MARK)) return []
+        const bufferList = get(BufferListState())
+        const nextZ = get(NextZQuery())
+        const [nextHref, sharingContent] = url.split(SHARING_MARK)
+        const newBuffer:Buffer = {
+          key: `${STORAGE_PREFIX}_${nextZ}`,
+          zIndex: nextZ,
+          content: decodeURIComponent(sharingContent)
+        }
+        location.hash = ''
 
         return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]
       }
@@ -183,6 +203,19 @@ const BufferDomain = Remesh.domain({
       }
     })
 
+    domain.effect({
+      name: 'FromStateToRepoEffect',
+      impl: ({ fromEvent }) => {
+        const addBuffer$ = fromEvent(AddBufferEvent).pipe(tap((buffer) => repo.addBuffer(buffer)))
+
+        const removeBuffer$ = fromEvent(DelBufferEvent).pipe(tap((key) => repo.removeBuffer(key)))
+
+        const updateTodo$ = fromEvent(UpdateBufferEvent).pipe(tap((buffer) => repo.updateBuffer(buffer)))
+
+        return merge(addBuffer$, removeBuffer$, updateTodo$).pipe(map(() => null))
+      }
+    })
+
     return {
       query: {
         BufferListQuery,
@@ -199,9 +232,11 @@ const BufferDomain = Remesh.domain({
     }
   }
 })
+
 export type {
   Buffer
 }
 export {
+  SHARING_MARK,
   BufferDomain
 }

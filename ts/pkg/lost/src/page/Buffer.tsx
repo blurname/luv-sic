@@ -2,13 +2,20 @@ import React, { useEffect, useRef } from 'react'
 import keys, { Callback } from 'ctrl-keys'
 import { Remesh } from 'remesh'
 import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'remesh-react'
-import { BufferDomain } from '../domain/Buffer'
+import { BufferDomain, SHARING_MARK } from '../domain/Buffer'
 import { StyledBuffer, StyledBufferList } from './styles'
 import { BufferRepoExternImpl } from '../domain/localforage-extern'
 import Editor from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 
 const handler = keys()
+
+declare global {
+    interface Window {
+        sharingContent: string
+      }
+}
+globalThis.sharingContent = ''
 
 const BufferContent = () => {
   const domain = useRemeshDomain(BufferDomain())
@@ -72,7 +79,9 @@ const BufferContent = () => {
       send(domain.command.UpdateActiveBufferByDirectionCommand('prev'))
     }
     const handleShareContent = (e) => {
-      navigator.clipboard.writeText(location.href)
+      const sharingUrl = new URL(location.href)
+      sharingUrl.hash = `${SHARING_MARK}${encodeURIComponent(globalThis.sharingContent)}`
+      navigator.clipboard.writeText(sharingUrl.href)
     }
 
     handler
@@ -139,7 +148,8 @@ function BufferEditor ({ dv, bufferKey }) {
   const domain = useRemeshDomain(BufferDomain())
   const send = useRemeshSend()
   function handleEditorChange (value, event) {
-    location.hash = encodeURIComponent(value || '') //  // Math.random().toString()
+    window.sharingContent = value
+    // location.hash = encodeURIComponent(value || '') //  // Math.random().toString()
     send(domain.command.UpdateBufferContentCommand({ key: bufferKey, content: value }))
   }
 

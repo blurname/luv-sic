@@ -1,9 +1,9 @@
-import React, { KeyboardEventHandler, useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import keys, { Callback } from 'ctrl-keys'
 import { Remesh } from 'remesh'
 import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'remesh-react'
 import { BufferDomain } from '../domain/Buffer'
-import { StyledBuffer, StyledBufferList, StyledEditor } from './styles'
+import { StyledBuffer, StyledBufferList } from './styles'
 import { BufferRepoExternImpl } from '../domain/localforage-extern'
 import Editor from '@monaco-editor/react'
 
@@ -70,12 +70,17 @@ const BufferContent = () => {
       e?.preventDefault()
       send(domain.command.UpdateActiveBufferByDirectionCommand('prev'))
     }
+    const handleShareContent = (e) => {
+      navigator.clipboard.writeText(location.href)
+    }
 
     handler
       .add('ctrl+n', handleAdd)
       .add('ctrl+w', handleDelete)
       .add('ctrl+pagedown', handleNextBuffer)
       .add('ctrl+pageup', handlePrevBuffer)
+      .add('ctrl+b', handleShareContent)
+
     const combo = (e:KeyboardEvent) => {
       handler.handle(e)
     }
@@ -86,6 +91,7 @@ const BufferContent = () => {
         .remove('ctrl+w', handleDelete)
         .remove('ctrl+pagedown', handleNextBuffer)
         .remove('ctrl+pageup', handlePrevBuffer)
+        .remove('ctrl+b', handleShareContent)
       document.removeEventListener('keydown', combo)
     }
   }, [activeBuffer?.key])
@@ -135,6 +141,7 @@ function BufferEditor ({ dv, bufferKey }) {
     // console.log(value)
     // here is the current value
 
+    location.hash = encodeURIComponent(value || '') //  // Math.random().toString()
     send(domain.command.UpdateBufferContentCommand({ key: bufferKey, content: value }))
   }
 
@@ -155,6 +162,7 @@ function BufferEditor ({ dv, bufferKey }) {
     // markers.forEach(marker => console.log('onValidate:', marker.message));
   }
 
+  console.log('🟦[blue]->dv: ', dv)
   return (
     <Editor
       height="90vh"

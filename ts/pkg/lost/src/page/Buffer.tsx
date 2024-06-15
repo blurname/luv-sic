@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import keys, { Callback } from 'ctrl-keys'
 import { Remesh } from 'remesh'
 import { useRemeshDomain, RemeshRoot, useRemeshQuery, useRemeshSend } from 'remesh-react'
@@ -6,6 +6,7 @@ import { BufferDomain } from '../domain/Buffer'
 import { StyledBuffer, StyledBufferList } from './styles'
 import { BufferRepoExternImpl } from '../domain/localforage-extern'
 import Editor from '@monaco-editor/react'
+import { editor } from 'monaco-editor'
 
 const handler = keys()
 
@@ -128,7 +129,7 @@ const BufferContent = () => {
       })}
       <div className="add-btn" onClick={handleNewBuffer} >+</div>
       </StyledBufferList>
-      <BufferEditor dv={activeBuffer?.content} bufferKey={activeBuffer?.key} />
+      <BufferEditor dv={activeBuffer?.content || ''} bufferKey={activeBuffer?.key} />
       {/* <Editor/> */}
       </>
   )
@@ -138,31 +139,24 @@ function BufferEditor ({ dv, bufferKey }) {
   const domain = useRemeshDomain(BufferDomain())
   const send = useRemeshSend()
   function handleEditorChange (value, event) {
-    // console.log(value)
-    // here is the current value
-
     location.hash = encodeURIComponent(value || '') //  // Math.random().toString()
     send(domain.command.UpdateBufferContentCommand({ key: bufferKey, content: value }))
   }
 
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null)
   function handleEditorDidMount (editor, monaco) {
-    console.log('onMount: the editor instance:', editor)
-    console.log('onMount: the monaco instance:', monaco)
+    editorRef.current = editor
+    editor.focus()
   }
 
   function handleEditorWillMount (monaco) {
-    console.log('beforeMount: the monaco instance:', monaco)
-
     monaco.editor.defineTheme('nord', nordThemeData)
-    // monaco.editor.setTheme('nord')
   }
 
-  function handleEditorValidation (markers) {
-    // model markers
-    // markers.forEach(marker => console.log('onValidate:', marker.message));
-  }
+  useEffect(() => {
+    editorRef.current?.focus()
+  }, [bufferKey])
 
-  console.log('🟦[blue]->dv: ', dv)
   return (
     <Editor
       height="90vh"
@@ -171,7 +165,6 @@ function BufferEditor ({ dv, bufferKey }) {
       onChange={handleEditorChange}
       onMount={handleEditorDidMount}
       beforeMount={handleEditorWillMount}
-      onValidate={handleEditorValidation}
       // theme="nord"
       theme="light"
     />

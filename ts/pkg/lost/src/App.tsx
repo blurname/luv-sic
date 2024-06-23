@@ -20,7 +20,7 @@ const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
 function App () {
   return (
-    <div style={{ width: '100vw', height: '100vh', boxSizing: 'border-box' }} className="App">
+    <div style={{ boxSizing: 'border-box', overflow: 'hidden' }} className="App">
       {(page === undefined || page === 'lock') && <Lock/>}
       {page === 'effect' && <RxGround/> }
       {page === 'buffer' && <Buffer/>}

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useRefresh } from '../hook/useRefresh'
 import { themeConfig } from '../misc/urlConfig'
+import { Menu, MenuItem } from '../util/contextmenu'
 
 const text = `只要想起一生中后悔的事
 
@@ -46,9 +47,19 @@ const Lock = () => {
   }, [])
   const hour = time.getHours()
   const minute = time.getMinutes()
+  const changePage = (page:string) => {
+    const href = globalThis.location.href
+    const newHref = `${href}?${page}`
+    globalThis.location.replace(newHref)
+  }
   return (
     <StyledLock className="lock" style={style}>
-      <div className="time">
+      <Menu>
+        <MenuItem label="buffer" onClick={() => changePage('buffer')} />
+        <MenuItem label="press" onClick={() => changePage('press')} />
+        <MenuItem label="paste" onClick={() => changePage('paste')} />
+      </Menu>
+    <div className="time">
     <div className="h"> {hour} </div>
     <div className="m"> {minute} </div>
     </div>

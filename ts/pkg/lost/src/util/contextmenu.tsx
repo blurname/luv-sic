@@ -23,6 +23,7 @@ import {
   FloatingOverlay
 } from '@floating-ui/react'
 import styled from 'styled-components'
+import { COLOR_TOKEN } from '@blurname/ui/src/colorToken'
 
 const MenuItem = forwardRef<
   HTMLButtonElement,
@@ -218,7 +219,7 @@ const StyledContextMenu = styled.div`
 
 .MenuItem:focus,
 .MenuItem:not([disabled]):active {
-  background: rgba(135, 63, 234, 0.1);
+  background: ${COLOR_TOKEN.buttonPurple.hover};
 }
 
 `

@@ -1,4 +1,4 @@
-// @ts-nocheck
+import { COLOR_TOKEN } from '@blurname/ui/src/colorToken'
 import styled from 'styled-components'
 const StyledEditor = styled.textarea`
   flex: 1;
@@ -21,7 +21,7 @@ const StyledBufferList = styled.div`
 
   .add-btn {
     &:hover {
-      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'rgba(135, 63, 234, 0.1)'};
+      background:${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : COLOR_TOKEN.buttonPurple.hover};
     }
 `
 type StyledBufferProps = {
@@ -30,9 +30,9 @@ type StyledBufferProps = {
 const StyledBuffer = styled.div<StyledBufferProps>`
   display: flex;
   span {
-    background: ${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'whtie'};
+    background: ${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : 'whtie'};
     &:hover {
-      background:${props => props.$isactive ? 'rgba(135, 63, 234, 0.3)' : 'rgba(135, 63, 234, 0.1)'}; 
+      background:${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : COLOR_TOKEN.buttonPurple.hover}; 
     }
   }
   .del-btn {

@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import init, { add_zwsp } from '../../wasm/ZWSP/ZWSP.js'
 import { clickListener, inputListener } from '../sdk/event'
 import { useRepeat } from '../hooks/useRepeat'
-export function EditingPage() {
+
+export function EditingPage () {
   const [TIValue, setTIValue] = useState('')
   const TIRef = useRef<HTMLTextAreaElement>(null)
   const TORef = useRef<HTMLTextAreaElement>(null)
@@ -12,7 +13,7 @@ export function EditingPage() {
       r: Math.random() * 255,
       g: Math.random() * 255,
       b: Math.random() * 255,
-      a: Math.random() / 4,
+      a: Math.random() / 4
     }
   }
 
@@ -36,18 +37,18 @@ export function EditingPage() {
     const initWasm = async () => {
       await init()
       setCanRepeat(true)
-      //const longString = 'b'.repeat(10*1024*1024*10)
-      //const jsBegin = performance.now()
-      //const jsResult = longString.split('').join('\u200b')
-      //const jsEnd = performance.now()
-      //console.log("js",jsEnd - jsBegin)
-      //const wasmBegin = performance.now()
-      //const wasmResult = add_zwsp(longString)
-      //const wasmEnd = performance.now()
-      //console.log("wasm",wasmEnd-wasmBegin)
+      // const longString = 'b'.repeat(10*1024*1024*10)
+      // const jsBegin = performance.now()
+      // const jsResult = longString.split('').join('\u200b')
+      // const jsEnd = performance.now()
+      // console.log("js",jsEnd - jsBegin)
+      // const wasmBegin = performance.now()
+      // const wasmResult = add_zwsp(longString)
+      // const wasmEnd = performance.now()
+      // console.log("wasm",wasmEnd-wasmBegin)
     }
     initWasm()
-    //inputListener(TIRef.current!, handleTIInputing)
+    // inputListener(TIRef.current!, handleTIInputing)
   }, [])
   // useEffect(() => {
   //   inputListener(TIRef.current!, handleTIInputing)
@@ -70,14 +71,14 @@ const testZWSP = () => {
     const jsBegin = performance.now()
     const jsResult = longString.split('').join('\u200b')
     const jsEnd = performance.now()
-    //console.log(jsEnd- jsBegin)
+    // console.log(jsEnd- jsBegin)
     jsTotalTime += jsEnd - jsBegin
-    //const jsReBegin = performance.now()
-    //const jsReResult = longString.replaceAll(/\w(?=\w)/g,'$&')
-    //const jsReEnd = performance.now()
-    ////console.log(jsEnd- jsBegin)
-    //jsReTotalTime += (jsReEnd-jsReBegin)
-    //console.log(jsTotalTime)
+    // const jsReBegin = performance.now()
+    // const jsReResult = longString.replaceAll(/\w(?=\w)/g,'$&')
+    // const jsReEnd = performance.now()
+    /// /console.log(jsEnd- jsBegin)
+    // jsReTotalTime += (jsReEnd-jsReBegin)
+    // console.log(jsTotalTime)
     const wasmBegin = performance.now()
     const wasmResult = add_zwsp(longString)
     const wasmEnd = performance.now()
@@ -85,11 +86,11 @@ const testZWSP = () => {
   }
   const testResult = () => {
     console.log(`spilit join js ${jsTotalTime} ms`)
-    //console.log(`replaceAll js ${jsReTotalTime} ms`)
+    // console.log(`replaceAll js ${jsReTotalTime} ms`)
     console.log(`wasm ${wasmTotalTime} ms`)
   }
   return {
     mainTest,
-    testResult,
+    testResult
   }
 }

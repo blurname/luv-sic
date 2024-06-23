@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useRefresh } from '../hook/useRefresh'
 import { themeConfig } from '../misc/urlConfig'
 import { Menu, MenuItem } from '../util/contextmenu'
+import { navigateToPageByHref } from '../util/url'
 
 const text = `只要想起一生中后悔的事
 
@@ -50,7 +51,7 @@ const Lock = () => {
   const changePage = (page:string) => {
     const href = globalThis.location.href
     const newHref = `${href}?${page}`
-    globalThis.location.replace(newHref)
+    navigateToPageByHref(newHref)
   }
   return (
     <StyledLock className="lock" style={style}>

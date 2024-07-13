@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 import { createFileKit } from '@blurname/core/src/node/fileKit.js'
 import { execSync } from 'node:child_process'
@@ -19,26 +18,13 @@ const digitBump = (version:Version, digit:Digit) => {
   return versionList.join('.')
 }
 
-const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
-  const pathDir = dirname(fileURLToPath(import.meta.url)) // repoRoot/package/package/src
-  const rootPath = resolve(...[pathDir, '..', '..', '..'])
-  // const rootPackageJsonPath = rootPath + '/package.json'
-
-  // const fileKit = createFileKit(rootPackageJsonPath)
-
-  // let newVersion:string |undefined
-
-  // fileKit.modify((fileString) => {
-  //   const fileJson = JSON.parse(fileString)
-  //   fileJson.version = digitBump(fileJson.version, digit)
-  //   newVersion = fileJson.version
-  //   return JSON.stringify(fileJson, null, 2)
-  // })
-  // fileKit.commit()
+const versionBump = (subPkgList:string[]) => async (digit:Digit) => {
+  const pathDir = dirname(process.argv[1]) // repo/script: script exec path
+  const rootPath = resolve(...[pathDir, '..']) // repo/pkg: same level with script
 
   const changedList: string[] = []
 
-  for (const pkg of subPackageList) {
+  for (const pkg of subPkgList) {
     const fileKit = createFileKit(rootPath + `/pkg/${pkg}/package.json`)
     fileKit.modify((fileString) => {
       const fileJson = JSON.parse(fileString)
@@ -51,7 +37,7 @@ const versionBump = (subPackageList:string[]) => async (digit:Digit) => {
   }
 
   const commitMsg = `VERSION: ${changedList.join('; ')}`
-  const subPackageJsonString = subPackageList.reduce((pre, cur) => `${pre} pkg/${cur}/package.json`, '')
+  const subPackageJsonString = subPkgList.reduce((pre, cur) => `${pre} pkg/${cur}/package.json`, '')
   execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
 }
 

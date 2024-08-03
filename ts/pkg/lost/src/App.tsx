@@ -7,6 +7,8 @@ import { Buffer } from './page/Buffer'
 import { RxGround } from './page/RxGround'
 import { Play } from './page/Play'
 import { Table } from './page/Table'
+import { Menu, MenuItem } from './util/contextmenu'
+import { navigateToPageByHref } from './util/url'
 const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
@@ -19,8 +21,20 @@ const urlConfig = {
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
 function App () {
+  const changePage = (page:string) => {
+    const host = globalThis.location.host
+    const newHref = `${host}?${page}`
+    navigateToPageByHref(newHref)
+  }
+
   return (
     <div style={{ boxSizing: 'border-box', overflow: 'hidden' }} className="App">
+      <Menu>
+        <MenuItem label="lock" onClick={() => changePage('lock')} />
+        <MenuItem label="buffer" onClick={() => changePage('buffer')} />
+        <MenuItem label="press" onClick={() => changePage('press')} />
+        <MenuItem label="paste" onClick={() => changePage('paste')} />
+      </Menu>
       {(page === undefined || page === 'lock') && <Lock/>}
       {page === 'effect' && <RxGround/> }
       {page === 'buffer' && <Buffer/>}

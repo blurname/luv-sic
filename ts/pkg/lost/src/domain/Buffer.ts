@@ -2,7 +2,10 @@ import { Remesh } from 'remesh'
 import { from, map, merge, tap } from 'rxjs'
 import { BufferRepoExtern } from './Buffer-extern'
 
-const STORAGE_PREFIX = 'LOST_BUFFER'
+// const STORAGE_PREFIX = 'LOST_BUFFER'
+const newBufferName = () => {
+  return new Date().toLocaleString()
+}
 const SHARING_MARK = '#[sharing31415926]'
 type Buffer = {
   key: string
@@ -83,7 +86,7 @@ const BufferDomain = Remesh.domain({
         const bufferList = get(BufferListState())
         const nextZ = get(NextZQuery())
         const newBuffer:Buffer = {
-          key: `${STORAGE_PREFIX}_${nextZ}`,
+          key: newBufferName(),
           zIndex: nextZ,
           content: ''
         }
@@ -101,7 +104,7 @@ const BufferDomain = Remesh.domain({
         const nextZ = get(NextZQuery())
         const [nextHref, sharingContent] = url.split(SHARING_MARK)
         const newBuffer:Buffer = {
-          key: `${STORAGE_PREFIX}_${nextZ}`,
+          key: newBufferName(),
           zIndex: nextZ,
           content: decodeURIComponent(sharingContent)
         }

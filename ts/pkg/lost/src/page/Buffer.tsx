@@ -59,25 +59,25 @@ const BufferContent = () => {
   // }, [activeBuffer?.key])
 
   useEffect(() => {
-    const handleAdd:Callback = (e) => {
-      e?.preventDefault()
-      send(domain.command.AddBufferCommand())
-    }
+    // const handleAdd:Callback = (e) => {
+    //   e?.preventDefault()
+    //   send(domain.command.AddBufferCommand())
+    // }
+    //
+    // const handleDelete:Callback = (e) => {
+    //   e?.preventDefault()
+    //   send(domain.command.DelBufferCommand(activeBuffer?.key))
+    // }
 
-    const handleDelete:Callback = (e) => {
-      e?.preventDefault()
-      send(domain.command.DelBufferCommand(activeBuffer?.key))
-    }
-
-    const handleNextBuffer = (e) => {
-      e?.preventDefault()
-      send(domain.command.UpdateActiveBufferByDirectionCommand('next'))
-    }
-
-    const handlePrevBuffer = (e) => {
-      e?.preventDefault()
-      send(domain.command.UpdateActiveBufferByDirectionCommand('prev'))
-    }
+    // const handleNextBuffer = (e) => {
+    //   e?.preventDefault()
+    //   send(domain.command.UpdateActiveBufferByDirectionCommand('next'))
+    // }
+    //
+    // const handlePrevBuffer = (e) => {
+    //   e?.preventDefault()
+    //   send(domain.command.UpdateActiveBufferByDirectionCommand('prev'))
+    // }
     const handleShareContent = (e) => {
       const sharingUrl = new URL(location.href)
       sharingUrl.hash = `${SHARING_MARK}${encodeURIComponent(globalThis.sharingContent)}`
@@ -85,10 +85,10 @@ const BufferContent = () => {
     }
 
     handler
-      .add('ctrl+n', handleAdd)
-      .add('ctrl+w', handleDelete)
-      .add('ctrl+pagedown', handleNextBuffer)
-      .add('ctrl+pageup', handlePrevBuffer)
+      // .add('ctrl+n', handleAdd)
+      // .add('ctrl+w', handleDelete)
+      // .add('ctrl+pagedown', handleNextBuffer)
+      // .add('ctrl+pageup', handlePrevBuffer)
       .add('ctrl+b', handleShareContent)
 
     const combo = (e:KeyboardEvent) => {
@@ -97,10 +97,10 @@ const BufferContent = () => {
     document.addEventListener('keydown', combo)
     return () => {
       handler
-        .remove('ctrl+n', handleAdd)
-        .remove('ctrl+w', handleDelete)
-        .remove('ctrl+pagedown', handleNextBuffer)
-        .remove('ctrl+pageup', handlePrevBuffer)
+        // .remove('ctrl+n', handleAdd)
+        // .remove('ctrl+w', handleDelete)
+        // .remove('ctrl+pagedown', handleNextBuffer)
+        // .remove('ctrl+pageup', handlePrevBuffer)
         .remove('ctrl+b', handleShareContent)
       document.removeEventListener('keydown', combo)
     }

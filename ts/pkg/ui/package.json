@@ -9,7 +9,8 @@
     "@blurname/core": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.0.3"
+    "styled-components": "^6.0.3",
+    "@floating-ui/react": "^0.26.17"
   },
   "publishConfig": {
     "access": "public"

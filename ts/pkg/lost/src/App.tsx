@@ -7,7 +7,7 @@ import { Buffer } from './page/Buffer'
 import { RxGround } from './page/RxGround'
 import { Play } from './page/Play'
 import { Table } from './page/Table'
-import { Menu, MenuItem } from './util/contextmenu'
+import { Menu, MenuItem } from '@blurname/ui/src/component/ContextMenu'
 import { navigateToPageByHref } from './util/url'
 const urlConfig = {
   'lock': () => 'lock',

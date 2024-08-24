@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { StyledInput } from './style'
 type Props = {
   handleConfirm: (...attr:any)=>void
+  handleChangeCallback?: (...attr:any) => void
   initialValue: string
+  autoFocus?: boolean
 }
 
-const SelfControlInput = ({ handleConfirm, initialValue }:Props) => {
+const SelfControlInput = ({ handleConfirm, handleChangeCallback, initialValue, autoFocus }:Props) => {
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState(initialValue)
 
@@ -24,7 +26,9 @@ const SelfControlInput = ({ handleConfirm, initialValue }:Props) => {
     handleConfirm(value)
   }
   const handleChange = (e) => {
-    setValue(e.target.value)
+    const value = e.target.value
+    setValue(value)
+    handleChangeCallback?.(value)
   }
 
   const className = isFocused ? 'focused' : ''
@@ -35,6 +39,7 @@ const SelfControlInput = ({ handleConfirm, initialValue }:Props) => {
   onBlur={handleBlur}
   onChange={handleChange}
   onKeyUp={handleKeyUp}
+  autoFocus={autoFocus}
   />
 }
 export {

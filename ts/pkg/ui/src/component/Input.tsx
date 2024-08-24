@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { StyledInput } from './style'
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-const Input = (props:Props) => {
+const Input = forwardRef((props:Props) => {
   const [isFocused, setIsFocused] = useState(false)
 
   const handleFocus = () => {
@@ -20,7 +20,7 @@ const Input = (props:Props) => {
   onBlur={handleBlur}
   {...props}
   />
-}
+})
 
 export {
   Input

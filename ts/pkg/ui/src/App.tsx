@@ -3,6 +3,7 @@ import { Button } from './component/Button'
 import { Tab, useTabList } from './component/Tab'
 import { Input } from './component/Input'
 import { SelfControlInput } from './component/SelfControlInput'
+import { GlobalSearch } from './component/GlobalSearch'
 const tabList: Tab[] = [
   {
     label: 'tab1',
@@ -31,6 +32,7 @@ function App () {
       {TabListRender}
       <Input />
       <SelfControlInput handleConfirm={(i) => { console.log(i) }} initialValue={''} />
+      <GlobalSearch />
     </div>
   )
 }

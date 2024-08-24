@@ -4,9 +4,10 @@ type Props = {
   handleConfirm: (...attr:any)=>void
   handleChangeCallback?: (...attr:any) => void
   initialValue: string
+  autoFocus?: boolean
 }
 
-const SelfControlInput = ({ handleConfirm, handleChangeCallback, initialValue }:Props) => {
+const SelfControlInput = ({ handleConfirm, handleChangeCallback, initialValue, autoFocus }:Props) => {
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState(initialValue)
 
@@ -38,6 +39,7 @@ const SelfControlInput = ({ handleConfirm, handleChangeCallback, initialValue }:
   onBlur={handleBlur}
   onChange={handleChange}
   onKeyUp={handleKeyUp}
+  autoFocus={autoFocus}
   />
 }
 export {

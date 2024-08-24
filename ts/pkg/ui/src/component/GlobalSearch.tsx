@@ -2,19 +2,18 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Input } from './Input'
 import { SelfControlInput } from './SelfControlInput'
-const prevHighlightTextNodeBackgroundMap = new Map<Node, string>()
+const _prevHighlightTextNodeBackgroundMap = new Map<Node, string>()
+let currentJumpNode: Node
 const GlobalSearch = () => {
   const [open, setOpen] = useState(false)
 
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  // Toggle the menu when ⌘K is pressed
   useEffect(() => {
     const down = (e) => {
       if (e.key === 'f' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen((open) => !open)
       } else if (e.key === 'Escape') {
+        clearHightTextNodeBatch()
         setOpen(false)
       }
     }
@@ -22,11 +21,16 @@ const GlobalSearch = () => {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
-  const handleConfirm = () => {
 
+  const handleConfirm = () => {
+    // scrollToTextNode(currentJumpNode)
   }
+
   const handleChangeCallback = (value: string) => {
-    if (value.trim() === '') return
+    clearHightTextNodeBatch()
+    if (value.trim() === '') {
+      return
+    }
     const nodeList = getAllTextNodeList()
     const resultNodeList: Node[] = []
     for (const textNode of nodeList) {
@@ -34,9 +38,7 @@ const GlobalSearch = () => {
         resultNodeList.push(textNode)
       }
     }
-    if (resultNodeList.length) {
-      hgithLightTextNodeBatch(resultNodeList)
-    }
+    hgithLightTextNodeBatch(resultNodeList)
     console.log(resultNodeList)
   }
   if (!open) return null
@@ -47,6 +49,7 @@ const GlobalSearch = () => {
     initialValue={''}
     handleConfirm={handleConfirm}
     handleChangeCallback={handleChangeCallback}
+    autoFocus={true}
     />
     </StyledGlobalSearch>
   )
@@ -65,17 +68,22 @@ const getAllTextNodeList = () => {
   return textNodes
 }
 
-const hgithLightTextNodeBatch = (nodeList: Node[]) => {
-  for (const [node, originalBackground] of prevHighlightTextNodeBackgroundMap) {
+const clearHightTextNodeBatch = () => {
+  for (const [node, originalBackground] of _prevHighlightTextNodeBackgroundMap) {
     node.parentElement!.style.background = originalBackground
   }
-  prevHighlightTextNodeBackgroundMap.clear()
+  _prevHighlightTextNodeBackgroundMap.clear()
+}
+
+const hgithLightTextNodeBatch = (nodeList: Node[]) => {
   for (const node of nodeList) {
-    prevHighlightTextNodeBackgroundMap.set(node, node.parentElement!.style.background)
-    // if (node.parentElement) {
+    _prevHighlightTextNodeBackgroundMap.set(node, node.parentElement!.style.background)
     node.parentElement!.style.background = 'yellow'
-    // }
   }
+}
+
+const scrollToTextNode = (node: Node) => {
+  document.body.scrollTop = node.parentElement?.getBoundingClientRect().top || 0
 }
 
 const StyledGlobalSearch = styled.div`

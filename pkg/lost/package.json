@@ -23,7 +23,7 @@
     "styled-components": "^6.0.3"
   },
   "devDependencies": {
-    "@rsbuild/core": "^0.4.12",
-    "@rsbuild/plugin-react": "^0.4.12"
+    "@rsbuild/core": "*",
+    "@rsbuild/plugin-react": "*"
   }
 }

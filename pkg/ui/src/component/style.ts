@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import { COLOR_TOKEN } from '../colorToken'
+import { COLOR_TOKEN_PROTO } from '../colorToken'
 const StyledInput = styled.input`
   border: none;
   outline: none;
-  outline: 1px solid ${COLOR_TOKEN.border};
+  outline: 1px solid ${COLOR_TOKEN_PROTO.gray1};
   &.focused {
-    outline: 1px solid rgba(135, 63, 234, 0.9);
+    outline: 1px solid ${COLOR_TOKEN_PROTO.blue1};
   }
+  border-radius: 4px;
 `
 export {
   StyledInput

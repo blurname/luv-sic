@@ -25,10 +25,11 @@ const tabList: Tab[] = [
 function App () {
   const { TabListRender } = useTabList(tabList)
   return (
-    <div className="App" style={{ display: 'flex' }}>
-      <Button>active button</Button>
-      <Button disabled>disabled button</Button>
-      <Button loading>disabled button</Button>
+    <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
+      <Button type="primary">登录</Button>
+      <Button type="primary" disabled={true}>登录</Button>
+      <Button type="second" >登录</Button>
+      <Button type="second" disabled={true}>登录</Button>
       {TabListRender}
       <Input />
       <SelfControlInput handleConfirm={(i) => { console.log(i) }} initialValue={''} />

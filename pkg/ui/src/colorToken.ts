@@ -15,7 +15,22 @@ const COLOR_TOKEN = {
 const COLOR_TOKEN_PROTO = {
   blue1: '#1684FC',
   blue2: '#E8F3FF',
-  gray1: '#D2D9E4'
+  gray1: '#D2D9E4',
+  primaryBtn: {
+    normal: '#0077FF',
+    hover: '#2693FF',
+    active: '#005ED9',
+    disable: '#B9DAFE',
+    text: '#FFFFFF'
+  },
+  secondBtn: {
+    normal: '#FFFFFF',
+    hover: '#F0F2F7',
+    active: '#E1E6EF',
+    disable: '#FFFFFF',
+    text: '#5D6F8F',
+    disabledText: '#BEC5D2'
+  }
 } as const
 export {
   COLOR_TOKEN,

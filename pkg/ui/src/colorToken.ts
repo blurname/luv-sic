@@ -11,6 +11,13 @@ const COLOR_TOKEN = {
   },
   border: '#DBDBDB'
 } as const
+
+const COLOR_TOKEN_PROTO = {
+  blue1: '#1684FC',
+  blue2: '#E8F3FF',
+  gray1: '#D2D9E4'
+} as const
 export {
-  COLOR_TOKEN
+  COLOR_TOKEN,
+  COLOR_TOKEN_PROTO
 }

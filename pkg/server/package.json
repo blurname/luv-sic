@@ -1,0 +1,17 @@
+{
+  "name": "@blurname/server",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "farrow dev",
+    "build": "farrow build",
+    "start": "farrow start"
+  },
+  "dependencies": {
+    "@blurname/core": "*",
+    "farrow": "^2.3.0",
+    "farrow-http": "^2.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

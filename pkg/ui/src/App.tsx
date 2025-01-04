@@ -1,9 +1,9 @@
-import React from 'react'
 import { Button } from './component/Button'
+import React from 'react'
 import { Tab, useTabList } from './component/Tab'
 import { Input } from './component/Input'
 import { SelfControlInput } from './component/SelfControlInput'
-import { GlobalSearch } from './component/GlobalSearch'
+import { GlobalSearch } from "./component/GlobalSearch"
 const tabList: Tab[] = [
   {
     label: 'tab1',

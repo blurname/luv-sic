@@ -1,5 +1,5 @@
 const navigateToPageByHref = (newHref: string) => {
-  globalThis.location.href = newHref
+  globalThis.location.replace(newHref)
 }
 export {
   navigateToPageByHref

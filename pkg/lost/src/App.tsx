@@ -22,8 +22,7 @@ const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
 function App () {
   const changePage = (page:string) => {
-    const host = globalThis.location.host
-    const newHref = `${host}?${page}`
+    const newHref = `?${page}`
     navigateToPageByHref(newHref)
   }
 

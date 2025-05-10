@@ -9,6 +9,7 @@
   "dependencies": {
     "@blurname/core": "*",
     "farrow": "^2.3.0",
+    "farrow-cors": "^2.3.0",
     "farrow-http": "^2.3.0"
   },
   "publishConfig": {

@@ -9,6 +9,7 @@ import { Play } from './page/Play'
 import { Table } from './page/Table'
 import { Menu, MenuItem } from '@blurname/ui/src/component/ContextMenu'
 import { navigateToPageByHref } from './util/url'
+import {StreamTest} from './page/StreamTest'
 const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
@@ -16,7 +17,8 @@ const urlConfig = {
   'buffer': () => 'buffer',
   'effect': () => 'effect',
   'play': () => 'play',
-  'table': () => 'table'
+  'table': () => 'table',
+  'stream': () => 'stream',
 }
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
@@ -41,6 +43,7 @@ function App () {
       {page === 'paste' && <Paste/>}
       {page === 'play' && <Play/>}
       {page === 'table' && <Table/>}
+      {page === 'stream' && <StreamTest/>}
     </div>
   )
 }

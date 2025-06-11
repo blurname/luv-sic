@@ -2,7 +2,7 @@
   "name": "@blurkit/lost",
   "version": "0.0.12",
   "private": true,
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "rsbuild dev",
     "build": "rsbuild build"
@@ -15,6 +15,7 @@
     "@milkdown/react": "^7.12.1",
     "@monaco-editor/react": "^4.6.0",
     "ctrl-keys": "^1.0.1",
+    "koka": "^1.0.1",
     "localforage": "^1.10.0",
     "monaco-editor": "^0.44.0",
     "react": "^18.2.0",

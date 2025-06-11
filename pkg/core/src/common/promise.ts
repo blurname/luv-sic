@@ -1,8 +1,8 @@
-const sleep = (ms:number) => {
+const setTimeoutAsync = (ms:number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }
 export {
-  sleep
+  setTimeoutAsync
 }

@@ -4,7 +4,7 @@ import init, { add_zwsp } from '../../wasm/ZWSP/ZWSP.js'
 import { clickListener, inputListener } from '../sdk/event'
 import { useRepeat } from '../hooks/useRepeat'
 
-export function EditingPage () {
+export function EditingPage() {
   const [TIValue, setTIValue] = useState('')
   const TIRef = useRef<HTMLTextAreaElement>(null)
   const TORef = useRef<HTMLTextAreaElement>(null)

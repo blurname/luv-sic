@@ -104,16 +104,10 @@
 		}
 	},
 	"javascript": {
-		"formatter": { "quoteStyle": "double" },
-		"globals": [
-			"ENV",
-			"globalThis",
-			"__PACKAGE_VERSION__",
-			"__DEV__",
-			"__SENTRY_DSN__",
-			"describe",
-			"it"
-		]
+		"formatter": {
+      "quoteStyle": "single",
+      "semicolons": "asNeeded"
+    }
 	},
 	"overrides": [
 		{

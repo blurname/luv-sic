@@ -1,13 +1,13 @@
 import { execSync } from 'node:child_process'
 
 // use sudo to execute this script
-const partMountDrive = async () => {
+const partMountDrive = () => {
   const sdx = process.argv[2]
   // the new first partion number is 1
   const sdx1 = `${sdx}1`
   const mountPoint = '/mnt/data'
-  const fstabPath = '/etc/fstab'
-  execSync(`mkdir ${mountPoint}`)
+  const fstabPath =
+    execSync(`mkdir ${mountPoint}`)
 
   // execSync(`rm  -r ${mountPoint}`)
   execSync(`parted ${sdx} rm 1`)

@@ -9,6 +9,7 @@ import { Play } from './page/Play'
 import { Table } from './page/Table'
 import { Menu, MenuItem } from '@blurname/ui/src/component/ContextMenu'
 import { navigateToPageByHref } from './util/url'
+import {Sheet} from './page/Sheet'
 const urlConfig = {
   'lock': () => 'lock',
   'press': () => 'press',
@@ -16,7 +17,8 @@ const urlConfig = {
   'buffer': () => 'buffer',
   'effect': () => 'effect',
   'play': () => 'play',
-  'table': () => 'table'
+  'table': () => 'table',
+  'sheet': () => 'sheet'
 }
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()
@@ -33,6 +35,7 @@ function App () {
         <MenuItem label="buffer" onClick={() => changePage('buffer')} />
         <MenuItem label="press" onClick={() => changePage('press')} />
         <MenuItem label="paste" onClick={() => changePage('paste')} />
+        <MenuItem label="sheet" onClick={() => changePage('sheet')} />
       </Menu>
       {(page === undefined || page === 'lock') && <Lock/>}
       {page === 'effect' && <RxGround/> }
@@ -41,6 +44,7 @@ function App () {
       {page === 'paste' && <Paste/>}
       {page === 'play' && <Play/>}
       {page === 'table' && <Table/>}
+      {page === 'sheet' && <Sheet/>}
     </div>
   )
 }

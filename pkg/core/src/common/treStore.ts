@@ -1,18 +1,17 @@
 type TreKey = string
 type ItemBase = {key: TreKey, type: unknown, sup: string, sub: string[] }
 
-// const B_SEED = 'seed'
-// const B_ROOT = 'root'
+const B_SEED = 'seed'
+const B_ROOT = 'root'
 
 const createTreStore = <TreItem extends ItemBase>() => {
   const _itemMap = new Map<TreKey, TreItem>()
-  // _itemMap.set(B_ROOT, { key: B_ROOT, sup: B_SEED, sub: [] })
+  const subscribeMap = new Map<TreKey, TreKey[]>()
+  const eventItemKeyCount = new Map<TreKey, number>()
+  // @ts-ignore
+  _itemMap.set(B_ROOT, { key: B_ROOT, sup: B_SEED, sub: [] })
 
   const getItem = <Type extends TreItem['type']>(key: string | undefined) => {
-    if (key === undefined) return undefined
-    return _itemMap.get(key) as TreItem & {type: Type} | undefined
-  }
-  const getItem2 = <Type extends 'a' | 'b'>(key: string | undefined) => {
     if (key === undefined) return undefined
     return _itemMap.get(key) as TreItem & {type: Type} | undefined
   }
@@ -51,36 +50,69 @@ const createTreStore = <TreItem extends ItemBase>() => {
     _itemMap.set(item0Sup.key, { ...item0Sup, sub: item0Sup.sub.filter(i => i !== itemCid) })
   }
 
+  const subscribeItem = ({ key, subscribeKey }: {key: TreKey, subscribeKey: TreKey}) => {
+    let value = subscribeMap.get(key)
+    if (!value) subscribeMap.set(key, (value = []))
+    if (value.includes(subscribeKey)) return
+    value.push(subscribeKey)
+  }
+  // TODO: bl: 
+  // a1 = 1
+  // b1 = a1 + 2
+  // c1 = b1 + 3
+  // Q1: dep a1 -> b1 -> c1, update a1,
+  // update(a1 = 4), update(b1 = a1 + 5),
+  // get update Notify only once
+  // a1 -> b1 -> c1
+  // b1 -> c1
+  // A1-1: 粗粒度，直接全局计数，状态更新
+  // 
+
+  const _subscribeSend = (key: TreKey) => {
+    const listner = subscribeMap.get(key)
+    if (!listner) return
+    for (const k of listner) {
+      eventItemKeyCount.
+    }
+  }
+
   return {
     _itemMap,
     query: {
-      getItem, getItem2
+      getItem
     },
     command: {
       updateItem,
       createItem,
       replaceItem,
-      deleteItem
+      deleteItem,
+      subscribeItem
     }
   }
 }
 
-type NodeItem = {
-  type: 'node'
-  nodeName: string
-} & ItemBase
+// type NodeItem = {
+//   type: 'node'
+//   nodeName: string
+// } & ItemBase
+//
+// type BranchItem = {
+//   type: 'branch'
+//   branchName: string
+// } & ItemBase
+//
+// type RootItem = {
+//   type: 'root'
+//   rootName: string
+// } & ItemBase
+// type TreItem = RootItem | NodeItem | BranchItem
 
-type BranchItem = {
-  type: 'branch'
-  branchName: string
-} & ItemBase
-
-type RootItem = {
-  type: 'root'
-  rootName: string
-} & ItemBase
-type TreItem = RootItem | NodeItem | BranchItem
-
-const treStore = createTreStore<TreItem>()
-const a = treStore.query.getItem<'node' | 'branch'>('asf')
-const b = treStore.query.getItem<'root'>('asf')?.rootName
+// const treStore = createTreStore<TreItem>()
+// const a = treStore.query.getItem<'node' | 'branch'>('asf')
+// const b = treStore.query.getItem<'root'>('asf')?.rootName
+export type {
+  ItemBase
+}
+export {
+  createTreStore, B_ROOT
+}

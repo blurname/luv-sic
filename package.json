@@ -15,7 +15,8 @@
     "clean-dist": "tsx ./script/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./script/monorepo.ts clean-node-modules",
     "clean-lock": "tsx ./script/monorepo.ts clean-lock",
-    "test-command": "echo test"
+    "test-command": "echo test",
+    "format": "prettier --write \"**/*.{ts,tsx}\""
   },
   "workspaces": [
     "pkg/*"
@@ -26,6 +27,7 @@
     "@rsbuild/plugin-react": "^0.4.12",
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "eslint": "^8.44.0",
@@ -37,6 +39,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "tsx": "^3.13.0",
     "turbo": "^1.13.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "prettier": "^3.5.3"
   }
 }

@@ -1,8 +1,10 @@
 import { execSync, spawnSync } from 'node:child_process'
-import { getCLIParams } from '../util/params.js'
 import { createFzfKit } from '../util/fzf.js'
 import { getLogList } from '../util/git.js'
-const gitViewDiffDesc = 'fuzzy find git diff between Head to givin hash, then use terminal editor to view it by env.EDITOR'
+import { getCLIParams } from '../util/params.js'
+
+const gitViewDiffDesc =
+  'fuzzy find git diff between Head to givin hash, then use terminal editor to view it by env.EDITOR'
 const gitViewDiff = () => {
   const editor = process.env.EDITOR || 'vi'
 
@@ -11,11 +13,13 @@ const gitViewDiff = () => {
   const keepFile = Boolean(paramKV['--keep'])
   const useNvim = Boolean(paramKV['--nvim']) // ref: https://writings.sh/post/code-review-by-nvim-diffview
 
-  const runCallback = (selectKey:string) => {
+  const runCallback = (selectKey: string) => {
     const commitHash = selectKey.split(' ')[0]
     const diffFile = `__${commitHash}__view.diff`
     if (useNvim) {
-      spawnSync(editor, ['-c', `DiffviewOpen ${commitHash}`], { stdio: 'inherit' }) // nvim 需要安装 diffview.nvim 插件
+      spawnSync(editor, ['-c', `DiffviewOpen ${commitHash}`], {
+        stdio: 'inherit'
+      }) // nvim 需要安装 diffview.nvim 插件
     } else {
       execSync(`git diff ${commitHash} > ${diffFile}`)
       spawnSync(editor, [`${diffFile}`], { stdio: 'inherit' }) // 不能用 spawn，会让 stdin.on() 持续监听 keypress 事件，打开编辑文件有问题
@@ -30,7 +34,4 @@ const gitViewDiff = () => {
     runCallback(paramList[1])
   }
 }
-export {
-  gitViewDiffDesc,
-  gitViewDiff
-}
+export { gitViewDiffDesc, gitViewDiff }

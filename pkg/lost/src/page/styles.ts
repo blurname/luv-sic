@@ -1,5 +1,6 @@
 import { COLOR_TOKEN } from '@blurname/ui/src/colorToken'
 import styled from 'styled-components'
+
 const StyledEditor = styled.textarea`
   flex: 1;
   border: none;
@@ -21,18 +22,22 @@ const StyledBufferList = styled.div`
 
   .add-btn {
     &:hover {
-      background:${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : COLOR_TOKEN.buttonPurple.hover};
+      background:${(props) => (props.$isactive ? COLOR_TOKEN.buttonPurple.active : COLOR_TOKEN.buttonPurple.hover)};
     }
 `
 type StyledBufferProps = {
-    $isactive:boolean
+  $isactive: boolean
 }
 const StyledBuffer = styled.div<StyledBufferProps>`
   display: flex;
   span {
-    background: ${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : 'whtie'};
+    background: ${(props) =>
+      props.$isactive ? COLOR_TOKEN.buttonPurple.active : 'whtie'};
     &:hover {
-      background:${props => props.$isactive ? COLOR_TOKEN.buttonPurple.active : COLOR_TOKEN.buttonPurple.hover}; 
+      background: ${(props) =>
+        props.$isactive
+          ? COLOR_TOKEN.buttonPurple.active
+          : COLOR_TOKEN.buttonPurple.hover};
     }
   }
   .del-btn {
@@ -46,7 +51,4 @@ const StyledBuffer = styled.div<StyledBufferProps>`
     margin-right: 10px;
   }
 `
-export {
-  StyledEditor,
-  StyledBufferList, StyledBuffer
-}
+export { StyledEditor, StyledBufferList, StyledBuffer }

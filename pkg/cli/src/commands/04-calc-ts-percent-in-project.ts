@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process'
+
 const calcTsPercentInProjectDesc = 'calc .ts/.ts+.js in project'
 const calcTsPercentInProject = async () => {
   const ts = execSync('fd .ts').toString()

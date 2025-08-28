@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 const useRefresh = () => {
   const [refreshCount, setRefresh] = useState(0)
   const refresh = () => {
@@ -6,6 +7,4 @@ const useRefresh = () => {
   }
   return refresh
 }
-export {
-  useRefresh
-}
+export { useRefresh }

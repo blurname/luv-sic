@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const createFileKit = (path:string) => {
+const createFileKit = (path: string) => {
   const _rawFile = readFileSync(path).toString()
-  let _modifiedFile : string | undefined
+  let _modifiedFile: string | undefined
 
-  const modify = (modifyFn:(fileString:string)=>string) => {
+  const modify = (modifyFn: (fileString: string) => string) => {
     if (_rawFile === undefined) throw new Error('no such file')
     _modifiedFile = modifyFn(_rawFile.slice())
   }
@@ -24,6 +24,4 @@ const createFileKit = (path:string) => {
     getFileContent
   }
 }
-export {
-  createFileKit
-}
+export { createFileKit }

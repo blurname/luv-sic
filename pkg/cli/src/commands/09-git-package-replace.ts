@@ -1,7 +1,7 @@
-import { parseOptionList } from '@blurname/core/src/node/cli.js'
-import { colorLog } from '@blurname/core/src/colorLog.js'
 import { execSync, spawnSync } from 'node:child_process'
-import { readFile, writeFile, stat } from 'node:fs/promises'
+import { readFile, stat, writeFile } from 'node:fs/promises'
+import { colorLog } from '@blurname/core/src/colorLog.js'
+import { parseOptionList } from '@blurname/core/src/node/cli.js'
 
 const gitReplacePackageDesc = 'replace package version in  package.json'
 
@@ -28,7 +28,10 @@ const gitReplacePackage = async () => {
   const repoName = pwdout.split('/').at(-1)!.split('\n')[0]
   const packageName = repoName
 
-  const packageJsonContent = (await readFile(`../${options['t']}/package.json`)).toString().split('\n').reverse()
+  const packageJsonContent = (await readFile(`../${options['t']}/package.json`))
+    .toString()
+    .split('\n')
+    .reverse()
   const pos = packageJsonContent.findIndex((s) => s.includes(packageName))
   const targetContent = packageJsonContent.find((s) => s.includes(packageName))
   if (targetContent === undefined) return
@@ -48,6 +51,9 @@ const gitReplacePackage = async () => {
   )
   console.log(colorLog({ msg: '结果', fg: 'Green' }))
 
-  spawnSync('git', ['--no-pager', 'diff', 'package.json'], { cwd: `../${options['t']}`, stdio: 'inherit' })
+  spawnSync('git', ['--no-pager', 'diff', 'package.json'], {
+    cwd: `../${options['t']}`,
+    stdio: 'inherit'
+  })
 }
 export { gitReplacePackage, gitReplacePackageDesc }

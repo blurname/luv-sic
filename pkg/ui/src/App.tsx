@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button } from './component/Button'
-import { Tab, useTabList } from './component/Tab'
+import { GlobalSearch } from './component/GlobalSearch'
 import { Input } from './component/Input'
 import { SelfControlInput } from './component/SelfControlInput'
-import { GlobalSearch } from './component/GlobalSearch'
+import { Tab, useTabList } from './component/Tab'
+
 const tabList: Tab[] = [
   {
     label: 'tab1',
@@ -22,22 +23,29 @@ const tabList: Tab[] = [
     value: 'tab4'
   }
 ]
-function App () {
+function App() {
   const { TabListRender } = useTabList(tabList)
   return (
     <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
       <Button type="primary">登录</Button>
-      <Button type="primary" disabled={true}>登录</Button>
-      <Button type="second" >登录</Button>
-      <Button type="second" disabled={true}>登录</Button>
+      <Button type="primary" disabled={true}>
+        登录
+      </Button>
+      <Button type="second">登录</Button>
+      <Button type="second" disabled={true}>
+        登录
+      </Button>
       {TabListRender}
       <Input />
-      <SelfControlInput handleConfirm={(i) => { console.log(i) }} initialValue={''} />
+      <SelfControlInput
+        handleConfirm={(i) => {
+          console.log(i)
+        }}
+        initialValue={''}
+      />
       <GlobalSearch />
     </div>
   )
 }
 
-export {
-  App
-}
+export { App }

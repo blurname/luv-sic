@@ -3,7 +3,11 @@ import { execSync } from 'node:child_process'
 const detectCIStatusDesc = 'use glab to detect gitlab CI status'
 const detectCIStatus = async () => {
   let CIStatus = 'go'
-  const version = execSync('git log --oneline | grep VERSION -m 1').toString().split('\n')[0].split('@').at(-1)
+  const version = execSync('git log --oneline | grep VERSION -m 1')
+    .toString()
+    .split('\n')[0]
+    .split('@')
+    .at(-1)
   while (CIStatus === 'go') {
     console.log('月球漫步中')
     await sleep(15000)
@@ -15,7 +19,9 @@ const detectCIStatus = async () => {
     }
     if (status.includes('failed')) {
       CIStatus = 'failed'
-      throw new Error(`${version} 没有通过。。。\n痛，太痛了！\n难受，太难受了！`)
+      throw new Error(
+        `${version} 没有通过。。。\n痛，太痛了！\n难受，太难受了！`
+      )
     }
   }
 }

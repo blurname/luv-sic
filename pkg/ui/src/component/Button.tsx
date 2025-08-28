@@ -7,8 +7,11 @@ type Props = {
   loading?: boolean
   children: React.ReactNode
   type: 'primary' | 'second'
-} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
-const Button = ({ children, disabled, loading, type, ...attr }:Props) => {
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>
+const Button = ({ children, disabled, loading, type, ...attr }: Props) => {
   const className = `${type} ${disabled ? 'disabled' : 'active'}`
   let content = children
   let onClick = attr.onClick
@@ -18,9 +21,11 @@ const Button = ({ children, disabled, loading, type, ...attr }:Props) => {
     // className += 'loading'
   }
 
-  return <StyledButton className={className} {...attr} onClick={onClick}>
-  {content}
-  </StyledButton>
+  return (
+    <StyledButton className={className} {...attr} onClick={onClick}>
+      {content}
+    </StyledButton>
+  )
 }
 const StyledButton = styled.button`
   border: none;
@@ -64,6 +69,4 @@ const StyledButton = styled.button`
     }
   }
 `
-export {
-  Button
-}
+export { Button }

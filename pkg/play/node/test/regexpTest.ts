@@ -4,6 +4,4 @@ const test = () => {
   console.log(result)
 }
 test()
-export {
-
-}
+export {}

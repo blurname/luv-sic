@@ -1,6 +1,5 @@
-
-type Fn = ()=> string | object
-const createUrlInit = <const T extends Record<string, Fn>> (config:T) => {
+type Fn = () => string | object
+const createUrlInit = <const T extends Record<string, Fn>>(config: T) => {
   // write to globalThis, know the number of url parameter used
   // @ts-ignore
   Object.assign(globalThis, { _urlp: { ...globalThis._urlp, ...config } })
@@ -9,7 +8,9 @@ const createUrlInit = <const T extends Record<string, Fn>> (config:T) => {
     const params = new URLSearchParams(location.search)
     if (param === undefined) {
       for (const k of params.keys()) {
-        if (typeof config[k] === 'function') { return config[k]() }
+        if (typeof config[k] === 'function') {
+          return config[k]()
+        }
       }
       return
     }

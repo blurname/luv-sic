@@ -32,7 +32,4 @@ const COLOR_TOKEN_PROTO = {
     disabledText: '#BEC5D2'
   }
 } as const
-export {
-  COLOR_TOKEN,
-  COLOR_TOKEN_PROTO
-}
+export { COLOR_TOKEN, COLOR_TOKEN_PROTO }

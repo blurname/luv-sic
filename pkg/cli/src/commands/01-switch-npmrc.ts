@@ -1,5 +1,6 @@
-import { access } from 'node:fs/promises'
 import { execSync } from 'node:child_process'
+import { access } from 'node:fs/promises'
+
 const switchNpmrcDesc = 'to switch weather use user .npmrc'
 const switchNpmrc = async () => {
   const homePath = process.env.HOME

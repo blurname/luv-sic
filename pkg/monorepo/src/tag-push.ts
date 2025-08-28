@@ -1,9 +1,9 @@
+import { execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { createFileKit } from '@blurname/core/src/node/fileKit.js'
-import { execSync } from 'node:child_process'
 
 // TODO: bl: remain git tag
-const tagPush = async (subPackageList:string[]) => {
+const tagPush = async (subPackageList: string[]) => {
   const pathDir = dirname(process.argv[1]) // repo/script: script exec path
   const rootPath = resolve(...[pathDir, '..']) // repo/pkg: same level with script
 
@@ -26,6 +26,4 @@ const tagPush = async (subPackageList:string[]) => {
   // execSync(`git tag ${tag}`)
 }
 
-export {
-  tagPush
-}
+export { tagPush }

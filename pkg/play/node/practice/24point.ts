@@ -10,11 +10,11 @@
 
 // code from https://github.com/Lucifier129
 type SolverConfig<Expr, Output> = {
-  operands: Expr[],
-  operators: ((a: Expr, b: Expr) => Expr)[],
+  operands: Expr[]
+  operators: ((a: Expr, b: Expr) => Expr)[]
   return: (expr: Expr) => Output
-  check: (output: Output) => boolean,
-  default: Output,
+  check: (output: Output) => boolean
+  default: Output
 }
 
 const solver = <Expr, Output>(config: SolverConfig<Expr, Output>) => {
@@ -54,7 +54,7 @@ const solver = <Expr, Output>(config: SolverConfig<Expr, Output>) => {
 }
 
 const EPSILON = 1e-6
-function judgePoint24 (cards: number[]): boolean {
+function judgePoint24(cards: number[]): boolean {
   return solver({
     operands: cards,
     operators: [
@@ -66,22 +66,24 @@ function judgePoint24 (cards: number[]): boolean {
       (a, b) => b / a
     ],
     return: (expr) => Math.abs(expr - 24) < EPSILON,
-    check: output => output,
+    check: (output) => output,
     default: false
   })
 }
 
-type Expr = {
-  type: 'number',
-  value: number
-} | {
-  type: '+' | '-' | '*' | '/',
-  left: Expr,
-  right: Expr
-  value: number
-}
+type Expr =
+  | {
+      type: 'number'
+      value: number
+    }
+  | {
+      type: '+' | '-' | '*' | '/'
+      left: Expr
+      right: Expr
+      value: number
+    }
 
-function printExpr (expr: Expr): string {
+function printExpr(expr: Expr): string {
   if (expr.type === 'number') {
     return expr.value.toString()
   }
@@ -100,9 +102,9 @@ function printExpr (expr: Expr): string {
   }
 }
 
-function printPoint24 (cards: number[]) {
+function printPoint24(cards: number[]) {
   return solver<Expr, string | null>({
-    operands: cards.map(value => ({ type: 'number', value })),
+    operands: cards.map((value) => ({ type: 'number', value })),
     operators: [
       (a, b) => {
         return {
@@ -153,7 +155,7 @@ function printPoint24 (cards: number[]) {
         }
       }
     ],
-    return: expr => {
+    return: (expr) => {
       if (Math.abs(expr.value - 24) < EPSILON) {
         return printExpr(expr)
       }

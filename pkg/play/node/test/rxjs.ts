@@ -1,4 +1,5 @@
-import { from, filter, switchMap, timeout, map, delay, of, first } from 'rxjs'
+import { delay, filter, first, from, map, of, switchMap, timeout } from 'rxjs'
+
 type Latency = {
   value: number
   latency: number
@@ -10,21 +11,21 @@ const action1: Latency = {
   latency: 4500,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 const action2: Latency = {
   value: 2,
   latency: 2000,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 const action3: Latency = {
   value: 3,
   latency: 1000,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 let currentLatencyMs = 100000
 const actionList: Latency[] = []
@@ -42,7 +43,7 @@ const oA = from(actionList).pipe(
     const a = of(x).pipe(delay(x.latency))
     return a
   }),
-  first(),
+  first()
 )
 let subject = oA.subscribe()
 setTimeout(() => {

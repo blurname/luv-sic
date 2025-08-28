@@ -48,15 +48,15 @@ const Lock = () => {
   const minute = time.getMinutes()
   return (
     <StyledLock className="lock" style={style}>
-    <div className="time">
-    <div className="h"> {hour} </div>
-    <div className="m"> {minute} </div>
-    </div>
-    <div className="text">{
-      textList.map((t, index) => {
-        return <p key={index}>{t}</p>
-      })
-    }</div>
+      <div className="time">
+        <div className="h"> {hour} </div>
+        <div className="m"> {minute} </div>
+      </div>
+      <div className="text">
+        {textList.map((t, index) => {
+          return <p key={index}>{t}</p>
+        })}
+      </div>
     </StyledLock>
   )
 }

@@ -1,11 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Observable, switchMap, fromEvent, interval, map, concatWith, take, concat, filter } from 'rxjs'
+import {
+  concat,
+  concatWith,
+  filter,
+  fromEvent,
+  interval,
+  map,
+  Observable,
+  switchMap,
+  take
+} from 'rxjs'
+
 type ElevatorState = {
   currentFloor: number
   direction: 'up' | 'down' | 'stop'
   clickedFloors: number[]
 }
-export function Elevator () {
+export function Elevator() {
   const [floor] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   const elevatorRef = useRef<HTMLDivElement>(null)
   const [elevatorState, setElevatorState] = useState<ElevatorState>({
@@ -33,7 +44,14 @@ export function Elevator () {
     elevatorRef.current!.dispatchEvent(ne)
   }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: 200, background: '#f002' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: 200,
+        background: '#f002'
+      }}
+    >
       {floor.map((n, i) => (
         <button key={i} onClick={() => changeFloor({ targetFloor: n })}>
           {n}
@@ -47,38 +65,42 @@ export function Elevator () {
 }
 const elevator = (ref: HTMLElement) => {
   return fromEvent(ref, 'click').pipe(
-    filter(({ targetFloor, currentFloor, direction }: Event & ElevatorState) => {
-      if (direction === 'down') return false
-      else if (direction === 'up' && currentFloor > targetFloor) return false
-      return true
-    }),
-    switchMap(({ targetFloor, currentFloor, clickedFloors }: Event & ElevatorState) => {
-      const maxFloor = getMaxClickedFloors(clickedFloors, targetFloor)
-      console.log(maxFloor)
-      const down = interval(1000).pipe(
-        take(maxFloor),
-        map(
-          (x) =>
-            ({
-              currentFloor: maxFloor - x,
-              direction: 'down',
-              clickedFloors: [...clickedFloors, targetFloor]
-            } as ElevatorState)
+    filter(
+      ({ targetFloor, currentFloor, direction }: Event & ElevatorState) => {
+        if (direction === 'down') return false
+        else if (direction === 'up' && currentFloor > targetFloor) return false
+        return true
+      }
+    ),
+    switchMap(
+      ({ targetFloor, currentFloor, clickedFloors }: Event & ElevatorState) => {
+        const maxFloor = getMaxClickedFloors(clickedFloors, targetFloor)
+        console.log(maxFloor)
+        const down = interval(1000).pipe(
+          take(maxFloor),
+          map(
+            (x) =>
+              ({
+                currentFloor: maxFloor - x,
+                direction: 'down',
+                clickedFloors: [...clickedFloors, targetFloor]
+              }) as ElevatorState
+          )
         )
-      )
-      const up = interval(1000).pipe(
-        take(maxFloor - currentFloor + 1),
-        map(
-          (x) =>
-            ({
-              currentFloor: x + currentFloor,
-              direction: 'up',
-              clickedFloors: [...clickedFloors, targetFloor]
-            } as ElevatorState)
+        const up = interval(1000).pipe(
+          take(maxFloor - currentFloor + 1),
+          map(
+            (x) =>
+              ({
+                currentFloor: x + currentFloor,
+                direction: 'up',
+                clickedFloors: [...clickedFloors, targetFloor]
+              }) as ElevatorState
+          )
         )
-      )
-      return concat(up, down)
-    })
+        return concat(up, down)
+      }
+    )
   )
 }
 const getMaxClickedFloors = (floors: nubmer[], currentFloor: number) => {

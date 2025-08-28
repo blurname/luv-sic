@@ -19,7 +19,7 @@
 //     疑问：第1个数字固定，跑一遍; 第1个数字不固定，跑四遍；它们的结果一样吗?试一试，如果测试结果一样，如何证明其正确性
 
 // my code
-const compute = (a:number, b:number) => {
+const compute = (a: number, b: number) => {
   return {
     addRes: a + b,
     minusRes: a - b,
@@ -32,7 +32,7 @@ const compute = (a:number, b:number) => {
 // 2. 计算结构
 
 const TARGET = 24
-const resolve = (numberList:[number, number, number, number]) => {
+const resolve = (numberList: [number, number, number, number]) => {
   try {
     for (let x = 0; x < numberList.length; x++) {
       const n1 = numberList[x]
@@ -44,30 +44,36 @@ const resolve = (numberList:[number, number, number, number]) => {
         for (let z = 0; z < numberList.length; z++) {
           if (z === y || z === x) continue
           const n3 = numberList[z]
-          const n4 = numberList.filter((n, index) => index !== x && index !== y && index !== z)[0]
-          { // n3x path1
+          const n4 = numberList.filter(
+            (n, index) => index !== x && index !== y && index !== z
+          )[0]
+          {
+            // n3x path1
             for (const res1Res of Object.values(res1)) {
               const res2 = compute(res1Res, n3)
               for (const res2Res of Object.values(res2)) {
                 const res3 = compute(res2Res, n4)
                 for (const res3Res of Object.values(res3)) {
-                  if (res3Res === TARGET) throw new Error(`true: ${n1},${n2},${n3},${n4}`)
+                  if (res3Res === TARGET)
+                    throw new Error(`true: ${n1},${n2},${n3},${n4}`)
                 }
               }
             }
           }
-          { // n3x path2
+          {
+            // n3x path2
             // const [n3, n4] = numberList.filter(n => n !== x && n !== y)
             const res2 = compute(n3, n4)
             for (const res1Res of Object.values(res1)) {
               for (const res2Res of Object.values(res2)) {
                 const res3 = compute(res1Res, res2Res)
                 for (const res3Res of Object.values(res3)) {
-                  if (res3Res === TARGET) throw new Error(`true: ${n1},${n2},${n3},${n4}`)
+                  if (res3Res === TARGET)
+                    throw new Error(`true: ${n1},${n2},${n3},${n4}`)
                 }
               }
             }
-          // res1 = n3 * n4
+            // res1 = n3 * n4
           }
         }
       }

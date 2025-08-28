@@ -1,6 +1,6 @@
+import { execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { createFileKit } from '@blurname/core/src/node/fileKit.js'
-import { execSync } from 'node:child_process'
 
 type Version = `${number}.${number}.${number}`
 
@@ -11,14 +11,14 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
-const digitBump = (version:Version, digit:Digit) => {
+const digitBump = (version: Version, digit: Digit) => {
   const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
   versionList[digitNumber] = `${Number(versionList[digitNumber]) + 1}`
   return versionList.join('.')
 }
 
-const versionBump = (subPkgList:string[]) => async (digit:Digit) => {
+const versionBump = (subPkgList: string[]) => async (digit: Digit) => {
   const pathDir = dirname(process.argv[1]) // repo/script: script exec path
   const rootPath = resolve(...[pathDir, '..']) // repo/pkg: same level with script
 
@@ -37,13 +37,16 @@ const versionBump = (subPkgList:string[]) => async (digit:Digit) => {
   }
 
   const commitMsg = `VERSION: ${changedList.join('; ')}`
-  const subPackageJsonString = subPkgList.reduce((pre, cur) => `${pre} pkg/${cur}/package.json`, '')
-  execSync(`git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`)
+  const subPackageJsonString = subPkgList.reduce(
+    (pre, cur) => `${pre} pkg/${cur}/package.json`,
+    ''
+  )
+  execSync(
+    `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`
+  )
 }
 
-export {
-  versionBump
-}
+export { versionBump }
 
 // versionBump('patch')
 // versionBump('minor')

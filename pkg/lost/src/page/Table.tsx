@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import {cells,heightList,table,widthList} from './tableConstant'
+import { cells, heightList, table, widthList } from './tableConstant'
 import './table.css'
 
 // const TableTable = () => {
@@ -42,36 +42,43 @@ const DivTable = () => {
   const contentRenderer = useMemo(() => {
     return table.map((row, x) => {
       const height = heightList[x]
-      return <div className="tr" key={x} data-y={x} style={{ height, display: 'flex' }}>
-        {
-          row.map((cellKey, y) => {
+      return (
+        <div
+          className="tr"
+          key={x}
+          data-y={x}
+          style={{ height, display: 'flex' }}
+        >
+          {row.map((cellKey, y) => {
             const cell = cells[cellKey]
             const width = widthList[y]
-            return <div
-            className="td"
-            style={{ width }}
-            dangerouslySetInnerHTML={{ __html: cell.data }}
-            />
-          })
-        }
-      </div>
+            return (
+              <div
+                className="td"
+                style={{ width }}
+                dangerouslySetInnerHTML={{ __html: cell.data }}
+              />
+            )
+          })}
+        </div>
+      )
     })
   }, [])
   const totalWidth = widthList.reduce((pre, cur) => pre + cur, 0)
   console.log('🟦[blue]->totalWidth: ', totalWidth)
-  return <div className="table" style={{ width: totalWidth, marginTop: 2 }}>
-  {contentRenderer}
-  </div>
+  return (
+    <div className="table" style={{ width: totalWidth, marginTop: 2 }}>
+      {contentRenderer}
+    </div>
+  )
 }
 
 const Table = () => {
   return (
-      <>
+    <>
       {/* <TableTable/> */}
-      <DivTable/>
-      </>
+      <DivTable />
+    </>
   )
 }
-export {
-  Table
-}
+export { Table }

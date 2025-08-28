@@ -1,5 +1,5 @@
-import { Http, Response } from 'farrow-http'
 import { setTimeout } from 'timers'
+import { Http, Response } from 'farrow-http'
 
 const http = Http()
 

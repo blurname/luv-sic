@@ -1,27 +1,35 @@
-import { Fzf } from 'fzf'
-import { colorLog } from '@blurname/core/src/colorLog.js'
 import * as readline from 'node:readline'
+import { colorLog } from '@blurname/core/src/colorLog.js'
+import { Fzf } from 'fzf'
 
 type Props = {
   fzfStringList: string[]
   config?: {
-    msg?: (item:string)=>string
+    msg?: (item: string) => string
   }
 }
 
 type RunFzfProps = {
-  runCallback : (selectKey:string) => void
+  runCallback: (selectKey: string) => void
 }
-const createFzfKit = ({ fzfStringList, config }:Props) => {
+const createFzfKit = ({ fzfStringList, config }: Props) => {
   const fzf = new Fzf(fzfStringList)
-  const inputList:string[] = []
+  const inputList: string[] = []
   let selectIndex = 0
   let selectKey = fzfStringList[0]
   let resultList: string[] = []
 
-  const logFzfResult = ({ findedItemList, inputStr, selectIndex }:{findedItemList:{item:string}[], inputStr:string, selectIndex:number}) => {
+  const logFzfResult = ({
+    findedItemList,
+    inputStr,
+    selectIndex
+  }: {
+    findedItemList: { item: string }[]
+    inputStr: string
+    selectIndex: number
+  }) => {
     let result = ''
-    findedItemList.forEach((entry, index:number) => {
+    findedItemList.forEach((entry, index: number) => {
       resultList.push(entry.item)
 
       // msg
@@ -36,8 +44,7 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
       } else {
         result += msg
       }
-    }
-    )
+    })
     const final = inputStr + '\n_______________\n' + result
     process.stdout.clearLine(1) // this reduce the flicking, but why?
     process.stdout.cursorTo(0) // keep cursor pos for experience
@@ -45,22 +52,30 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
     process.stdout.write(final)
   }
 
-  const runFzf = ({ runCallback }:RunFzfProps) => {
+  const runFzf = ({ runCallback }: RunFzfProps) => {
     readline.emitKeypressEvents(process.stdin)
 
-    if (process.stdin.isTTY) { process.stdin.setRawMode(true) }
+    if (process.stdin.isTTY) {
+      process.stdin.setRawMode(true)
+    }
 
     const firstFindedItemList = fzf.find('')
-    logFzfResult({ findedItemList: firstFindedItemList, inputStr: '', selectIndex: 0 })
-    const keyPressCallback = (str:string, key:{name:string, ctrl:boolean}) => {
+    logFzfResult({
+      findedItemList: firstFindedItemList,
+      inputStr: '',
+      selectIndex: 0
+    })
+    const keyPressCallback = (
+      str: string,
+      key: { name: string; ctrl: boolean }
+    ) => {
       // =====================
       // exit: esc/ ctrl+c
       // up: arrow up
       // down: arrow down
       // delete input char: backspace
       // =====================
-      if ((key.ctrl === true && key.name === 'c') ||
-      key.name === 'escape') {
+      if ((key.ctrl === true && key.name === 'c') || key.name === 'escape') {
         process.exit()
       }
       if (key.name === 'return') {
@@ -95,6 +110,4 @@ const createFzfKit = ({ fzfStringList, config }:Props) => {
     runFzf
   }
 }
-export {
-  createFzfKit
-}
+export { createFzfKit }

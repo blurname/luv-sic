@@ -5,10 +5,11 @@ const testSubstring = () => {
   console.log(str2)
 }
 
-const colonSeparated2Camel = (ss:string) => {
-  return ss.split(':').map((s) => s.substring(0, 1).toUpperCase() + s.substring(1)).join('')
+const colonSeparated2Camel = (ss: string) => {
+  return ss
+    .split(':')
+    .map((s) => s.substring(0, 1).toUpperCase() + s.substring(1))
+    .join('')
 }
 console.log(colonSeparated2Camel('entry:draft:linkToastShow:update'))
-export {
-
-}
+export {}

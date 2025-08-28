@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { COLOR_TOKEN_PROTO } from '../colorToken'
+
 const StyledInput = styled.input`
   border: none;
   outline: none;
@@ -9,6 +10,4 @@ const StyledInput = styled.input`
   }
   border-radius: 4px;
 `
-export {
-  StyledInput
-}
+export { StyledInput }

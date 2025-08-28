@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process'
-import { dirname } from 'node:path'
 import { log } from 'node:console'
 import { readFileSync, unlinkSync } from 'node:fs'
+import { dirname } from 'node:path'
 
 const logRemoteJsonDesc = 'log {url}.json senseless'
 const logRemoteJson = () => {
@@ -13,7 +13,4 @@ const logRemoteJson = () => {
   const dlog = JSON.parse(dlogContent)
   log(dlog)
 }
-export {
-  logRemoteJson,
-  logRemoteJsonDesc
-}
+export { logRemoteJson, logRemoteJsonDesc }

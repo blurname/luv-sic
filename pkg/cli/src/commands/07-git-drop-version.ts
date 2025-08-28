@@ -13,18 +13,18 @@
 import { spawnSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-
-import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 import { colorLog } from '@blurname/core/src/colorLog.js'
 import { parseOptionList } from '@blurname/core/src/node/cli.js'
-import { getLogList } from '../util/git.js'
 import { createFzfKit } from '../util/fzf.js'
+import { getLogList } from '../util/git.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const gitDropVersionDesc = 'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
+const gitDropVersionDesc =
+  'drop Commit by commitHash && commitPrefix which default prefix is VERSION'
 
 let options = {
   t: 'targetCommitHash',
@@ -86,8 +86,11 @@ const resolveOperations = (operations0: string) => {
 const gitDropVersion = async () => {
   const argv = process.argv
   if (!argv.includes('-action')) {
-    const actionPath = join(__dirname, '../../dist/commands/07-git-drop-version-action.mjs')
-    const runCallback = (selectKey:string) => {
+    const actionPath = join(
+      __dirname,
+      '../../dist/commands/07-git-drop-version-action.mjs'
+    )
+    const runCallback = (selectKey: string) => {
       const commitHash = selectKey.split(' ')[0]
       options.t = commitHash
       gitRebaseInteractive(actionPath)

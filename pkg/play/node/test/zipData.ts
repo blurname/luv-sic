@@ -3,65 +3,125 @@ const optionData = [
     data: { name: '标题3', linkCids: 'asdfas', expanded: true, selected: true },
     children: [
       {
-        data: { name: '标题31', linkCids: 'zxcvxzcv', expanded: true, selected: false },
+        data: {
+          name: '标题31',
+          linkCids: 'zxcvxzcv',
+          expanded: true,
+          selected: false
+        },
         children: [
           {
-            data: { name: '标题311', linkCids: 'qwer', expanded: true, selected: false },
-            children: [],
-          },
-        ],
-      },
-    ],
+            data: {
+              name: '标题311',
+              linkCids: 'qwer',
+              expanded: true,
+              selected: false
+            },
+            children: []
+          }
+        ]
+      }
+    ]
   },
   {
     data: { name: '标题2', linkCids: 'sadf', expanded: true, selected: false },
     children: [
       {
-        data: { name: '标题21', linkCids: 'xcvb', expanded: true, selected: false },
-        children: [],
+        data: {
+          name: '标题21',
+          linkCids: 'xcvb',
+          expanded: true,
+          selected: false
+        },
+        children: []
       },
       {
-        data: { name: '标题22', linkCids: 'asdfzxc', expanded: true, selected: false },
-        children: [],
-      },
-    ],
+        data: {
+          name: '标题22',
+          linkCids: 'asdfzxc',
+          expanded: true,
+          selected: false
+        },
+        children: []
+      }
+    ]
   },
   {
-    data: { name: '标题1', linkCids: 'dfghdfgh', expanded: true, selected: false },
+    data: {
+      name: '标题1',
+      linkCids: 'dfghdfgh',
+      expanded: true,
+      selected: false
+    },
     children: [
       {
-        data: { name: '标题11', linkCids: 'zxcvxzcv', expanded: true, selected: false },
+        data: {
+          name: '标题11',
+          linkCids: 'zxcvxzcv',
+          expanded: true,
+          selected: false
+        },
         children: [
           {
-            data: { name: '标题111', linkCids: 'qwer', expanded: true, selected: false },
-            children: [],
-          },
-        ],
+            data: {
+              name: '标题111',
+              linkCids: 'qwer',
+              expanded: true,
+              selected: false
+            },
+            children: []
+          }
+        ]
       },
       {
-        data: { name: '标题12', linkCids: 'zxcvxzcv', expanded: true, selected: false },
+        data: {
+          name: '标题12',
+          linkCids: 'zxcvxzcv',
+          expanded: true,
+          selected: false
+        },
         children: [
           {
-            data: { name: '标题121', linkCids: 'qwer', expanded: true, selected: false },
+            data: {
+              name: '标题121',
+              linkCids: 'qwer',
+              expanded: true,
+              selected: false
+            },
             children: [
               {
-                data: { name: '标题1211', linkCids: 'qwer', expanded: true, selected: false },
-                children: [],
-              },
-            ],
+                data: {
+                  name: '标题1211',
+                  linkCids: 'qwer',
+                  expanded: true,
+                  selected: false
+                },
+                children: []
+              }
+            ]
           },
           {
-            data: { name: '标题      122', linkCids: 'qwer', expanded: true, selected: false },
-            children: [],
+            data: {
+              name: '标题      122',
+              linkCids: 'qwer',
+              expanded: true,
+              selected: false
+            },
+            children: []
           },
           {
-            data: { name: '标题123', linkCids: 'qwer', expanded: true, selected: false },
-            children: [],
-          },
-        ],
-      },
-    ],
-  },
+            data: {
+              name: '标题123',
+              linkCids: 'qwer',
+              expanded: true,
+              selected: false
+            },
+            children: []
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 export type OptionData = {
@@ -95,7 +155,7 @@ const dataDatapMap = {
   linkCids: 'lc',
   selected: 'sd',
   icon: 'ico',
-  children: 'chi',
+  children: 'chi'
 } as const
 
 const zipData3 = (od: OptionData): OptionDataP2 | undefined => {
@@ -103,12 +163,12 @@ const zipData3 = (od: OptionData): OptionDataP2 | undefined => {
   const da = Object.entries(od.data).reduce((pre, [k, v]) => {
     return {
       ...pre,
-      [dataDatapMap[k]]: v,
+      [dataDatapMap[k]]: v
     }
   }, {})
   return {
     da,
-    chi: od.children.map(zipData3),
+    chi: od.children.map(zipData3)
   }
 }
 

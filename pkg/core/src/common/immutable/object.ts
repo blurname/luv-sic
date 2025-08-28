@@ -22,7 +22,11 @@ class createObjectDeepUpdate {
         this.keyPath = `${path}:${k}`
       } else {
         if (typeof obj[k] === 'object') {
-          this.findObjectPathByTargetKey(obj[k], key, `${path === '' ? '' : `${path}:`}${k}`)
+          this.findObjectPathByTargetKey(
+            obj[k],
+            key,
+            `${path === '' ? '' : `${path}:`}${k}`
+          )
         }
       }
     })
@@ -76,9 +80,7 @@ class createObjectDeepUpdate {
     return updated
   }
 }
-export {
-  createObjectDeepUpdate
-}
+export { createObjectDeepUpdate }
 
 // const deepObject = {
 // a: 1,

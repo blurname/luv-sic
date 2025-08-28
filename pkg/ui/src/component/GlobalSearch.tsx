@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Input } from './Input'
 import { SelfControlInput } from './SelfControlInput'
+
 const _prevHighlightTextNodeBackgroundMap = new Map<Node, string>()
 let currentJumpNode: Node
 const GlobalSearch = () => {
@@ -45,12 +46,12 @@ const GlobalSearch = () => {
 
   return (
     <StyledGlobalSearch>
-    <SelfControlInput
-    initialValue={''}
-    handleConfirm={handleConfirm}
-    handleChangeCallback={handleChangeCallback}
-    autoFocus={true}
-    />
+      <SelfControlInput
+        initialValue={''}
+        handleConfirm={handleConfirm}
+        handleChangeCallback={handleChangeCallback}
+        autoFocus={true}
+      />
     </StyledGlobalSearch>
   )
 }
@@ -69,7 +70,10 @@ const getAllTextNodeList = () => {
 }
 
 const clearHightTextNodeBatch = () => {
-  for (const [node, originalBackground] of _prevHighlightTextNodeBackgroundMap) {
+  for (const [
+    node,
+    originalBackground
+  ] of _prevHighlightTextNodeBackgroundMap) {
     node.parentElement!.style.background = originalBackground
   }
   _prevHighlightTextNodeBackgroundMap.clear()
@@ -77,7 +81,10 @@ const clearHightTextNodeBatch = () => {
 
 const hgithLightTextNodeBatch = (nodeList: Node[]) => {
   for (const node of nodeList) {
-    _prevHighlightTextNodeBackgroundMap.set(node, node.parentElement!.style.background)
+    _prevHighlightTextNodeBackgroundMap.set(
+      node,
+      node.parentElement!.style.background
+    )
     node.parentElement!.style.background = 'yellow'
   }
 }
@@ -93,6 +100,4 @@ const StyledGlobalSearch = styled.div`
   top: 50%;
   left: 50%;
 `
-export {
-  GlobalSearch
-}
+export { GlobalSearch }

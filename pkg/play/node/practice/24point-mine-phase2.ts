@@ -22,7 +22,7 @@
 //     compute(res,compute(n3,n4)) && compute(compute(res,n3),n4) 是否满足交换率
 // my code
 // if compute an infinite list, should by givin end symbol
-const compute = (a:number, b:number) => {
+const compute = (a: number, b: number) => {
   return {
     addRes: a + b,
     minusRes: a - b,
@@ -33,20 +33,20 @@ const compute = (a:number, b:number) => {
 // // TODO: bl: a -> b -> c ->
 type ComputeParam =
   | {
-      type:'number'
-      n:number
+      type: 'number'
+      n: number
     }
   | {
-    type: 'res'
-    res:{
-      addRes: number
-      subRes: number
-      mulRes: number
-      divRes: number
+      type: 'res'
+      res: {
+        addRes: number
+        subRes: number
+        mulRes: number
+        divRes: number
+      }
     }
-  }
 
-const compute2 = <N extends number>(a:N, b:N) => {
+const compute2 = <N extends number>(a: N, b: N) => {
   const res = {
     addRes: a + b,
     minusRes: a - b,
@@ -55,7 +55,7 @@ const compute2 = <N extends number>(a:N, b:N) => {
   }
   return {
     res,
-    next: (c:N, d:N) => {
+    next: (c: N, d: N) => {
       compute2(c, d)
     }
   }
@@ -66,9 +66,9 @@ const compute2 = <N extends number>(a:N, b:N) => {
 
 const TARGET = 24
 
-const createDFS = (originalList:number[], fn:(value:any)=>unknown) => {
+const createDFS = (originalList: number[], fn: (value: any) => unknown) => {
   try {
-    const listDFS = (currentList:number[], currentPos: number) => {
+    const listDFS = (currentList: number[], currentPos: number) => {
       if (currentList.length === 1) {
         fn(currentList[0])
         return // TODO: bl: return what
@@ -83,11 +83,10 @@ const createDFS = (originalList:number[], fn:(value:any)=>unknown) => {
     for (let x = 0; x < originalList.length; x++) {
       listDFS(originalList, x)
     }
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
-const resolve = (numberList:[number, number, number, number]) => {
+const resolve = (numberList: [number, number, number, number]) => {
   try {
     for (let x = 0; x < numberList.length; x++) {
       const n1 = numberList[x]
@@ -99,30 +98,36 @@ const resolve = (numberList:[number, number, number, number]) => {
         for (let z = 0; z < numberList.length; z++) {
           if (z === y || z === x) continue
           const n3 = numberList[z]
-          const n4 = numberList.filter((n, index) => index !== x && index !== y && index !== z)[0]
-          { // n3x path1
+          const n4 = numberList.filter(
+            (n, index) => index !== x && index !== y && index !== z
+          )[0]
+          {
+            // n3x path1
             for (const res1Res of Object.values(res1)) {
               const res2 = compute(res1Res, n3)
               for (const res2Res of Object.values(res2)) {
                 const res3 = compute(res2Res, n4)
                 for (const res3Res of Object.values(res3)) {
-                  if (res3Res === TARGET) throw new Error(`true: ${n1},${n2},${n3},${n4}`)
+                  if (res3Res === TARGET)
+                    throw new Error(`true: ${n1},${n2},${n3},${n4}`)
                 }
               }
             }
           }
-          { // n3x path2
+          {
+            // n3x path2
             // const [n3, n4] = numberList.filter(n => n !== x && n !== y)
             const res2 = compute(n3, n4)
             for (const res1Res of Object.values(res1)) {
               for (const res2Res of Object.values(res2)) {
                 const res3 = compute(res1Res, res2Res)
                 for (const res3Res of Object.values(res3)) {
-                  if (res3Res === TARGET) throw new Error(`true: ${n1},${n2},${n3},${n4}`)
+                  if (res3Res === TARGET)
+                    throw new Error(`true: ${n1},${n2},${n3},${n4}`)
                 }
               }
             }
-          // res1 = n3 * n4
+            // res1 = n3 * n4
           }
         }
       }

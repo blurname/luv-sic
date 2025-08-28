@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-export const useRepeat = (repeatNum:number, f:any) => {
+import { useEffect, useState } from 'react'
+
+export const useRepeat = (repeatNum: number, f: any) => {
   const [canRepeat, setCanRepeat] = useState(false)
   const [rn, setRn] = useState(repeatNum)
   useEffect(() => {

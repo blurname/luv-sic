@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { COLOR_TOKEN, COLOR_TOKEN_PROTO } from '../colorToken'
+
 type Tab = {
   label: string
   value: string | number
@@ -8,17 +9,27 @@ type Tab = {
 type Props = {
   activeTab: Tab
   tabList: Tab[]
-  onClick: (value:Tab)=>void
+  onClick: (value: Tab) => void
 }
-const TabList = ({ activeTab, tabList, onClick }:Props) => {
-  return <StyledTabList>
-  {tabList.map((tab) => {
-    const className = activeTab.value === tab.value ? 'tab active' : 'tab'
-    return (
-        <button key={tab.value} className={className} onClick={() => { onClick(tab) }}>{tab.label}</button>
-    )
-  })}
-  </StyledTabList>
+const TabList = ({ activeTab, tabList, onClick }: Props) => {
+  return (
+    <StyledTabList>
+      {tabList.map((tab) => {
+        const className = activeTab.value === tab.value ? 'tab active' : 'tab'
+        return (
+          <button
+            key={tab.value}
+            className={className}
+            onClick={() => {
+              onClick(tab)
+            }}
+          >
+            {tab.label}
+          </button>
+        )
+      })}
+    </StyledTabList>
+  )
 }
 // https:// stackoverflow.com/questions/2802842/simple-css-tabs-need-to-break-border-on-active-tab
 const StyledTabList = styled.div`
@@ -43,23 +54,27 @@ const StyledTabList = styled.div`
       border: 1px solid ${COLOR_TOKEN_PROTO.blue1};
     }
   }
-  :nth-child(1){
+  :nth-child(1) {
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
   }
-  :last-child{
+  :last-child {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
   }
 `
-const useTabList = (tabList:Tab[]) => {
+const useTabList = (tabList: Tab[]) => {
   const [activeTab, setActiveTab] = useState(tabList[0])
   const handleTabClick = (tab) => {
     setActiveTab(tab)
   }
   const TabListRender = useMemo(() => {
     return (
-      <TabList activeTab={activeTab} tabList={tabList} onClick={handleTabClick} />
+      <TabList
+        activeTab={activeTab}
+        tabList={tabList}
+        onClick={handleTabClick}
+      />
     )
   }, [activeTab, tabList])
   return {
@@ -67,10 +82,5 @@ const useTabList = (tabList:Tab[]) => {
     TabListRender
   }
 }
-export type {
-  Tab
-}
-export {
-  TabList,
-  useTabList
-}
+export type { Tab }
+export { TabList, useTabList }

@@ -13,7 +13,7 @@ const performNativeCopy = (items: ClipboardItem[]): boolean => {
   const listener = (e: ClipboardEvent) => {
     const clipboardData = e.clipboardData
     if (clipboardData) {
-      items.forEach(item => clipboardData.setData(item.mimeType, item.data))
+      items.forEach((item) => clipboardData.setData(item.mimeType, item.data))
     }
 
     e.preventDefault()
@@ -30,6 +30,4 @@ const performNativeCopy = (items: ClipboardItem[]): boolean => {
   }
   return success
 }
-export {
-  performNativeCopy
-}
+export { performNativeCopy }

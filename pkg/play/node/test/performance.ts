@@ -9,21 +9,21 @@ const action1: Latency = {
   latency: 500,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 const action2: Latency = {
   value: 1,
   latency: 1500,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 const action3: Latency = {
   value: 2,
   latency: 1000,
   log: (v) => {
     console.log(v)
-  },
+  }
 }
 const currentLatencyMs = 100000
 const actionList: Latency[] = []

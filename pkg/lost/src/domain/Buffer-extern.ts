@@ -1,5 +1,5 @@
-import { Remesh } from 'remesh'
 import type { Buffer } from './Buffer'
+import { Remesh } from 'remesh'
 
 type BufferRepo = {
   getBufferList: () => Promise<Buffer[]>
@@ -10,20 +10,18 @@ type BufferRepo = {
 
 const BufferRepoExtern = Remesh.extern<BufferRepo>({
   default: {
-    async getBufferList () {
+    async getBufferList() {
       throw new Error('Not implemented')
     },
-    async addBuffer () {
+    async addBuffer() {
       throw new Error('Not implemented')
     },
-    async removeBuffer () {
+    async removeBuffer() {
       throw new Error('Not implemented')
     },
-    async updateBuffer () {
+    async updateBuffer() {
       throw new Error('Not implemented')
     }
   }
 })
-export {
-  BufferRepoExtern
-}
+export { BufferRepoExtern }

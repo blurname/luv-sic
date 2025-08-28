@@ -26,7 +26,10 @@ type Where = {
 }
 type WhereExpression = {
   type: 'whereExpression'
-  value: `${string} >= ${string}` | `${string} === ${string}` | `${string} <= ${string}`
+  value:
+    | `${string} >= ${string}`
+    | `${string} === ${string}`
+    | `${string} <= ${string}`
 }
 type Expression = {
   type: 'expression'
@@ -41,27 +44,27 @@ const Tokenizer = (input: String) => {
   source.map((s) => {
     if (s === 'query') {
       tokens.push({
-        type: 'query',
+        type: 'query'
       })
     } else if (s === '(') {
       tokens.push({
         type: 'parens',
-        value: '(',
+        value: '('
       })
       // eslint-disable-next-line no-empty
     } else if (s === 'result') {
     } else if (s === ')') {
       tokens.push({
         type: 'parens',
-        value: ')',
+        value: ')'
       })
     } else if (s === 'from') {
       tokens.push({
-        type: 'from',
+        type: 'from'
       })
     } else if (s === 'where') {
       tokens.push({
-        type: 'where',
+        type: 'where'
       })
     }
   })

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 // import { async } from 'rxjs'
 import init, { add_zwsp } from '../../wasm/ZWSP/ZWSP.js'
-import { clickListener, inputListener } from '../sdk/event'
 import { useRepeat } from '../hooks/useRepeat'
+import { clickListener, inputListener } from '../sdk/event'
 
-export function EditingPage () {
+export function EditingPage() {
   const [TIValue, setTIValue] = useState('')
   const TIRef = useRef<HTMLTextAreaElement>(null)
   const TORef = useRef<HTMLTextAreaElement>(null)
@@ -27,10 +27,14 @@ export function EditingPage () {
     // TORef.current!.style.setProperty('background', `rgba(${rgba2.r},${rgba2.g},${rgba2.a},${rgba2.a}) `)
   }
 
-  const handleTIClicking = (ref: HTMLTextAreaElement) => (e: React.MouseEvent<HTMLDivElement>) => {
-    const rgba = randomRGBA()
-    ref.style.setProperty('background', ` rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a} `)
-  }
+  const handleTIClicking =
+    (ref: HTMLTextAreaElement) => (e: React.MouseEvent<HTMLDivElement>) => {
+      const rgba = randomRGBA()
+      ref.style.setProperty(
+        'background',
+        ` rgba(${rgba.r},${rgba.g},${rgba.a},${rgba.a} `
+      )
+    }
 
   const { setCanRepeat } = useRepeat(100, testZWSP())
   useEffect(() => {
@@ -57,8 +61,17 @@ export function EditingPage () {
   // }, [wasm])
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <textarea ref={TIRef} style={{ flex: 1, background: 'rgba(63, 236, 0, 0.05)' }} id="TI" />
-      <textarea ref={TORef} style={{ flex: 1, background: 'rgba(135, 63, 234, 0.05)' }} id="TO" value={TIValue} />
+      <textarea
+        ref={TIRef}
+        style={{ flex: 1, background: 'rgba(63, 236, 0, 0.05)' }}
+        id="TI"
+      />
+      <textarea
+        ref={TORef}
+        style={{ flex: 1, background: 'rgba(135, 63, 234, 0.05)' }}
+        id="TO"
+        value={TIValue}
+      />
     </div>
   )
 }

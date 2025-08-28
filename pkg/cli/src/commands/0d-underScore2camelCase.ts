@@ -1,4 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises'
+
 const underScore2CamelCase = async () => {
   const filePath = process.argv[2]
   const jsonContent = await readFile(filePath)
@@ -32,7 +33,10 @@ const underScore2CamelCase = async () => {
   const fileName = fileDirList.at(-1)
   fileDirList[fileDirList.length - 1] = ''
   const fileDir = fileDirList.join('/')
-  await writeFile(`${fileDir}/${fileName}toCamelCase.json`, newRowList.join('\n'))
+  await writeFile(
+    `${fileDir}/${fileName}toCamelCase.json`,
+    newRowList.join('\n')
+  )
 }
 const wordInitals2Upper = (s: string) => {
   const cs = s.split('')

@@ -1,5 +1,6 @@
+import type { Buffer } from './Buffer'
 import localforage from 'localforage'
-import { SHARING_MARK, type Buffer } from './Buffer'
+import { SHARING_MARK } from './Buffer'
 import { BufferRepoExtern } from './Buffer-extern'
 
 const storageKey = 'buffer-data'
@@ -8,17 +9,16 @@ const getBufferList = async () => {
 }
 
 const BufferRepoExternImpl = BufferRepoExtern.impl({
-
-  async getBufferList () {
+  async getBufferList() {
     return getBufferList()
   },
 
-  async addBuffer (buffer: Buffer) {
+  async addBuffer(buffer: Buffer) {
     const data = await getBufferList()
     await localforage.setItem(storageKey, data.concat(buffer))
   },
 
-  async removeBuffer (key) {
+  async removeBuffer(key) {
     const data = await getBufferList()
     await localforage.setItem(
       storageKey,
@@ -26,14 +26,16 @@ const BufferRepoExternImpl = BufferRepoExtern.impl({
     )
   },
 
-  async updateBuffer (updateBuffer) {
+  async updateBuffer(updateBuffer) {
     const data = await getBufferList()
     await localforage.setItem(
       storageKey,
-      data.map((buffer) => (buffer.key === updateBuffer.key ? { ...buffer, ...updateBuffer } : buffer))
+      data.map((buffer) =>
+        buffer.key === updateBuffer.key
+          ? { ...buffer, ...updateBuffer }
+          : buffer
+      )
     )
   }
 })
-export {
-  BufferRepoExternImpl
-}
+export { BufferRepoExternImpl }

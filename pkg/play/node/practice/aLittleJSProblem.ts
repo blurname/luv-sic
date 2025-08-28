@@ -50,4 +50,3 @@ const revert = (numbers: any) => {}
 const foreach = (numbers: any, f: Fn) => {
   numbers(any)
 }
-

@@ -1,4 +1,5 @@
 import { strict as assert } from 'assert'
+
 const sMS = () => {
   return 1000
 }
@@ -57,7 +58,6 @@ class BLTime {
     } else if (MsFormat === 'week') {
       addedMs = num * weekMs()
     } else {
-
     }
     return new BLTime(this.date + addedMs)
   }
@@ -74,7 +74,6 @@ class BLTime {
     } else if (MsFormat === 'week') {
       subedMs = num * weekMs()
     } else {
-
     }
     return new BLTime(this.date + subedMs)
   }
@@ -86,6 +85,7 @@ const time = '2022-05-27T11:47:55.000+08:00'
 //})
 assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())), 5)
 assert.equal(new BLTime(time).diffDays(new BLTime(Date.now())), 5)
-assert.equal(new BLTime(time).add(1, 's').add(1, 's').getDate(), new BLTime(time).add(1, 's').add(1, 's').getDate())
-
-
+assert.equal(
+  new BLTime(time).add(1, 's').add(1, 's').getDate(),
+  new BLTime(time).add(1, 's').add(1, 's').getDate()
+)

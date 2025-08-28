@@ -26,7 +26,11 @@ const BufferDomain = Remesh.domain({
           return [AddBufferCommand(), AddBufferFromSharingCommand()]
         }
         const { maxZBuffer } = get(BufferListMaxZQuery(nextBufferList))
-        return [BufferListState().new(nextBufferList), UpdateActiveBufferCommand(maxZBuffer.key), AddBufferFromSharingCommand()]
+        return [
+          BufferListState().new(nextBufferList),
+          UpdateActiveBufferCommand(maxZBuffer.key),
+          AddBufferFromSharingCommand()
+        ]
       }
     })
 
@@ -37,7 +41,7 @@ const BufferDomain = Remesh.domain({
 
     const BufferListQuery = domain.query({
       name: 'BufferListQuery',
-      impl ({ get }) {
+      impl({ get }) {
         const bufferList = get(BufferListState())
         return bufferList
       }
@@ -50,7 +54,7 @@ const BufferDomain = Remesh.domain({
 
     const ActiveBufferQuery = domain.query({
       name: 'ActiveBufferQuery',
-      impl ({ get }) {
+      impl({ get }) {
         const activeBuffer = get(ActiveBufferState())
         return activeBuffer
       }
@@ -58,7 +62,7 @@ const BufferDomain = Remesh.domain({
 
     const NextZQuery = domain.query({
       name: 'BufferNextZQuery',
-      impl ({ get }) {
+      impl({ get }) {
         const { maxZ = 0 } = get(BufferListMaxZQuery())
         return maxZ + 1
       }
@@ -66,7 +70,7 @@ const BufferDomain = Remesh.domain({
 
     const BufferListMaxZQuery = domain.query({
       name: 'BufferMaxZQuery',
-      impl ({ get }, bufferListFromProps?:Buffer[]) {
+      impl({ get }, bufferListFromProps?: Buffer[]) {
         const bufferList = bufferListFromProps || get(BufferListQuery())
         let maxZ = bufferList[0]?.zIndex
         let maxZBuffer: Buffer = bufferList[0]
@@ -82,35 +86,43 @@ const BufferDomain = Remesh.domain({
 
     const AddBufferCommand = domain.command({
       name: 'AddBufferCommand',
-      impl ({ get }) {
+      impl({ get }) {
         const bufferList = get(BufferListState())
         const nextZ = get(NextZQuery())
-        const newBuffer:Buffer = {
+        const newBuffer: Buffer = {
           key: newBufferName(),
           zIndex: nextZ,
           content: ''
         }
 
-        return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]
+        return [
+          BufferListState().new([...bufferList, newBuffer]),
+          UpdateActiveBufferCommand(newBuffer.key),
+          AddBufferEvent(newBuffer)
+        ]
       }
     })
 
     const AddBufferFromSharingCommand = domain.command({
       name: 'AddBufferFromSharingCommand',
-      impl ({ get }) {
+      impl({ get }) {
         const url = location.href
         if (!url.includes(SHARING_MARK)) return []
         const bufferList = get(BufferListState())
         const nextZ = get(NextZQuery())
         const [nextHref, sharingContent] = url.split(SHARING_MARK)
-        const newBuffer:Buffer = {
+        const newBuffer: Buffer = {
           key: newBufferName(),
           zIndex: nextZ,
           content: decodeURIComponent(sharingContent)
         }
         location.hash = ''
 
-        return [BufferListState().new([...bufferList, newBuffer]), UpdateActiveBufferCommand(newBuffer.key), AddBufferEvent(newBuffer)]
+        return [
+          BufferListState().new([...bufferList, newBuffer]),
+          UpdateActiveBufferCommand(newBuffer.key),
+          AddBufferEvent(newBuffer)
+        ]
       }
     })
 
@@ -120,13 +132,17 @@ const BufferDomain = Remesh.domain({
 
     const DelBufferCommand = domain.command({
       name: 'DelBufferCommand',
-      impl ({ get }, key: Buffer['key']) {
+      impl({ get }, key: Buffer['key']) {
         const todoList = get(BufferListState())
         const newTodoList = todoList.filter((buffer) => buffer.key !== key)
         const nextBuffer = newTodoList.at(-1)
         if (!nextBuffer) return null // 哇哦,自动实现了没有下一个就不删除的功能
 
-        return [BufferListState().new(newTodoList), UpdateActiveBufferCommand(nextBuffer.key), DelBufferEvent(key)]
+        return [
+          BufferListState().new(newTodoList),
+          UpdateActiveBufferCommand(nextBuffer.key),
+          DelBufferEvent(key)
+        ]
       }
     })
 
@@ -136,7 +152,7 @@ const BufferDomain = Remesh.domain({
 
     const UpdateBufferContentCommand = domain.command({
       name: 'UpdateBufferContentCommand',
-      impl ({ get }, { key, content }:Pick<Buffer, 'key' | 'content'>) {
+      impl({ get }, { key, content }: Pick<Buffer, 'key' | 'content'>) {
         const bufferList = get(BufferListState())
         const newBufferList = bufferList.map((buffer) => {
           if (buffer.key === key) {
@@ -146,10 +162,13 @@ const BufferDomain = Remesh.domain({
           }
         })
 
-        const nextBuffer = newBufferList.find(buf => buf.key === key)
+        const nextBuffer = newBufferList.find((buf) => buf.key === key)
         if (!nextBuffer) return null
 
-        return [BufferListState().new(newBufferList), UpdateBufferEvent(nextBuffer)]
+        return [
+          BufferListState().new(newBufferList),
+          UpdateBufferEvent(nextBuffer)
+        ]
       }
     })
 
@@ -159,9 +178,9 @@ const BufferDomain = Remesh.domain({
 
     const UpdateActiveBufferCommand = domain.command({
       name: 'UpdateBufferContentCommand',
-      impl: ({ get }, key :Buffer['key']) => {
+      impl: ({ get }, key: Buffer['key']) => {
         const bufferList = get(BufferListState())
-        const nextBuffer = bufferList.find(buf => buf.key === key)
+        const nextBuffer = bufferList.find((buf) => buf.key === key)
         if (!nextBuffer) return null
 
         return [ActiveBufferState().new(nextBuffer)]
@@ -173,8 +192,10 @@ const BufferDomain = Remesh.domain({
       impl: ({ get }, dir: 'next' | 'prev') => {
         const bufferList = get(BufferListState())
         const activeBuffer = get(ActiveBufferState())
-        const activeIndex = bufferList.findIndex((buf) => buf.key === activeBuffer?.key)
-        let nextBuffer:Buffer
+        const activeIndex = bufferList.findIndex(
+          (buf) => buf.key === activeBuffer?.key
+        )
+        let nextBuffer: Buffer
         if (dir === 'next') {
           nextBuffer = bufferList[activeIndex + 1]
         } else {
@@ -188,34 +209,52 @@ const BufferDomain = Remesh.domain({
 
     domain.effect({
       name: 'FromRepoToStateEffect',
-      impl () {
-        return from(repo.getBufferList()).pipe(map((bufferList) => InitBufferListCommand(bufferList)))
+      impl() {
+        return from(repo.getBufferList()).pipe(
+          map((bufferList) => InitBufferListCommand(bufferList))
+        )
       }
     })
 
     domain.effect({
       name: 'FromStateToRepoEffect',
       impl: ({ fromEvent }) => {
-        const addBuffer$ = fromEvent(AddBufferEvent).pipe(tap((buffer) => repo.addBuffer(buffer)))
+        const addBuffer$ = fromEvent(AddBufferEvent).pipe(
+          tap((buffer) => repo.addBuffer(buffer))
+        )
 
-        const removeBuffer$ = fromEvent(DelBufferEvent).pipe(tap((key) => repo.removeBuffer(key)))
+        const removeBuffer$ = fromEvent(DelBufferEvent).pipe(
+          tap((key) => repo.removeBuffer(key))
+        )
 
-        const updateTodo$ = fromEvent(UpdateBufferEvent).pipe(tap((buffer) => repo.updateBuffer(buffer)))
+        const updateTodo$ = fromEvent(UpdateBufferEvent).pipe(
+          tap((buffer) => repo.updateBuffer(buffer))
+        )
 
-        return merge(addBuffer$, removeBuffer$, updateTodo$).pipe(map(() => null))
+        return merge(addBuffer$, removeBuffer$, updateTodo$).pipe(
+          map(() => null)
+        )
       }
     })
 
     domain.effect({
       name: 'FromStateToRepoEffect',
       impl: ({ fromEvent }) => {
-        const addBuffer$ = fromEvent(AddBufferEvent).pipe(tap((buffer) => repo.addBuffer(buffer)))
+        const addBuffer$ = fromEvent(AddBufferEvent).pipe(
+          tap((buffer) => repo.addBuffer(buffer))
+        )
 
-        const removeBuffer$ = fromEvent(DelBufferEvent).pipe(tap((key) => repo.removeBuffer(key)))
+        const removeBuffer$ = fromEvent(DelBufferEvent).pipe(
+          tap((key) => repo.removeBuffer(key))
+        )
 
-        const updateTodo$ = fromEvent(UpdateBufferEvent).pipe(tap((buffer) => repo.updateBuffer(buffer)))
+        const updateTodo$ = fromEvent(UpdateBufferEvent).pipe(
+          tap((buffer) => repo.updateBuffer(buffer))
+        )
 
-        return merge(addBuffer$, removeBuffer$, updateTodo$).pipe(map(() => null))
+        return merge(addBuffer$, removeBuffer$, updateTodo$).pipe(
+          map(() => null)
+        )
       }
     })
 
@@ -236,10 +275,5 @@ const BufferDomain = Remesh.domain({
   }
 })
 
-export type {
-  Buffer
-}
-export {
-  SHARING_MARK,
-  BufferDomain
-}
+export type { Buffer }
+export { SHARING_MARK, BufferDomain }

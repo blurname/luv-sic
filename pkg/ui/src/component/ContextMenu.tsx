@@ -1,4 +1,20 @@
-import React,{
+import { COLOR_TOKEN } from '@blurname/ui/src/colorToken'
+import {
+  autoUpdate,
+  flip,
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
+  offset,
+  shift,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useListNavigation,
+  useRole,
+  useTypeahead
+} from '@floating-ui/react'
+import React, {
   Children,
   cloneElement,
   forwardRef,
@@ -7,29 +23,13 @@ import React,{
   useRef,
   useState
 } from 'react'
-import {
-  useFloating,
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useRole,
-  useDismiss,
-  useInteractions,
-  useListNavigation,
-  useTypeahead,
-  FloatingPortal,
-  FloatingFocusManager,
-  FloatingOverlay
-} from '@floating-ui/react'
 import styled from 'styled-components'
-import { COLOR_TOKEN } from '@blurname/ui/src/colorToken'
 
 const MenuItem = forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    label: string;
-    disabled?: boolean;
+    label: string
+    disabled?: boolean
   }
 >(({ label, disabled, ...props }, ref) => {
   return (
@@ -46,8 +46,8 @@ const MenuItem = forwardRef<
 })
 
 interface Props {
-  label?: string;
-  nested?: boolean;
+  label?: string
+  nested?: boolean
 }
 
 const Menu = forwardRef<
@@ -104,11 +104,11 @@ const Menu = forwardRef<
   useEffect(() => {
     let timeout: number
 
-    function onContextMenu (e: MouseEvent) {
+    function onContextMenu(e: MouseEvent) {
       e.preventDefault()
 
       refs.setPositionReference({
-        getBoundingClientRect () {
+        getBoundingClientRect() {
           return {
             width: 0,
             height: 0,
@@ -131,7 +131,7 @@ const Menu = forwardRef<
       }, 300)
     }
 
-    function onMouseUp () {
+    function onMouseUp() {
       if (allowMouseUpCloseRef.current) {
         setIsOpen(false)
       }
@@ -165,14 +165,14 @@ const Menu = forwardRef<
                     child,
                     getItemProps({
                       tabIndex: activeIndex === index ? 0 : -1,
-                      ref (node: HTMLButtonElement) {
+                      ref(node: HTMLButtonElement) {
                         listItemsRef.current[index] = node
                       },
-                      onClick () {
+                      onClick() {
                         child.props.onClick?.()
                         setIsOpen(false)
                       },
-                      onMouseUp () {
+                      onMouseUp() {
                         child.props.onClick?.()
                         setIsOpen(false)
                       }
@@ -197,33 +197,29 @@ const StyledContextMenu = styled.div`
     border-radius: 8px;
   }
   .MenuItem {
-  width: 100%;
-  display: block;
-}
+    width: 100%;
+    display: block;
+  }
 
-.MenuItem {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background: white;
-  border: none;
-  border-radius: 4px;
-  text-align: left;
-  line-height: 1.5;
-  margin: 0;
-  outline: 0;
-}
-.MenuItem.open {
-  background: #ddd;
-}
+  .MenuItem {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: white;
+    border: none;
+    border-radius: 4px;
+    text-align: left;
+    line-height: 1.5;
+    margin: 0;
+    outline: 0;
+  }
+  .MenuItem.open {
+    background: #ddd;
+  }
 
-.MenuItem:focus,
-.MenuItem:not([disabled]):active {
-  background: ${COLOR_TOKEN.buttonPurple.hover};
-}
-
+  .MenuItem:focus,
+  .MenuItem:not([disabled]):active {
+    background: ${COLOR_TOKEN.buttonPurple.hover};
+  }
 `
-export {
-  Menu, MenuItem
-}
-
+export { Menu, MenuItem }

@@ -18,6 +18,4 @@ const getCLIParams = () => {
   return { paramList, paramKV }
 }
 
-export {
-  getCLIParams
-}
+export { getCLIParams }

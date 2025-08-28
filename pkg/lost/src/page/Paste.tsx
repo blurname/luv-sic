@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-type TextList = { type:string, text: string, url?: string }[]
+type TextList = { type: string; text: string; url?: string }[]
 const Paste = () => {
   const [rendertTextList, setRendertTextList] = useState<TextList>([])
   useEffect(() => {
-    const handlePaste = async (e:ClipboardEvent) => {
-      const renderList:TextList = []
+    const handlePaste = async (e: ClipboardEvent) => {
+      const renderList: TextList = []
       for (const item of e.clipboardData!.items) {
         if (item.type.includes('image/png')) {
-        //
+          //
           // const file = item.getAsFile()!
           // const uint8Array = new Uint8Array(await file.arrayBuffer())
           // console.log('image Uint8Array', uint8Array, String.fromCharCode(uint8Array.slice(0, 8)))
           //
           // console.log('image string', await file.text())
           // renderList.push({type:'image uint8Array',)
-        //
+          //
         }
       }
 
@@ -55,29 +55,28 @@ const Paste = () => {
   // }
 
   return (
-  <div>
-  {/* <button onClick={handleCopy}>copy</button> */}
-  <div>
-
-  { rendertTextList.length === 0
-    ? <h1>just paste</h1>
-
-    : rendertTextList.map((t, index) => {
-      return (
-        <div key={index}>
-        <h1>{t.type}</h1>
-        {
-          t.type.includes('image') ? <img src={t.url} / >
-            : <p>{t.text}</p>
-        }
-        </div>
-      )
-    })}
-  </div>
-  </div>
+    <div>
+      {/* <button onClick={handleCopy}>copy</button> */}
+      <div>
+        {rendertTextList.length === 0 ? (
+          <h1>just paste</h1>
+        ) : (
+          rendertTextList.map((t, index) => {
+            return (
+              <div key={index}>
+                <h1>{t.type}</h1>
+                {t.type.includes('image') ? (
+                  <img src={t.url} />
+                ) : (
+                  <p>{t.text}</p>
+                )}
+              </div>
+            )
+          })
+        )}
+      </div>
+    </div>
   )
 }
 
-export {
-  Paste
-}
+export { Paste }

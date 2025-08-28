@@ -8,8 +8,8 @@ const PiB = 1024 * TiB
 type Unit = 'Bytes' | 'KiB' | 'MiB' | 'GiB' | 'TiB' | 'PiB'
 
 type UnitResult =
-  | { type: Unit, value: number }
-  | { type: 'Unkown unit', value: number}
+  | { type: Unit; value: number }
+  | { type: 'Unkown unit'; value: number }
 
 const toUnit = (byte: number, unit: Unit): UnitResult => {
   // style1
@@ -43,15 +43,27 @@ const toUnit = (byte: number, unit: Unit): UnitResult => {
 }
 
 const getUnitFormat = (unitResult: UnitResult) => {
-  if (unitResult.type === 'Unkown unit') return `Unkown uinit, ${unitResult.value}`
+  if (unitResult.type === 'Unkown unit')
+    return `Unkown uinit, ${unitResult.value}`
   return `${unitResult.value}${unitResult.type}`
 }
 
-for (const byte of [32 * Byte, 64 * Byte, 1 * KiB, 4 * KiB, 4096 * GiB, NaN, 'abcde']) {
+for (const byte of [
+  32 * Byte,
+  64 * Byte,
+  1 * KiB,
+  4 * KiB,
+  4096 * GiB,
+  NaN,
+  'abcde'
+]) {
   try {
     if (typeof byte !== 'number') throw new Error('Error0: not a number')
     if (Number.isNaN(byte)) throw new Error('Error1: isNaN')
-    console.log(getUnitFormat(toUnit(byte, 'Bytes')), getUnitFormat(toUnit(byte, 'KiB')))
+    console.log(
+      getUnitFormat(toUnit(byte, 'Bytes')),
+      getUnitFormat(toUnit(byte, 'KiB'))
+    )
   } catch (e) {
     console.log((e as Error).message)
   }

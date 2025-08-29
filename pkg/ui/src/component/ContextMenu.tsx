@@ -12,7 +12,7 @@ import {
   useInteractions,
   useListNavigation,
   useRole,
-  useTypeahead
+  useTypeahead,
 } from '@floating-ui/react'
 import React, {
   Children,
@@ -21,7 +21,7 @@ import React, {
   isValidElement,
   useEffect,
   useRef,
-  useState
+  useState,
 } from 'react'
 import styled from 'styled-components'
 
@@ -71,13 +71,13 @@ const Menu = forwardRef<
     middleware: [
       offset({ mainAxis: 5, alignmentAxis: 4 }),
       flip({
-        fallbackPlacements: ['left-start']
+        fallbackPlacements: ['left-start'],
       }),
-      shift({ padding: 10 })
+      shift({ padding: 10 }),
     ],
     placement: 'right-start',
     strategy: 'fixed',
-    whileElementsMounted: autoUpdate
+    whileElementsMounted: autoUpdate,
   })
 
   const role = useRole(context, { role: 'menu' })
@@ -85,20 +85,20 @@ const Menu = forwardRef<
   const listNavigation = useListNavigation(context, {
     listRef: listItemsRef,
     onNavigate: setActiveIndex,
-    activeIndex
+    activeIndex,
   })
   const typeahead = useTypeahead(context, {
     enabled: isOpen,
     listRef: listContentRef,
     onMatch: setActiveIndex,
-    activeIndex
+    activeIndex,
   })
 
   const { getFloatingProps, getItemProps } = useInteractions([
     role,
     dismiss,
     listNavigation,
-    typeahead
+    typeahead,
   ])
 
   useEffect(() => {
@@ -117,9 +117,9 @@ const Menu = forwardRef<
             top: e.clientY,
             right: e.clientX,
             bottom: e.clientY,
-            left: e.clientX
+            left: e.clientX,
           }
-        }
+        },
       })
 
       setIsOpen(true)
@@ -175,7 +175,7 @@ const Menu = forwardRef<
                       onMouseUp() {
                         child.props.onClick?.()
                         setIsOpen(false)
-                      }
+                      },
                     })
                   )
               )}

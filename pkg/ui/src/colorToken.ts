@@ -2,14 +2,14 @@ const COLOR_TOKEN = {
   button: {
     bg: '#fff',
     hover: '#F2F2F2',
-    active: '#ddd'
+    active: '#ddd',
   },
   buttonPurple: {
     bg: '#fff',
     hover: 'rgba(135, 63, 234, 0.1)',
-    active: 'rgba(135, 63, 234, 0.3)'
+    active: 'rgba(135, 63, 234, 0.3)',
   },
-  border: '#DBDBDB'
+  border: '#DBDBDB',
 } as const
 
 const COLOR_TOKEN_PROTO = {
@@ -21,7 +21,7 @@ const COLOR_TOKEN_PROTO = {
     hover: '#2693FF',
     active: '#005ED9',
     disable: '#B9DAFE',
-    text: '#FFFFFF'
+    text: '#FFFFFF',
   },
   secondBtn: {
     normal: '#FFFFFF',
@@ -29,7 +29,7 @@ const COLOR_TOKEN_PROTO = {
     active: '#E1E6EF',
     disable: '#FFFFFF',
     text: '#5D6F8F',
-    disabledText: '#BEC5D2'
-  }
+    disabledText: '#BEC5D2',
+  },
 } as const
 export { COLOR_TOKEN, COLOR_TOKEN_PROTO }

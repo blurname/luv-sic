@@ -6,7 +6,7 @@ type StorageKey = `${StorageType}:${string}`
 const STORAGE_KEY_LIST = [
   { key: 'string:content' },
   { key: 'boolean:isSaved' },
-  { key: 'boolean:isSaved' }
+  { key: 'boolean:isSaved' },
 ] as const
 // const STORAGE_KEY_LIST = {
 // 1:{key:'string:content'},
@@ -32,7 +32,7 @@ const createStorageKit = () => {
 
   const set = <T extends StorageKey, U extends ValueType<T>>({
     key,
-    value
+    value,
   }: {
     key: T
     value: U
@@ -43,7 +43,7 @@ const createStorageKit = () => {
 
   return {
     get,
-    set
+    set,
   }
 }
 

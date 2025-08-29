@@ -22,7 +22,7 @@ const createFzfKit = ({ fzfStringList, config }: Props) => {
   const logFzfResult = ({
     findedItemList,
     inputStr,
-    selectIndex
+    selectIndex,
   }: {
     findedItemList: { item: string }[]
     inputStr: string
@@ -63,7 +63,7 @@ const createFzfKit = ({ fzfStringList, config }: Props) => {
     logFzfResult({
       findedItemList: firstFindedItemList,
       inputStr: '',
-      selectIndex: 0
+      selectIndex: 0,
     })
     const keyPressCallback = (
       str: string,
@@ -107,7 +107,7 @@ const createFzfKit = ({ fzfStringList, config }: Props) => {
   }
   return {
     logFzfResult,
-    runFzf
+    runFzf,
   }
 }
 export { createFzfKit }

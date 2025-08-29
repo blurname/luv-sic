@@ -17,7 +17,7 @@ const urlConfig = {
   buffer: () => 'buffer',
   effect: () => 'effect',
   play: () => 'play',
-  table: () => 'table'
+  table: () => 'table',
 }
 const urlInit = createUrlInit(urlConfig)
 const page = urlInit()

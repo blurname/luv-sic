@@ -18,7 +18,7 @@ const gitViewDiff = () => {
     const diffFile = `__${commitHash}__view.diff`
     if (useNvim) {
       spawnSync(editor, ['-c', `DiffviewOpen ${commitHash}`], {
-        stdio: 'inherit'
+        stdio: 'inherit',
       }) // nvim 需要安装 diffview.nvim 插件
     } else {
       execSync(`git diff ${commitHash} > ${diffFile}`)

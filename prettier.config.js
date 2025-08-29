@@ -4,7 +4,7 @@ module.exports = {
   semi: false,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: "none",
+  trailingComma: "es5",
   plugins: ['@ianvs/prettier-plugin-sort-imports'],
   importOrder: [
     "<TYPES>^(node:)",

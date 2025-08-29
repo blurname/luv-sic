@@ -18,7 +18,7 @@ const gitCommit = async () => {
   //
   const packageJsonContent = execGitDiff({
     type: 'file',
-    fileName: 'package.json'
+    fileName: 'package.json',
   })
   const commitMessage = packageJsonContent
     .split('\n')

@@ -6,9 +6,9 @@ export default {
   ...defineConfig({
     plugins: [pluginReact(), pluginNodePolyfill()],
     html: {
-      template: './index.html'
-    }
-  })
+      template: './index.html',
+    },
+  }),
   // defaultEntry: {
   //   index: './src/svg-simple.ts'
   // }

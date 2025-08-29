@@ -4,7 +4,7 @@ const colorToken = {
   Green: '\x1b[32m',
   Reset: '\x1b[0m',
   Yellow: '\x1b[33m',
-  Blue: '\x1b[34m'
+  Blue: '\x1b[34m',
 } as const
 type Color = keyof typeof colorToken
 type ColorLog = {

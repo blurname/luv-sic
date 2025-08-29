@@ -13,7 +13,7 @@ export function EditingPage() {
       r: Math.random() * 255,
       g: Math.random() * 255,
       b: Math.random() * 255,
-      a: Math.random() / 4
+      a: Math.random() / 4,
     }
   }
 
@@ -104,6 +104,6 @@ const testZWSP = () => {
   }
   return {
     mainTest,
-    testResult
+    testResult,
   }
 }

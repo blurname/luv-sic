@@ -16,7 +16,7 @@ const gitForgetLog = () => {
     console.log(
       colorLog({
         msg: '因为脚本会改写文件，请保证 git status 结果是空的，防止潜在错误的数据处理对文件内容的意外操作，不要让你的工作成果化为梦幻泡影',
-        fg: 'Red'
+        fg: 'Red',
       })
     )
     return

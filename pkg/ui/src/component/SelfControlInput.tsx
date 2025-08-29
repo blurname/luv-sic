@@ -12,7 +12,7 @@ const SelfControlInput = ({
   handleConfirm,
   handleChangeCallback,
   initialValue,
-  autoFocus
+  autoFocus,
 }: Props) => {
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState(initialValue)

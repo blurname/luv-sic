@@ -62,7 +62,7 @@ const RANGE_LIST = [
   'W',
   'X',
   'Y',
-  'Z'
+  'Z',
 ]
 const toggle20230321 = (curDate: Date) => {
   const rule = {
@@ -70,7 +70,7 @@ const toggle20230321 = (curDate: Date) => {
     '2023-03-24T10:00:00.080Z': RANGE_LIST.slice(12, 24),
     '2023-03-25T10:00:00.080Z': RANGE_LIST.slice(24, 36),
     '2023-03-26T10:00:00.080Z': RANGE_LIST.slice(36, 48),
-    '2023-03-27T10:00:00.080Z': RANGE_LIST.slice(48, 62)
+    '2023-03-27T10:00:00.080Z': RANGE_LIST.slice(48, 62),
   }
 
   const last = urlHash.split('').at(-1)

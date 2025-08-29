@@ -21,7 +21,7 @@ const dateMs = {
   sMs: 1000,
   minuteMs: 60000,
   hourMs: 144000,
-  dayMs: 24 * 144000
+  dayMs: 24 * 144000,
 }
 
 const timeAdd =
@@ -32,6 +32,6 @@ const timeDel =
 const time
 const BLTime = (t: TimestampOrDate) => ({
   add: () => BLTime(t) + BLTime(t),
-  value: new Date(t)
+  value: new Date(t),
 })
 export {}

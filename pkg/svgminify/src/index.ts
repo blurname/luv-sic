@@ -92,13 +92,13 @@ const OPTION_DEFAULT = {
       params: {
         overrides: {
           removeViewBox: false,
-          cleanupIds: false
-        }
-      }
+          cleanupIds: false,
+        },
+      },
     },
     'removeScriptElement', // enable builtin plugin not included in default preset
-    'removeXMLNS'
-  ]
+    'removeXMLNS',
+  ],
 }
 
 @customElement('svg-simple')
@@ -191,7 +191,7 @@ export class SvgSimple extends LitElement {
     const viewBox = svgOriginnal.documentElement.getAttribute('viewBox')
     const [width, height] = [
       svgOriginnal.documentElement.getAttribute('width'),
-      svgOriginnal.documentElement.getAttribute('height')
+      svgOriginnal.documentElement.getAttribute('height'),
     ]
 
     const [, , w, h] = viewBox ? viewBox?.split(' ') : [0, 0, width, height]

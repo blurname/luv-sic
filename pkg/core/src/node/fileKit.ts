@@ -21,7 +21,7 @@ const createFileKit = (path: string) => {
   return {
     modify,
     commit,
-    getFileContent
+    getFileContent,
   }
 }
 export { createFileKit }

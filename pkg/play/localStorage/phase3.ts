@@ -27,7 +27,7 @@ const createStorageKit = <T extends StorageKey>() => {
 
   const set = <TT extends T, U extends ValueType<TT>>({
     key,
-    value
+    value,
   }: {
     key: TT
     value: U
@@ -38,7 +38,7 @@ const createStorageKit = <T extends StorageKey>() => {
 
   return {
     get,
-    set
+    set,
   }
 }
 

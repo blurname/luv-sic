@@ -72,8 +72,8 @@ class createObjectDeepUpdate {
       return {
         ...currentObj,
         [v[depth]]: {
-          ...recUpdate(currentObj[v[depth]], depth + 1)
-        }
+          ...recUpdate(currentObj[v[depth]], depth + 1),
+        },
       }
     }
     const updated = recUpdate(obj, 0)

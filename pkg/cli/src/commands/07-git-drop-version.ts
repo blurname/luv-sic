@@ -29,14 +29,14 @@ const gitDropVersionDesc =
 let options = {
   t: 'targetCommitHash',
   k: 'VERSION',
-  I: false
+  I: false,
 } as any
 
 const gitRebaseInteractive = (scriptFilePath: string) => {
   const { stdout, stderr } = spawnSync('git', ['rebase', '-i', options['t']], {
     env: {
-      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath)
-    }
+      GIT_SEQUENCE_EDITOR: gitEdit(scriptFilePath),
+    },
   })
   console.log(stdout.toString())
   console.log('err', stderr.toString())

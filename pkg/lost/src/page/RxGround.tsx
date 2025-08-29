@@ -21,7 +21,7 @@ const BoxContainer = ({ title, children }) => {
         background: '#0022',
         width: '100%',
         outline: '1px solid #00f2',
-        marginBottom: 10
+        marginBottom: 10,
       }}
     >
       <h2>{title}</h2>

@@ -23,6 +23,6 @@ const genEntryKey = <T extends object>(entry: T): { [key in keyof T]: key } => {
 
 const DomainUtil = {
   genEntryKey,
-  genQuery
+  genQuery,
 }
 export { DomainUtil }

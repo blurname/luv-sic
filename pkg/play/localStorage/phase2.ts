@@ -18,7 +18,7 @@ type ValueType<T extends StorageKey> = T extends `${infer r}:${string}`
 const createStorageKit = <T extends readonly [...rest: any[]]>(keyList: T) => {
   const get = <
     Tunion extends (typeof keyList)[number],
-    U extends ValueType<Tunion>
+    U extends ValueType<Tunion>,
   >(
     key: Tunion
   ): U | null => {
@@ -32,10 +32,10 @@ const createStorageKit = <T extends readonly [...rest: any[]]>(keyList: T) => {
 
   const set = <
     Tunion extends (typeof keyList)[number],
-    U extends ValueType<Tunion>
+    U extends ValueType<Tunion>,
   >({
     key,
-    value
+    value,
   }: {
     key: Tunion
     value: U
@@ -46,7 +46,7 @@ const createStorageKit = <T extends readonly [...rest: any[]]>(keyList: T) => {
 
   return {
     get,
-    set
+    set,
   }
 }
 

@@ -7,7 +7,7 @@ import {
   RemeshRoot,
   useRemeshDomain,
   useRemeshQuery,
-  useRemeshSend
+  useRemeshSend,
 } from 'remesh-react'
 import { BufferDomain, SHARING_MARK } from '../domain/Buffer'
 import { BufferRepoExternImpl } from '../domain/localforage-extern'
@@ -162,7 +162,7 @@ function BufferEditor({ dv, bufferKey }) {
     send(
       domain.command.UpdateBufferContentCommand({
         key: bufferKey,
-        content: value
+        content: value,
       })
     )
   }
@@ -197,7 +197,7 @@ function BufferEditor({ dv, bufferKey }) {
 
 const Buffer = () => {
   const store = Remesh.store({
-    externs: [BufferRepoExternImpl]
+    externs: [BufferRepoExternImpl],
   })
 
   return (
@@ -215,83 +215,83 @@ const nordThemeData = {
   rules: [
     {
       background: '2E3440',
-      token: ''
+      token: '',
     },
     {
       foreground: '616e88',
-      token: 'comment'
+      token: 'comment',
     },
     {
       foreground: 'a3be8c',
-      token: 'string'
+      token: 'string',
     },
     {
       foreground: 'b48ead',
-      token: 'constant.numeric'
+      token: 'constant.numeric',
     },
     {
       foreground: '81a1c1',
-      token: 'constant.language'
+      token: 'constant.language',
     },
     {
       foreground: '81a1c1',
-      token: 'keyword'
+      token: 'keyword',
     },
     {
       foreground: '81a1c1',
-      token: 'storage'
+      token: 'storage',
     },
     {
       foreground: '81a1c1',
-      token: 'storage.type'
+      token: 'storage.type',
     },
     {
       foreground: '8fbcbb',
-      token: 'entity.name.class'
+      token: 'entity.name.class',
     },
     {
       foreground: '8fbcbb',
       fontStyle: '  bold',
-      token: 'entity.other.inherited-class'
+      token: 'entity.other.inherited-class',
     },
     {
       foreground: '88c0d0',
-      token: 'entity.name.function'
+      token: 'entity.name.function',
     },
     {
       foreground: '81a1c1',
-      token: 'entity.name.tag'
+      token: 'entity.name.tag',
     },
     {
       foreground: '8fbcbb',
-      token: 'entity.other.attribute-name'
+      token: 'entity.other.attribute-name',
     },
     {
       foreground: '88c0d0',
-      token: 'support.function'
+      token: 'support.function',
     },
     {
       foreground: 'f8f8f0',
       background: 'f92672',
-      token: 'invalid'
+      token: 'invalid',
     },
     {
       foreground: 'f8f8f0',
       background: 'ae81ff',
-      token: 'invalid.deprecated'
+      token: 'invalid.deprecated',
     },
     {
       foreground: 'b48ead',
-      token: 'constant.color.other.rgb-value'
+      token: 'constant.color.other.rgb-value',
     },
     {
       foreground: 'ebcb8b',
-      token: 'constant.character.escape'
+      token: 'constant.character.escape',
     },
     {
       foreground: '8fbcbb',
-      token: 'variable.other.constant'
-    }
+      token: 'variable.other.constant',
+    },
   ],
   colors: {
     'editor.foreground': '#D8DEE9',
@@ -299,8 +299,8 @@ const nordThemeData = {
     'editor.selectionBackground': '#434C5ECC',
     'editor.lineHighlightBackground': '#3B4252',
     'editorCursor.foreground': '#D8DEE9',
-    'editorWhitespace.foreground': '#434C5ECC'
-  }
+    'editorWhitespace.foreground': '#434C5ECC',
+  },
 }
 
 export { Buffer }

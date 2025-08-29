@@ -24,7 +24,7 @@ const compute = (a: number, b: number) => {
     addRes: a + b,
     minusRes: a - b,
     timeRes: a * b,
-    divRes: a / b
+    divRes: a / b,
   }
 }
 // TODO: bl:

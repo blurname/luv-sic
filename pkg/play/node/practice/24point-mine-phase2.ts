@@ -27,7 +27,7 @@ const compute = (a: number, b: number) => {
     addRes: a + b,
     minusRes: a - b,
     timeRes: a * b,
-    divRes: a / b
+    divRes: a / b,
   }
 }
 // // TODO: bl: a -> b -> c ->
@@ -51,13 +51,13 @@ const compute2 = <N extends number>(a: N, b: N) => {
     addRes: a + b,
     minusRes: a - b,
     timeRes: a * b,
-    divRes: a / b
+    divRes: a / b,
   }
   return {
     res,
     next: (c: N, d: N) => {
       compute2(c, d)
-    }
+    },
   }
 }
 // TODO: bl:

@@ -86,7 +86,7 @@ export const List = <T extends SchemaCtor>(item: T) => {
 
 export type SchemaField<
   T extends object,
-  key extends keyof T
+  key extends keyof T,
 > = key extends '__type'
   ? never
   : T[key] extends undefined
@@ -185,9 +185,9 @@ const data = {
       subcategories: [
         {
           name: 'Presidents',
-          subcategories: []
-        }
-      ]
-    }
-  ]
+          subcategories: [],
+        },
+      ],
+    },
+  ],
 } satisfies CategoryType

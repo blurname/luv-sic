@@ -21,7 +21,7 @@ const BufferRepoExtern = Remesh.extern<BufferRepo>({
     },
     async updateBuffer() {
       throw new Error('Not implemented')
-    }
-  }
+    },
+  },
 })
 export { BufferRepoExtern }

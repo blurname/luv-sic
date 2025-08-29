@@ -6,7 +6,7 @@ import { parseOptionList } from '@blurname/core/src/node/cli.js'
 const gitReplacePackageDesc = 'replace package version in  package.json'
 
 let options: Record<string, string> = {
-  t: 'imock'
+  t: 'imock',
 }
 
 const gitReplacePackage = async () => {
@@ -46,14 +46,14 @@ const gitReplacePackage = async () => {
   console.log(
     `已将 ${colorLog({ msg: options['t'], fg: 'Yellow' })} 下的 ${colorLog({
       msg: repoName,
-      fg: 'Yellow'
+      fg: 'Yellow',
     })} 版本号修改`
   )
   console.log(colorLog({ msg: '结果', fg: 'Green' }))
 
   spawnSync('git', ['--no-pager', 'diff', 'package.json'], {
     cwd: `../${options['t']}`,
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
 }
 export { gitReplacePackage, gitReplacePackageDesc }

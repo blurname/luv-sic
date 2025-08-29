@@ -7,7 +7,7 @@ type Version = `${number}.${number}.${number}`
 const DigitKV = {
   patch: 2,
   minor: 1,
-  major: 0
+  major: 0,
 } as const
 type Digit = keyof typeof DigitKV
 

@@ -63,11 +63,11 @@ function judgePoint24(cards: number[]): boolean {
       (a, b) => b - a,
       (a, b) => a * b,
       (a, b) => a / b,
-      (a, b) => b / a
+      (a, b) => b / a,
     ],
     return: (expr) => Math.abs(expr - 24) < EPSILON,
     check: (output) => output,
-    default: false
+    default: false,
   })
 }
 
@@ -111,7 +111,7 @@ function printPoint24(cards: number[]) {
           type: '+',
           left: a,
           right: b,
-          value: a.value + b.value
+          value: a.value + b.value,
         }
       },
       (a, b) => {
@@ -119,7 +119,7 @@ function printPoint24(cards: number[]) {
           type: '-',
           left: a,
           right: b,
-          value: a.value - b.value
+          value: a.value - b.value,
         }
       },
       (a, b) => {
@@ -127,7 +127,7 @@ function printPoint24(cards: number[]) {
           type: '-',
           left: b,
           right: a,
-          value: b.value - a.value
+          value: b.value - a.value,
         }
       },
       (a, b) => {
@@ -135,7 +135,7 @@ function printPoint24(cards: number[]) {
           type: '*',
           left: a,
           right: b,
-          value: a.value * b.value
+          value: a.value * b.value,
         }
       },
       (a, b) => {
@@ -143,7 +143,7 @@ function printPoint24(cards: number[]) {
           type: '/',
           left: a,
           right: b,
-          value: a.value / b.value
+          value: a.value / b.value,
         }
       },
       (a, b) => {
@@ -151,9 +151,9 @@ function printPoint24(cards: number[]) {
           type: '/',
           left: b,
           right: a,
-          value: b.value / a.value
+          value: b.value / a.value,
         }
-      }
+      },
     ],
     return: (expr) => {
       if (Math.abs(expr.value - 24) < EPSILON) {
@@ -164,7 +164,7 @@ function printPoint24(cards: number[]) {
     check: (output) => {
       return output !== null
     },
-    default: null
+    default: null,
   })
 }
 

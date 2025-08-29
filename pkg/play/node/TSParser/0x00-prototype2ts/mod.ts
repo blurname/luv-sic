@@ -10,9 +10,9 @@ const sourceFiles = program
   .getSourceFiles()
   .filter((sf) => path.normalize(sf.fileName) === path.normalize(filePath))[
   ({
-    shadow: 1
+    shadow: 1,
   },
   {
-    shadow: 2
+    shadow: 2,
   })
 ]

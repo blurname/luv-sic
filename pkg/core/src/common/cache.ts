@@ -19,7 +19,7 @@ const createFetchOnce = () => {
     return res
   }
   return {
-    requestOnceAsync
+    requestOnceAsync,
   }
 }
 

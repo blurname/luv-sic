@@ -55,7 +55,7 @@ for (const byte of [
   4 * KiB,
   4096 * GiB,
   NaN,
-  'abcde'
+  'abcde',
 ]) {
   try {
     if (typeof byte !== 'number') throw new Error('Error0: not a number')

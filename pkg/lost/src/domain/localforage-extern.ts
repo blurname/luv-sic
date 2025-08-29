@@ -36,6 +36,6 @@ const BufferRepoExternImpl = BufferRepoExtern.impl({
           : buffer
       )
     )
-  }
+  },
 })
 export { BufferRepoExternImpl }

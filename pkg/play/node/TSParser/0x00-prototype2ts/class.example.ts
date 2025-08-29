@@ -9,7 +9,7 @@ export default class Canvas0 extends PureComponent {
     isCreatingLine: PropTypes.bool,
     isCreatingStamp: PropTypes.bool,
     bgcolor: PropTypes.string,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
   }
 }
 type a = {

@@ -8,20 +8,20 @@ import { Tab, useTabList } from './component/Tab'
 const tabList: Tab[] = [
   {
     label: 'tab1',
-    value: 'tab1'
+    value: 'tab1',
   },
   {
     label: 'tab2',
-    value: 'tab2'
+    value: 'tab2',
   },
   {
     label: 'tab3',
-    value: 'tab3'
+    value: 'tab3',
   },
   {
     label: 'tab4',
-    value: 'tab4'
-  }
+    value: 'tab4',
+  },
 ]
 function App() {
   const { TabListRender } = useTabList(tabList)

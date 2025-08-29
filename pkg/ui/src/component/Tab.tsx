@@ -79,7 +79,7 @@ const useTabList = (tabList: Tab[]) => {
   }, [activeTab, tabList])
   return {
     activeTab,
-    TabListRender
+    TabListRender,
   }
 }
 export type { Tab }

@@ -23,7 +23,7 @@ const tMap = {
   [chun]: t1,
   [xia]: t2,
   [qiu]: t3,
-  [dong]: t4
+  [dong]: t4,
 }
 
 const urlInit = createUrlInit(themeConfig)

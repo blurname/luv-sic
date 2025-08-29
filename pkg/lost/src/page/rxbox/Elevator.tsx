@@ -8,7 +8,7 @@ import {
   map,
   Observable,
   switchMap,
-  take
+  take,
 } from 'rxjs'
 
 type ElevatorState = {
@@ -22,7 +22,7 @@ export function Elevator() {
   const [elevatorState, setElevatorState] = useState<ElevatorState>({
     currentFloor: 1,
     direction: 'stop',
-    clickedFloors: []
+    clickedFloors: [],
   })
   useEffect(() => {
     elevator(elevatorRef.current!).subscribe((x: ElevatorState) => {
@@ -30,7 +30,7 @@ export function Elevator() {
       setElevatorState({
         currentFloor: x.currentFloor,
         direction: isStop ? 'stop' : x.direction,
-        clickedFloors: isStop ? [] : x.clickedFloors
+        clickedFloors: isStop ? [] : x.clickedFloors,
       })
     })
   }, [])
@@ -39,7 +39,7 @@ export function Elevator() {
       targetFloor,
       currentFloor: elevatorState.currentFloor,
       direction: elevatorState.direction,
-      clickedFloors: elevatorState.clickedFloors
+      clickedFloors: elevatorState.clickedFloors,
     })
     elevatorRef.current!.dispatchEvent(ne)
   }
@@ -49,7 +49,7 @@ export function Elevator() {
         display: 'flex',
         flexDirection: 'column',
         width: 200,
-        background: '#f002'
+        background: '#f002',
       }}
     >
       {floor.map((n, i) => (
@@ -83,7 +83,7 @@ const elevator = (ref: HTMLElement) => {
               ({
                 currentFloor: maxFloor - x,
                 direction: 'down',
-                clickedFloors: [...clickedFloors, targetFloor]
+                clickedFloors: [...clickedFloors, targetFloor],
               }) as ElevatorState
           )
         )
@@ -94,7 +94,7 @@ const elevator = (ref: HTMLElement) => {
               ({
                 currentFloor: x + currentFloor,
                 direction: 'up',
-                clickedFloors: [...clickedFloors, targetFloor]
+                clickedFloors: [...clickedFloors, targetFloor],
               }) as ElevatorState
           )
         )

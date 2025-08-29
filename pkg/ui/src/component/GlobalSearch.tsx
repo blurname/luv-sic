@@ -72,7 +72,7 @@ const getAllTextNodeList = () => {
 const clearHightTextNodeBatch = () => {
   for (const [
     node,
-    originalBackground
+    originalBackground,
   ] of _prevHighlightTextNodeBackgroundMap) {
     node.parentElement!.style.background = originalBackground
   }

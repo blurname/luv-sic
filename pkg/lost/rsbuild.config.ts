@@ -3,16 +3,16 @@ import { pluginReact } from '@rsbuild/plugin-react'
 
 export default {
   ...defineConfig({
-    plugins: [pluginReact()]
+    plugins: [pluginReact()],
   }),
   server: {
-    port: 1230
+    port: 1230,
   },
   defaultEntry: {
-    index: './src/App.tsx'
+    index: './src/App.tsx',
   },
   html: {
     title: '追忆',
-    favicon: './public/dear.png'
-  }
+    favicon: './public/dear.png',
+  },
 }

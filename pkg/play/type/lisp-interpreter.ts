@@ -26,7 +26,7 @@ type NArrayNumber<L extends number> = NArray<number, L>
 // 加法
 export type Add<M extends number, N extends number> = [
   ...NArrayNumber<M>,
-  ...NArrayNumber<N>
+  ...NArrayNumber<N>,
 ]['length']
 
 // 减法
@@ -45,7 +45,7 @@ type _Subtract<M extends number, N extends number> =
 type _Multiply<
   M extends number,
   N extends number,
-  res extends unknown[]
+  res extends unknown[],
 > = N extends 0
   ? res['length']
   : _Multiply<M, _Subtract<N, 1>, [...NArray<number, M>, ...res]>
@@ -55,7 +55,7 @@ export type Multiply<M extends number, N extends number> = _Multiply<M, N, []>
 type _DivideBy<
   M extends number,
   N extends number,
-  res extends unknown[]
+  res extends unknown[],
 > = M extends 0
   ? res['length']
   : _Subtract<M, N> extends -1
@@ -73,7 +73,7 @@ type SuccessResult<R> = { type: 'Success'; result: R }
 type Safe<
   T,
   Reference,
-  Default extends Reference = Reference
+  Default extends Reference = Reference,
 > = T extends Reference ? T : Default
 
 // 基本字符
@@ -139,13 +139,13 @@ type SymbolChars = '+' | '-' | '*' | '/' | '=' | '>' | '<' | '&' | '|' | '!'
 type TokenError<M extends string> = ErrorResult<`[ParseTokenError]: ${M}`>
 type TokenResult<
   Matched extends TokenType[],
-  Next extends string
+  Next extends string,
 > = SuccessResult<{ matched: Matched; next: Next }>
 type TokenType = string | number
 
 type ParseSpace<
   Input extends string,
-  Matched extends string = ''
+  Matched extends string = '',
 > = Input extends `${SpaceChars}${infer Next}`
   ? ParseSpace<Next, ' '>
   : Matched extends ''
@@ -163,7 +163,7 @@ type ParseIdentifier<Input extends string> =
 
 type _ParseIdentifierBody<
   Input extends string,
-  Matched extends string
+  Matched extends string,
 > = Input extends `${infer Char}${infer Next}`
   ? Char extends AlphaChars | NumberChars
     ? _ParseIdentifierBody<Next, `${Matched}${Char}`>
@@ -202,7 +202,7 @@ type _SafeMulti<L extends number, R extends number> = Safe<
 
 type _StringToNumber<
   S extends string,
-  R extends number = 0
+  R extends number = 0,
 > = S extends `${infer N}${infer Next}`
   ? _StringToNumber<Next, _SafeAdd<_SafeMulti<R, 10>, _CharToNumber<N>>>
   : R
@@ -211,7 +211,7 @@ type _StringToNumber<
 
 type ParseNumber<
   Input extends string,
-  Matched extends string = ''
+  Matched extends string = '',
 > = Input extends `${infer Char}${infer Next}`
   ? Char extends NumberChars
     ? ParseNumber<Next, `${Matched}${Char}`>
@@ -235,7 +235,7 @@ type ParsePair<Input extends string> =
 
 type ParseSymbol<
   Input extends string,
-  Matched extends string = ''
+  Matched extends string = '',
 > = Input extends `${infer Char}${infer Next}`
   ? Char extends SymbolChars
     ? ParseSymbol<Next, `${Matched}${Char}`>
@@ -250,7 +250,7 @@ type ParseSymbol<
 
 type Tokenize<
   Input extends string,
-  Tokens extends TokenType[] = []
+  Tokens extends TokenType[] = [],
 > = Input extends ''
   ? TokenResult<Tokens, ''>
   : ParseSpace<Input> extends TokenResult<infer R, infer Next>
@@ -282,7 +282,7 @@ type _SafeToken<Token> = Safe<Token, TokenType, 0>
 type NodeStackType = NodeType[][]
 type NodeStackPush<Stack extends NodeStackType, Top extends NodeType[]> = [
   ...Stack,
-  Top
+  Top,
 ]
 type NodeStackPopResult<Stack extends NodeStackType, Top extends NodeType[]> = {
   stack: Stack
@@ -290,7 +290,7 @@ type NodeStackPopResult<Stack extends NodeStackType, Top extends NodeType[]> = {
 }
 type NodeStackPop<Stack extends NodeStackType> = Stack extends [
   ...infer Tail,
-  infer Top
+  infer Top,
 ]
   ? NodeStackPopResult<Safe<Tail, NodeStackType, []>, Safe<Top, NodeType[], []>>
   : ErrorResult<'Can not pop empty stack'>
@@ -299,7 +299,7 @@ type ParseError = ErrorResult<'ParseError'>
 
 type _Parse<
   Tokens extends TokenType[],
-  Stack extends NodeStackType = [[]]
+  Stack extends NodeStackType = [[]],
 > = Tokens extends [infer Token, ...infer Next]
   ? Token extends '('
     ? _Parse<_SafeTokens<Next>, NodeStackPush<Stack, []>>
@@ -350,22 +350,22 @@ type EvalStackFrame<
   Callee extends string,
   Left extends NodeType[],
   Right extends number[],
-  Env extends EnvType
+  Env extends EnvType,
 > = { callee: Callee; left: Left; right: Right; env: Env }
 type EvalStackFrameType = EvalStackFrame<string, NodeType[], number[], EnvType>
 type EvalStackType = EvalStackFrameType[]
 
 type EvalStackPush<
   Stack extends EvalStackType,
-  Frame extends EvalStackFrameType
+  Frame extends EvalStackFrameType,
 > = [...Stack, Frame]
 type EvalStackPopResult<
   Stack extends EvalStackType,
-  Top extends EvalStackFrameType
+  Top extends EvalStackFrameType,
 > = { stack: Stack; top: Top }
 type EvalStackPop<Stack extends EvalStackType> = Stack extends [
   ...infer Tail,
-  infer Top
+  infer Top,
 ]
   ? EvalStackPopResult<
       Safe<Tail, EvalStackType, []>,
@@ -378,10 +378,10 @@ type SafeNum<N> = Safe<N, number, 0>
 type FuncEnv<
   Names extends string[],
   Values extends number[],
-  Env extends EnvType
+  Env extends EnvType,
 > = [Names, Values] extends [
   [infer Name, ...infer NextNames],
-  [infer Value, ...infer NextValues]
+  [infer Value, ...infer NextValues],
 ]
   ? FuncEnv<
       Safe<NextNames, string[], []>,
@@ -404,7 +404,7 @@ type _EvalExpr<Stack extends EvalStackType> =
       ? [Callee, Right, Left] extends [
           'if',
           [infer Test],
-          [infer Consequent, infer Alternate]
+          [infer Consequent, infer Alternate],
         ]
         ? Test extends 0
           ? _Return<Safe<Alternate, NodeType, 0>, TailStack>
@@ -508,13 +508,13 @@ type _DefStat<Name extends string, Expr extends NodeType> = ['def', Name, Expr]
 type _DefFunc<
   Name extends string,
   Args extends string[],
-  Body extends NodeType
+  Body extends NodeType,
 > = ['def', Name, Args, Body]
 
 type _EvalProgram<
   Stats extends NodeType[],
   Env extends EnvType,
-  R extends number
+  R extends number,
 > = Stats extends [infer Stat, ...infer NextStats]
   ? NextStats extends NodeType[]
     ? Stat extends _DefFunc<infer Name, infer Args, infer Body>

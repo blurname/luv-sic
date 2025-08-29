@@ -21,7 +21,7 @@ const metaScriptFzf = async () => {
   const config = {
     msg: (item: string) => {
       return `${item}: ${keyDescMap.get(item)}\n`
-    }
+    },
   }
   const runCallback = (selectKey: string) => {
     spawnSync('npm', ['run', selectKey], { stdio: 'inherit' })
@@ -32,7 +32,7 @@ const metaScriptFzf = async () => {
       const isTmuxQueryRes = envStr.includes('tmux')
       if (isTmuxQueryRes) {
         spawnSync('tmux', ['send-keys', `npm run ${selectKey}`], {
-          stdio: 'inherit'
+          stdio: 'inherit',
         })
       }
     } catch (e) {
@@ -44,7 +44,7 @@ const metaScriptFzf = async () => {
       const isZellijQueryRes = envStr.includes('ZELLIJ')
       if (isZellijQueryRes) {
         spawnSync('zellij', ['action', 'write-chars', `npm run ${selectKey}`], {
-          stdio: 'inherit'
+          stdio: 'inherit',
         })
       }
     } catch (e) {

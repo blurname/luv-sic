@@ -21,10 +21,10 @@ const creteMonorepo =
       execSync(`rm -rf dist pkg/{${pkgStr}}/dist`)
     }
 
-    // const cleanNodeModules = () => {
-    //   const pkgStr = subPkgList.join(',')
-    //   execSync(`rm -rf node_modules pkg/{${pkgStr}}/node_modules`)
-    // }
+    const cleanNodeModules = () => {
+      const pkgStr = subPkgList.join(',')
+      execSync(`rm -rf node_modules pkg/{${pkgStr}}/node_modules`)
+    }
     const cleanLock = () => {
       const pkgStr = subPkgList.join(',')
       execSync(`rm -rf pnpm-lock.yaml pkg/{${pkgStr}}/pnpm-lock.yaml`)
@@ -48,6 +48,10 @@ const creteMonorepo =
       }
       case 'clean-lock': {
         cleanLock()
+        break
+      }
+      case 'clean-node-modules': {
+        cleanNodeModules()
         break
       }
       default: {

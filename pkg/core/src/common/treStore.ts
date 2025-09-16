@@ -71,9 +71,9 @@ const createTreStore = <TreItem extends ItemBase>() => {
   const _subscribeSend = (key: TreKey) => {
     const listner = subscribeMap.get(key)
     if (!listner) return
-    for (const k of listner) {
-      eventItemKeyCount.
-    }
+    // for (const k of listner) {
+    //   eventItemKeyCount.
+    // }
   }
 
   return {

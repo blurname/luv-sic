@@ -1,4 +1,4 @@
-import { B_ROOT, createTreStore, ItemBase } from '@blurname/core/src/common/treStore.js'
+import { B_ROOT, createTreStore, ItemBase } from '@blurname/core/src/common/treStore'
 type NumberCell = {
   key: string
   type: 'cell'

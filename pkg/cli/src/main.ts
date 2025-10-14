@@ -34,6 +34,10 @@ import {
   metaScriptFzfDesc,
 } from './commands/11-meta-script-fzf.js'
 import { gitViewDiff, gitViewDiffDesc } from './commands/12-git-view-diff.js'
+import {
+  zellijTabRename,
+  zellijTabRenameDesc,
+} from './commands/13-zellij-tab-rename.js'
 
 export const commands = {
   switchNpmrc,
@@ -50,6 +54,7 @@ export const commands = {
   gitForgetLog,
   metaScriptFzf,
   gitViewDiff,
+  zellijTabRename,
 } as const
 type Commands = keyof typeof commands
 
@@ -68,6 +73,7 @@ const commandsDesc: Record<Commands, string> = {
   // logRemoteJson: logRemoteJsonDesc,
   metaScriptFzf: metaScriptFzfDesc,
   gitViewDiff: gitViewDiffDesc,
+  zellijTabRename: zellijTabRenameDesc,
 }
 
 const main = async () => {

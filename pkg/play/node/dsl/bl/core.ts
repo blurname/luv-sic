@@ -38,7 +38,7 @@ type Expression = {
 type Command = Add | Delete | Update
 
 type Token = Query | Command | Parens | Result | From | Where | WhereExpression
-const Tokenizer = (input: String) => {
+const Tokenizer = (input: string) => {
   const tokens: Token[] = []
   const source = input.split(' ')
   source.map((s) => {
@@ -69,6 +69,6 @@ const Tokenizer = (input: String) => {
     }
   })
 }
-const parensTokenizer = (source: String[], tokens: Token[]) => {}
-const whereTokenizer = (source: String[], tokens: Token[]) => {}
+const parensTokenizer = (source: string[], tokens: Token[]) => {}
+const whereTokenizer = (source: string[], tokens: Token[]) => {}
 export {}

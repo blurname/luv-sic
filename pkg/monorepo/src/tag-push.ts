@@ -5,7 +5,7 @@ import { createFileKit } from '@blurname/core/src/node/fileKit.js'
 // TODO: bl: remain git tag
 const tagPush = async (subPackageList: string[]) => {
   const pathDir = dirname(process.argv[1]) // repo/script: script exec path
-  const rootPath = resolve(...[pathDir, '..']) // repo/pkg: same level with script
+  const rootPath = resolve(pathDir, '..') // repo/pkg: same level with script
 
   // const changedList: string[] = []
   for (const pkg of subPackageList) {

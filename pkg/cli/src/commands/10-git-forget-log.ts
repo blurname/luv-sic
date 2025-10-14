@@ -52,7 +52,7 @@ const gitForgetLog = () => {
     const pathList = [] as string[]
     for (const key in fileLogObj) {
       let value = fileLogObj[key]
-      const path = join(...[rootPath, key])
+      const path = join(rootPath, key)
       if (path.includes('/dev/null')) continue
       const contentArr = readFileSync(path).toString().split('\n')
       const newContentArr = []

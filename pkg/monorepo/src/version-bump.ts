@@ -20,7 +20,7 @@ const digitBump = (version: Version, digit: Digit) => {
 
 const versionBump = (subPkgList: string[]) => async (digit: Digit) => {
   const pathDir = dirname(process.argv[1]) // repo/script: script exec path
-  const rootPath = resolve(...[pathDir, '..']) // repo/pkg: same level with script
+  const rootPath = resolve(pathDir, '..') // repo/pkg: same level with script
 
   const changedList: string[] = []
 

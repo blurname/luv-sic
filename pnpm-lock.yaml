@@ -29,6 +29,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.7
         version: 19.1.9(@types/react@19.1.12)
+      oxlint:
+        specifier: ^1.22.0
+        version: 1.22.0
       prettier:
         specifier: ^3.5.3
         version: 3.6.2
@@ -450,6 +453,46 @@ packages:
 
   '@napi-rs/wasm-runtime@1.0.3':
     resolution: {integrity: sha512-rZxtMsLwjdXkMUGC3WwsPwLNVqVqnTJT6MNIB6e+5fhMcSCPP0AOsNWuMQ5mdCq6HNjs/ZeWAEchpqeprqBD2Q==}
+
+  '@oxlint/darwin-arm64@1.22.0':
+    resolution: {integrity: sha512-vfgwTA1CowVaU3QXFBjfGjbPsHbdjAiJnWX5FBaq8uXS8tksGgl0ue14MK6fVnXncWK9j69LRnkteGTixxDAfA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxlint/darwin-x64@1.22.0':
+    resolution: {integrity: sha512-70x7Y+e0Ddb2Cf2IZsYGnXZrnB/MZgOTi/VkyXZucbnQcpi2VoaYS4Ve662DaNkzvTxdKOGmyJVMmD/digdJLQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxlint/linux-arm64-gnu@1.22.0':
+    resolution: {integrity: sha512-Rv94lOyEV8WEuzhjJSpCW3DbL/tlOVizPxth1v5XAFuQdM5rgpOMs3TsAf/YFUn52/qenwVglyvQZL8oAUYlpg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxlint/linux-arm64-musl@1.22.0':
+    resolution: {integrity: sha512-Aau6V6Osoyb3SFmRejP3rRhs1qhep4aJTdotFf1RVMVSLJkF7Ir0p+eGZSaIJyylFZuCCxHpud3hWasphmZnzw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxlint/linux-x64-gnu@1.22.0':
+    resolution: {integrity: sha512-6eOtv+2gHrKw/hxUkV6hJdvYhzr0Dqzb4oc7sNlWxp64jU6I19tgMwSlmtn02r34YNSn+/NpZ/ECvQrycKUUFQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxlint/linux-x64-musl@1.22.0':
+    resolution: {integrity: sha512-c4O7qD7TCEfPE/FFKYvakF2sQoIP0LFZB8F5AQK4K9VYlyT1oENNRCdIiMu6irvLelOzJzkUM0XrvUCL9Kkxrw==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxlint/win32-arm64@1.22.0':
+    resolution: {integrity: sha512-6DJwF5A9VoIbSWNexLYubbuteAL23l3YN00wUL7Wt4ZfEZu2f/lWtGB9yC9BfKLXzudq8MvGkrS0szmV0bc1VQ==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxlint/win32-x64@1.22.0':
+    resolution: {integrity: sha512-nf8EZnIUgIrHlP9k26iOFMZZPoJG16KqZBXu5CG5YTAtVcu4CWlee9Q/cOS/rgQNGjLF+WPw8sVA5P3iGlYGQQ==}
+    cpu: [x64]
+    os: [win32]
 
   '@rsbuild/core@0.4.15':
     resolution: {integrity: sha512-rQAfPt36uaOe3KYtD3/QBgvjDnY0kzGsE61/ZIEg1MdKZJ6cY5WsbS3MtzQDDM/FAXT5r/+GcFAZTKxJlgzkrQ==}
@@ -1583,6 +1626,16 @@ packages:
   os-browserify@0.3.0:
     resolution: {integrity: sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==}
 
+  oxlint@1.22.0:
+    resolution: {integrity: sha512-/HYT1Cfanveim9QUM6KlPKJe9y+WPnh3SxIB7z1InWnag9S0nzxLaWEUiW1P4UGzh/No3KvtNmBv2IOiwAl2/w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      oxlint-tsgolint: '>=0.2.0'
+    peerDependenciesMeta:
+      oxlint-tsgolint:
+        optional: true
+
   p-limit@2.3.0:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
     engines: {node: '>=6'}
@@ -2417,6 +2470,30 @@ snapshots:
       '@emnapi/core': 1.5.0
       '@emnapi/runtime': 1.5.0
       '@tybys/wasm-util': 0.10.0
+    optional: true
+
+  '@oxlint/darwin-arm64@1.22.0':
+    optional: true
+
+  '@oxlint/darwin-x64@1.22.0':
+    optional: true
+
+  '@oxlint/linux-arm64-gnu@1.22.0':
+    optional: true
+
+  '@oxlint/linux-arm64-musl@1.22.0':
+    optional: true
+
+  '@oxlint/linux-x64-gnu@1.22.0':
+    optional: true
+
+  '@oxlint/linux-x64-musl@1.22.0':
+    optional: true
+
+  '@oxlint/win32-arm64@1.22.0':
+    optional: true
+
+  '@oxlint/win32-x64@1.22.0':
     optional: true
 
   '@rsbuild/core@0.4.15':
@@ -3643,6 +3720,17 @@ snapshots:
       mimic-fn: 2.1.0
 
   os-browserify@0.3.0: {}
+
+  oxlint@1.22.0:
+    optionalDependencies:
+      '@oxlint/darwin-arm64': 1.22.0
+      '@oxlint/darwin-x64': 1.22.0
+      '@oxlint/linux-arm64-gnu': 1.22.0
+      '@oxlint/linux-arm64-musl': 1.22.0
+      '@oxlint/linux-x64-gnu': 1.22.0
+      '@oxlint/linux-x64-musl': 1.22.0
+      '@oxlint/win32-arm64': 1.22.0
+      '@oxlint/win32-x64': 1.22.0
 
   p-limit@2.3.0:
     dependencies:

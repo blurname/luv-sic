@@ -38,6 +38,7 @@ import {
   zellijTabRename,
   zellijTabRenameDesc,
 } from './commands/13-zellij-tab-rename.js'
+import { npmInstall } from './commands/14-npm-i.js'
 
 export const commands = {
   switchNpmrc,
@@ -55,6 +56,7 @@ export const commands = {
   metaScriptFzf,
   gitViewDiff,
   zellijTabRename,
+  ni: npmInstall.command,
 } as const
 type Commands = keyof typeof commands
 
@@ -74,6 +76,7 @@ const commandsDesc: Record<Commands, string> = {
   metaScriptFzf: metaScriptFzfDesc,
   gitViewDiff: gitViewDiffDesc,
   zellijTabRename: zellijTabRenameDesc,
+  ni: npmInstall.desc,
 }
 
 const main = async () => {

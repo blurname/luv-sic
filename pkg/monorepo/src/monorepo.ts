@@ -2,6 +2,7 @@ import { execSync } from 'node:child_process'
 import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { tagPush } from './tag-push.js'
 import { versionBump } from './version-bump.js'
+import {createPJFilekit} from '@blurname/core/src/node/fileKit'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
@@ -14,8 +15,9 @@ type CreteMonoRepoProps = {
   extraFunc?: ExtraFunc
 }
 const creteMonorepo =
-  ({ subPkgList, extraFunc }: CreteMonoRepoProps) =>
+  ({ extraFunc }: CreteMonoRepoProps) =>
   () => {
+    const pjfk = createPJFilekit({})
     const cleanDist = () => {
       const pkgStr = subPkgList.join(',')
       execSync(`rm -rf dist pkg/{${pkgStr}}/dist`)
@@ -62,4 +64,7 @@ const creteMonorepo =
     }
   }
 
+  const findDownPkg = () => {
+
+  }
 export { creteMonorepo }

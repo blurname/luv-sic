@@ -2,9 +2,12 @@
   "name": "@blurname/monorepo",
   "version": "0.0.8",
   "author": "blurname <naughtybao@outlook.com>",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "@blurname/core": "*"
   },
   "exports": {
     "./src/*": "./src/*.ts"

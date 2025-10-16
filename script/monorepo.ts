@@ -1,14 +1,9 @@
+import { create } from 'node:domain'
 import { creteMonorepo } from '../pkg/monorepo/src/monorepo'
+import { createPJFilekit } from '../pkg/core/src/node/fileKit'
 
-const SUB_PACKAGE_LIST = [
-  'core',
-  'cli',
-  'svgminify',
-  'lost',
-  'monorepo',
-  'ui',
-  'server',
-]
 
-const monoRepo = creteMonorepo({ subPkgList: SUB_PACKAGE_LIST })
-monoRepo()
+console.log('🟦[blue]->pjfk: ', pjfk.getJson())
+
+// const monoRepo = creteMonorepo({ subPkgList: SUB_PACKAGE_LIST })
+// monoRepo()

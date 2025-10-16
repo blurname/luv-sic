@@ -105,7 +105,11 @@ importers:
         specifier: ^0.4.12
         version: 0.4.15(@rsbuild/core@0.4.15)(@swc/helpers@0.5.3)
 
-  pkg/monorepo: {}
+  pkg/monorepo:
+    dependencies:
+      '@blurname/core':
+        specifier: '*'
+        version: 0.1.2
 
   pkg/server:
     dependencies:

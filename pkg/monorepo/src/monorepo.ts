@@ -2,6 +2,7 @@ import { execSync } from 'node:child_process'
 import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { tagPush } from './tag-push.js'
 import { versionBump } from './version-bump.js'
+import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
@@ -10,49 +11,46 @@ type ExtraFunc = {
   [k: string]: (subPkgList: string[]) => void
 }
 type CreteMonoRepoProps = {
-  subPkgList: string[]
   extraFunc?: ExtraFunc
 }
 const creteMonorepo =
-  ({ subPkgList, extraFunc }: CreteMonoRepoProps) =>
+  ({ extraFunc }: CreteMonoRepoProps) =>
   () => {
-    const cleanDist = () => {
-      const pkgStr = subPkgList.join(',')
-      execSync(`rm -rf dist pkg/{${pkgStr}}/dist`)
-    }
+    const pjfk = createPJFilekit({})
+    const subPkgPathList = findDownPkg(pjfk)
 
-    // const cleanNodeModules = () => {
-    //   const pkgStr = subPkgList.join(',')
-    //   execSync(`rm -rf node_modules pkg/{${pkgStr}}/node_modules`)
-    // }
-    const cleanLock = () => {
-      const pkgStr = subPkgList.join(',')
-      execSync(`rm -rf pnpm-lock.yaml pkg/{${pkgStr}}/pnpm-lock.yaml`)
+    const _mapSubPkgPathList = (pkgFunc: (subPath: string)=>void) => {
+      for (const subPkgPath of subPkgPathList) {
+        pkgFunc(subPkgPath)
+      }
     }
 
     const func = process.argv[2]
 
     switch (func) {
       case 'clean-dist': {
-        cleanDist()
+        _mapSubPkgPathList((ap)=>execSync(`rm -rf dist ${ap}/dist`))
         break
       }
       case 'version-bump': {
-        const needToBumpPkgList = detectSubVersionNeedToUpdate(subPkgList)
+        const needToBumpPkgList = detectSubVersionNeedToUpdate(subPkgPathList)
         versionBump(needToBumpPkgList)('patch')
         break
       }
       case 'tag-push': {
-        tagPush(subPkgList)
+        tagPush(subPkgPathList)
         break
       }
       case 'clean-lock': {
-        cleanLock()
+        _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/package-lock.json`))
         break
+      }
+      case 'clean-module': {
+        _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/node_modules`))
       }
       default: {
         if (extraFunc && typeof extraFunc[func] === 'function') {
-          extraFunc[func](subPkgList)
+          extraFunc[func](subPkgPathList)
         }
       }
     }

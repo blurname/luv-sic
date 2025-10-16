@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "dependencies": {
+    "@blurname/core": "*"
+  },
   "exports": {
     "./src/*": "./src/*.ts"
   },

@@ -4,6 +4,7 @@
   "author": "blurname <naughtybao@outlook.com>",
   "private": false,
   "scripts": {
+    "mono-test": "tsx ./script/monorepo.ts",
     "version-bump": "tsx ./script/monorepo.ts version-bump",
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",

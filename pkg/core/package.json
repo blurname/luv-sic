@@ -4,7 +4,8 @@
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "test0": "node --test \"**/*.test.ts\""
   },
   "files": [
     "./src"

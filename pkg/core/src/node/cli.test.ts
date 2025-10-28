@@ -1,10 +1,14 @@
 // import assert from 'node:assert'
 import { test } from 'node:test'
-import { parseOptionList2 } from './cli.ts'
+import { parseArg } from './cli.ts'
 test("cli arg",()=>{
-  const a = parseOptionList2(["--abc=\"123\""], {
-    "--test-kv": {desc:"test abc", type: 'string'},
-    "--test-k": {desc:"test abc", type: 'boolean'}
+  const a = parseArg([
+    "--abc=\"123\"",
+    "--test-kstring=\"456\"",
+    "--test-kboolean",
+  ], {
+    "--test-kstring": {desc:"test abc", type: 'string'},
+    "--test-kboolean": {desc:"test abc", type: 'boolean'}
   })
-  console.log(a['--test-k'])
+  console.log(a)
 })

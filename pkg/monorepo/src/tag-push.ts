@@ -1,29 +1,33 @@
-import { execSync } from 'node:child_process'
-import { dirname, resolve } from 'node:path'
-import { createFileKit } from '@blurname/core/src/node/fileKit.js'
+import { execSync, spawnSync } from 'node:child_process'
+import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
+import { LG } from '@blurname/core/src/colorLog.js'
+
+const isTagCreatedEff = (versionStr: string) => {
+  const res = spawnSync('git',['tag','-v',versionStr]).output.toString()
+  if(res.includes("tagger")){
+    LG.error(`tag ${versionStr} is created`)
+    return true // if a tag is created, there must be a tagger
+  } 
+  return false
+}
 
 // TODO: bl: remain git tag
-const tagPush = async (subPackageList: string[]) => {
-  const pathDir = dirname(process.argv[1]) // repo/script: script exec path
-  const rootPath = resolve(pathDir, '..') // repo/pkg: same level with script
-
-  // const changedList: string[] = []
-  for (const pkg of subPackageList) {
-    const subPath = rootPath + `/pkg/${pkg}`
-    const fileKit = createFileKit(rootPath + `/pkg/${pkg}/package.json`)
-    const fileString = fileKit.getFileContent()
-    const fileJson = JSON.parse(fileString)
-    if (fileJson.private) continue
+const pkgPublish = async (pkgPath: string) => {
+    const pjfk = createPJFilekit({ path: pkgPath })
+    if (pjfk.getV('private')) return
     try {
-      execSync(`cd ${subPath} && npm publish`)
+      execSync(`cd ${pkgPath} && npm publish`)
     } catch (e) {
       console.warn(e)
     }
-    // changedList.push(`${fileJson.name}@${fileJson.version}`)
-    // fileKit.getFileContent()
-    // fileKit.commit()
-  }
-  // execSync(`git tag ${tag}`)
 }
 
-export { tagPush }
+const createTagPush = async (pjfk: PJFK) => {
+  const versionStr = pjfk.getV('version')
+  const tagVersion = 'v' + versionStr
+  if(isTagCreatedEff(tagVersion)) return 
+  spawnSync('git', ['tag', '-a', tagVersion, '-m', ''])
+  spawnSync('git', ['push'])
+}
+
+export { pkgPublish, isTagCreatedEff, createTagPush }

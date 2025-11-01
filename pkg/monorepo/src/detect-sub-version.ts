@@ -9,7 +9,7 @@ const detectSubVersionNeedToUpdate = (subPkgList: string[]) => {
   const needToBumpPkgList = subPkgList.filter((pkgName) => {
     return (
       execSync(
-        `git diff ${recentVersionCommitHashIn30} pkg/${pkgName}`
+        `git diff ${recentVersionCommitHashIn30} ${pkgName}`
       ).toString() !== ''
     )
   })

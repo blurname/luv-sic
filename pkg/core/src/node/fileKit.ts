@@ -15,6 +15,10 @@ const createFileKit = (path: string) => {
     writeFileSync(path, _modifiedFile)
   }
 
+  const getPath = () => {
+    return path
+  }
+
   const getFileContent = () => {
     return _rawFile
   }
@@ -22,12 +26,13 @@ const createFileKit = (path: string) => {
   return {
     modify,
     commit,
+    getPath,
     getFileContent,
   }
 }
 
-const findUpPackageJson = () => {
-  let nextPath = process.cwd()
+const findUpPackageJson = (path: string) => {
+  let nextPath = path
   let packageJsonPath: string | undefined
   while(nextPath !== '/' && packageJsonPath === undefined){
     const filePath = nextPath + "/package.json"
@@ -43,13 +48,12 @@ const findUpPackageJson = () => {
 
 // pj := packgae.json
 type CreatePJFilekitProps = {
-  // path: string
+  path: string
 }
 
 
-const createPJFilekit = ({}: CreatePJFilekitProps) => {
-  const path = findUpPackageJson()
-  // if(PATH.extname(path) !== 'json') throw new Error("not a json file")
+const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {
+  const path = findUpPackageJson(_path)
   const fk = createFileKit(path)
   const _jsonKV = JSON.parse(fk.getFileContent())
   const getJson = () => {
@@ -62,7 +66,7 @@ const createPJFilekit = ({}: CreatePJFilekitProps) => {
 
   const setKV = (key: string, value: string | number | null ) => {
     _jsonKV[key] = value
-    fk.modify(()=>JSON.stringify(_jsonKV))
+    fk.modify(()=>JSON.stringify(_jsonKV,null, 2))
   }
 
  return {
@@ -88,5 +92,8 @@ const findDownPkg = (pjfk: PJFK) => {
     }
   }
   return subPkgPathList
+}
+export type {
+  PJFK
 }
 export { createFileKit, createPJFilekit, findDownPkg }

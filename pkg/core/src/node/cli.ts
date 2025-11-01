@@ -57,6 +57,9 @@ const createCliStore = () => {
     callPath
   }
 }
+const getCallPath = () => {
+  return process.cwd()
+}
 
 // export { parseOptionList }
 //
@@ -66,4 +69,4 @@ const createCliStore = () => {
 // }
 // main()
 
-export { parseOptionList, createCliStore, parseArg }
+export { parseOptionList, createCliStore, parseArg, getCallPath }

@@ -1,8 +1,8 @@
-import { execSync } from 'node:child_process'
-import { dirname, resolve } from 'node:path'
-import { createFileKit } from '@blurname/core/src/node/fileKit.js'
+import {LG} from '@blurname/core/src/colorLog.js'
+import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
+import {execSync} from 'node:child_process'
 
-type Version = `${number}.${number}.${number}`
+// type Version = `${number}.${number}.${number}`
 
 const DigitKV = {
   patch: 2,
@@ -11,43 +11,37 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
-const digitBump = (version: Version, digit: Digit) => {
+const digitBump = (version: string, digit: Digit) => {
   const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
   versionList[digitNumber] = `${Number(versionList[digitNumber]) + 1}`
   return versionList.join('.')
 }
 
-const versionBump = (subPkgList: string[]) => async (digit: Digit) => {
-  const pathDir = dirname(process.argv[1]) // repo/script: script exec path
-  const rootPath = resolve(pathDir, '..') // repo/pkg: same level with script
+const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) => {
+  const _versionStr = pjfk.getV('version')
+  const nextVersion = digitBump(_versionStr, digit)
+  pjfk.setKV('version', nextVersion)
+  pjfk.commit()
 
-  const changedList: string[] = []
+  const rootPathList = pjfk.getPath().split('/')
+  rootPathList.pop()
+  const rootPath = rootPathList.join('/') + '/' 
 
-  for (const pkg of subPkgList) {
-    const fileKit = createFileKit(rootPath + `/pkg/${pkg}/package.json`)
-    fileKit.modify((fileString) => {
-      const fileJson = JSON.parse(fileString)
-      const version = digitBump(fileJson.version, digit)
-      changedList.push(`${fileJson.name}@${version}`)
-      fileJson.version = version
-      return JSON.stringify(fileJson, null, 2)
-    })
-    fileKit.commit()
+  let subPackageJsonString = ''
+  for (const pkgPath of subPkgPathL) {
+    const subPjfk = createPJFilekit({path: pkgPath})
+    subPjfk.setKV('version', nextVersion)
+    subPjfk.commit()
+    subPackageJsonString += ' ' + subPjfk.getPath().replace(rootPath, '')
   }
 
-  const commitMsg = `VERSION: ${changedList.join('; ')}`
-  const subPackageJsonString = subPkgList.reduce(
-    (pre, cur) => `${pre} pkg/${cur}/package.json`,
-    ''
-  )
+
+  const commitMsg = `VERSION: ${pjfk.getV('name')}@${nextVersion}`
   execSync(
     `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`
   )
+  LG.success(commitMsg)
 }
 
 export { versionBump }
-
-// versionBump('patch')
-// versionBump('minor')
-// versionBump('major')

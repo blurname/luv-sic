@@ -4,7 +4,8 @@
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test0": "tsx --test \"**/*.test.ts\""
   },
   "dependencies": {
     "@blurname/core": "*"

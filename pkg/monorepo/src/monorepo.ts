@@ -1,8 +1,9 @@
 import { execSync } from 'node:child_process'
 import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
-import { tagPush } from './tag-push.js'
+import { createTagPush, pkgPublish } from './tag-push.js'
 import { versionBump } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
+import {getCallPath} from '@blurname/core/src/node/cli.js'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
@@ -16,7 +17,7 @@ type CreteMonoRepoProps = {
 const creteMonorepo =
   ({ extraFunc }: CreteMonoRepoProps) =>
   () => {
-    const pjfk = createPJFilekit({})
+    const pjfk = createPJFilekit({path: getCallPath()})
     const subPkgPathList = findDownPkg(pjfk)
 
     const _mapSubPkgPathList = (pkgFunc: (subPath: string)=>void) => {
@@ -33,12 +34,23 @@ const creteMonorepo =
         break
       }
       case 'version-bump': {
-        const needToBumpPkgList = detectSubVersionNeedToUpdate(subPkgPathList)
-        versionBump(needToBumpPkgList)('patch')
+        versionBump(pjfk, subPkgPathList)('patch')
+        break
+      }
+      case 'version-bump-minor': {
+        versionBump(pjfk, subPkgPathList)('minor')
+        break
+      }
+      case 'version-bump-major': {
+        versionBump(pjfk, subPkgPathList)('major')
         break
       }
       case 'tag-push': {
-        tagPush(subPkgPathList)
+        createTagPush(pjfk)
+        break
+      }
+      case 'pkg-publish': {
+        _mapSubPkgPathList(pkgPublish)
         break
       }
       case 'clean-lock': {

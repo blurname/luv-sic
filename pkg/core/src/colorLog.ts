@@ -14,4 +14,22 @@ type ColorLog = {
 const colorLog = ({ msg, fg }: ColorLog) => {
   return `${colorToken['Reset']}${colorToken[fg]}${msg}${colorToken['Reset']}`
 }
-export { colorLog }
+// LG: logKit isntance
+const createLogKit = () => {
+  return {
+    log: (msg: string)=> {
+      console.log(msg)
+    },
+    warn: (msg: string)=> {
+      console.log(colorLog({msg,fg: 'Yellow'}))
+    },
+    success: (msg: string)=> {
+      console.log(colorLog({msg,fg: 'Green'}))
+    }, 
+    error: (msg: string)=> {
+      console.log(colorLog({msg,fg: 'Red'}))
+    } 
+  }
+}
+const LG = createLogKit()
+export { colorLog, LG }

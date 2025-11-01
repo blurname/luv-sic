@@ -1,4 +1,11 @@
+import {} from 'node:test'
 type KvMapFromScript = { [k: string]: string }
+
+type ValueType<T> =
+   T extends 'boolean' ? boolean
+ : T extends 'string' ? string
+ : T extends 'number' ? number
+ : never
 
 const reduceDash = <T extends string | string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
@@ -17,6 +24,40 @@ const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
   })
   return { ...kvMapFromScript, ...parsedOptionList }
 }
+
+// commandline param 
+// 1. kv --k=v
+// 2. key --k=true
+// 2. optional --k
+
+const parseArg = <const Args extends  Record<string,{desc: string, type: "string" | "boolean"}>>(argv: string[], argDesc: Args) => {
+  const resParamKV = {} as any
+  Object.keys(argDesc).forEach((k0) => {
+    const paramKV = argv.find((arg) => arg.startsWith(k0))
+    if(!paramKV) return
+    const [k,v] = paramKV.split("=")
+    const type = argDesc[k].type
+    if(type === 'string'){
+      resParamKV[k] = v
+    } else if(type === 'boolean') { // 有 key 就代表一定是 true
+      resParamKV[k] = true
+    }else {
+      resParamKV[k] = false
+    }
+  })
+  return resParamKV as {[k in keyof Args]: ValueType<Args[k]['type']>}
+}
+
+// 放到 cliKit 里面
+// 取 参数时，不存在，扔出去就行
+const createCliStore = () => {
+  const argList = process.argv
+  const callPath = argList[1] 
+  return  {
+    callPath
+  }
+}
+
 // export { parseOptionList }
 //
 // const main = () => {
@@ -25,4 +66,4 @@ const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
 // }
 // main()
 
-export { parseOptionList }
+export { parseOptionList, createCliStore, parseArg }

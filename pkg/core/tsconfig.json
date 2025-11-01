@@ -3,8 +3,9 @@
   "compilerOptions": {
     "rootDir": "./src/",
     "outDir": "./dist/",
-    "noEmit": false,
-    "composite": true
+    "noEmit": true,
+    "composite": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["./src"],
   "references": []

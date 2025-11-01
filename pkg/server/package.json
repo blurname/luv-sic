@@ -1,6 +1,6 @@
 {
   "name": "@blurname/server",
-  "version": "0.0.1",
+  "version": "0.0.52",
   "scripts": {
     "dev": "farrow dev",
     "build": "farrow build",

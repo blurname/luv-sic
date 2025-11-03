@@ -8,7 +8,7 @@ test("cli arg",()=>{
   strictEqual(isTagCreatedEff("v0.0.10"), true)
   strictEqual(isTagCreatedEff("v0.0.100000000"), false)
 
-  const pjfk = createPJFilekit({path: getCallPath()})
-  createTagPush(pjfk)
+  // const pjfk = createPJFilekit({path: getCallPath()})
+  // createTagPush(pjfk)
 })
 

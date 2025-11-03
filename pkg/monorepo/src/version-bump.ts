@@ -1,6 +1,8 @@
-import {LG} from '@blurname/core/src/colorLog.js'
+import { LG } from '@blurname/core/src/colorLog.js'
+import { getCurBranch, isMasterBranch } from '@blurname/core/src/node/git.js'
 import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
 import {execSync} from 'node:child_process'
+
 
 // type Version = `${number}.${number}.${number}`
 
@@ -18,9 +20,30 @@ const digitBump = (version: string, digit: Digit) => {
   return versionList.join('.')
 }
 
+const versionBumpBranch = ({branch,_versionStr: versionStr, digit}:{branch: string,_versionStr: string, digit: Digit}) => {
+  let nextVersion = ''
+  if(isMasterBranch(branch)){
+    nextVersion = digitBump(versionStr, digit)
+  }else {
+    let branch1 = branch.replace('/', '').replace('-', '')
+    let branchSign = `-${branch1}`
+    if(versionStr.includes(branchSign)){
+      const num = versionStr.split('.').at(-1) 
+      nextVersion = versionStr.split('-')[0] + branchSign + '.' + (Number(num) +1) 
+    }else {
+      nextVersion = versionStr.split('-')[0] + branchSign + '.0' 
+    }
+  }
+  return nextVersion
+}
+
 const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) => {
+  const branch = getCurBranch()
+  
   const _versionStr = pjfk.getV('version')
-  const nextVersion = digitBump(_versionStr, digit)
+  let nextVersion = versionBumpBranch({branch,_versionStr, digit})
+
+
   pjfk.setKV('version', nextVersion)
   pjfk.commit()
 
@@ -44,4 +67,4 @@ const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) =
   LG.success(commitMsg)
 }
 
-export { versionBump }
+export { versionBump, versionBumpBranch }

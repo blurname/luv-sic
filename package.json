@@ -9,6 +9,7 @@
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",
+    "pkg-publish": "tsx ./script/monorepo.ts pkg-push",
     "typecheck": "tsc --noEmit",
     "start-dev-svgminify": "cd pkg/svgminify && npm run dev",
     "start-dev-lost": "cd pkg/lost && npm run dev",

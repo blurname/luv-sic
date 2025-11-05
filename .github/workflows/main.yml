@@ -10,6 +10,17 @@ jobs:
     steps:
       - { uses: "actions/checkout@v4", with: { fetch-depth: 0 } } # https://github.com/actions/checkout
       - { uses: "actions/setup-node@v4", with: { node-version: "20.x", cache: "npm" } } # LTS version & npm cache # https://github.com/actions/setup-node
+      - name: Display workflow info
+        run: |
+          echo "=== 工作流信息 ==="
+          echo "触发标签: ${{ github.ref_name }}"
+          echo "工作流运行ID: ${{ github.run_id }}"
+          echo "运行器操作系统: ${{ runner.os }}"
+          echo "=== 开始处理 ==="
+      - run: npm install
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: Build with Turborepo (verbose)
+        run: npx turbo build --verbose
       - name: Cache Turborepo build outputs
         uses: actions/cache@v4
         with:
@@ -18,10 +29,19 @@ jobs:
             **/.turbo/cache
             **/dist
             **/.next
-          key: ${{ runner.os }}-turbo-${{ github.ref_name }}
+          key: ${{ runner.os }}-turbo-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-turbo-
-      - run: npm install
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-      - run: npm run build
+        # 添加缓存操作的状态输出
+        if: always()
+      - name: Display cache status
+        run: |
+          echo "=== 缓存操作状态 ==="
+          echo "缓存键: ${{ runner.os }}-turbo-${{ github.ref }}"
+          echo "缓存路径:"
+          echo "  - .turbo/cache"
+          echo "  - **/.turbo/cache" 
+          echo "  - **/dist"
+          echo "  - **/.next"
+          echo "=== 构建完成 ==="
       - run: npm run pkg-publish

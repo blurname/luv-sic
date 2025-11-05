@@ -3,6 +3,9 @@
   "version": "0.0.57",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
+  "bin": {
+    "monorepo": "./dist/monorepo.js"
+  },
   "scripts": {
     "build": "tsc",
     "test0": "tsx --test \"**/*.test.ts\""
@@ -10,6 +13,10 @@
   "dependencies": {
     "@blurname/core": "*"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     "./src/*": "./src/*.ts"
   },

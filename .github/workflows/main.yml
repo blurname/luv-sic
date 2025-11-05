@@ -1,6 +1,7 @@
 name: "ci-test-2312"
 on: { push: { branches: [ "**" ], tags: [ "v*" ] } } # use `v0.0.0` tag pattern # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestbranchestags
-env: { "IS_CI": true }
+env: 
+  IS_CI: true
 jobs:
   "publish-tag": # job id
     if: "github.ref_type == 'tag'" # only run on git tag push
@@ -9,6 +10,17 @@ jobs:
     steps:
       - { uses: "actions/checkout@v4", with: { fetch-depth: 0 } } # https://github.com/actions/checkout
       - { uses: "actions/setup-node@v4", with: { node-version: "20.x", cache: "npm" } } # LTS version & npm cache # https://github.com/actions/setup-node
+      - name: Cache Turborepo build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            .turbo/cache
+            **/.turbo/cache
+            **/dist
+            **/.next
+          key: ${{ runner.os }}-turbo-${{ github.ref_name }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - run: npm install
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - run: npm run build

@@ -20,7 +20,7 @@ jobs:
       - run: npm install
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Build with Turborepo (verbose)
-        run: npx run build
+        run: npm run build
       - name: Cache Turborepo build outputs
         uses: actions/cache@v4
         with:

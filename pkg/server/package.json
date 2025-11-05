@@ -1,6 +1,6 @@
 {
   "name": "@blurname/server",
-  "version": "0.0.58-blci.3",
+  "version": "0.0.58-blci.4",
   "scripts": {
     "dev": "farrow dev",
     "build": "farrow build",

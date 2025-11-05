@@ -28,10 +28,15 @@ const versionBumpBranch = ({branch,_versionStr: versionStr, digit}:{branch: stri
     let branch1 = branch.replace('/', '').replace('-', '')
     let branchSign = `-${branch1}`
     if(versionStr.includes(branchSign)){
-      const num = versionStr.split('.').at(-1) 
-      nextVersion = versionStr.split('-')[0] + branchSign + '.' + (Number(num) +1) 
-    }else {
-      nextVersion = versionStr.split('-')[0] + branchSign + '.0' 
+      nextVersion = versionStr.split('-')[0] + branchSign + '.' + (Number(versionStr.split('.').at(-1)) +1) 
+    }else{
+      if(versionStr.includes('-')){
+        nextVersion = versionStr.split('-')[0] + branchSign + '.0'
+      }else{
+        const _numberList = versionStr.split('-')[0].split('.')
+        const _versionNumber = [_numberList[0],_numberList[1] ,String(Number(_numberList[2]) +1)].join('.') 
+        nextVersion = _versionNumber + branchSign + '.0'
+      }
     }
   }
   return nextVersion

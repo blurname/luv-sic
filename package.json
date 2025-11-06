@@ -15,7 +15,7 @@
     "start-dev-lost": "cd pkg/lost && npm run dev",
     "start-dev-ui": "cd pkg/ui && npm run dev",
     "clean-dist": "tsx ./script/monorepo.ts clean-dist",
-    "clean-node_modules": "tsx ./script/monorepo.ts clean-node-modules",
+    "clean-node_modules": "tsx ./script/monorepo.ts clean-nm",
     "clean-lock": "tsx ./script/monorepo.ts clean-lock",
     "test-command": "echo test",
     "format": "prettier --write \"**/*.{ts,tsx}\""

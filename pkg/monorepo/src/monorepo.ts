@@ -57,7 +57,7 @@ const creteMonorepo =
         _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/package-lock.json`))
         break
       }
-      case 'clean-module': {
+      case 'clean-nm': {// nm: node_modules
         _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/node_modules`))
       }
       default: {

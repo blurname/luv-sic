@@ -17,8 +17,7 @@
     "clean-dist": "tsx ./script/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./script/monorepo.ts clean-nm",
     "clean-lock": "tsx ./script/monorepo.ts clean-lock",
-    "test-command": "echo test",
-    "format": "prettier --write \"**/*.{ts,tsx}\""
+    "test-command": "echo test"
   },
   "packageManager": "npm@9.8.1",
   "workspaces": [
@@ -33,7 +32,6 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "oxlint": "^1.22.0",
-    "prettier": "^3.5.3",
     "tsx": "^4.20.6",
     "turbo": "^2.5.8",
     "typescript": "^5.1.6"

@@ -67,7 +67,7 @@ const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) =
 
   const commitMsg = `VERSION: ${pjfk.getV('name')}@${nextVersion}`
   execSync(
-    `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`
+    `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`,{ stdio:'inherit' }
   )
   LG.success(commitMsg)
 }

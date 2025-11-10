@@ -61,7 +61,10 @@ const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) =
     const subPjfk = createPJFilekit({path: pkgPath})
     subPjfk.setKV('version', nextVersion)
     subPjfk.commit()
-    subPackageJsonString += ' ' + subPjfk.getPath().replace(rootPath, '')
+    const content = ' ' + subPjfk.getPath().replace(rootPath, '')
+    // temp-fix: skip this strange scenario
+    if(content.trim() === '/package.json') continue
+    subPackageJsonString += content
   }
 
 

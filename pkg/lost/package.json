@@ -1,6 +1,6 @@
 {
   "name": "@blurkit/lost",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "private": true,
   "type": "commonjs",
   "scripts": {

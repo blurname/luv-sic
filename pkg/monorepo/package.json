@@ -4,14 +4,17 @@
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "bin": {
-    "monorepo": "./dist/monorepo.js"
+    "mono": "./dist/monorepo-main.cjs"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rslib",
     "test0": "tsx --test \"**/*.test.ts\""
   },
   "dependencies": {
     "@blurname/core": "*"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.17.1"
   },
   "files": [
     "dist",

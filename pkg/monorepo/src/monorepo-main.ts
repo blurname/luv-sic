@@ -1,3 +1,3 @@
-import {creteMonorepo} from '../src/monorepo.js'
+import {creteMonorepo} from './index.js'
 const monoRepo = creteMonorepo({})
 monoRepo()

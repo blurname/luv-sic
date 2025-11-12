@@ -80,8 +80,10 @@ type PJFK = ReturnType<typeof createPJFilekit>
 
 const findDownPkg = (pjfk: PJFK) => {
   const cwd = process.cwd()
-  const subPkgPathList = []
-  for (const workspace of pjfk.getV<string[]>("workspaces")) {
+  const subPkgPathList: string[] = []
+  const worksapceList = pjfk.getV<string[] | undefined>("workspaces")
+  if(!worksapceList) return subPkgPathList
+  for (const workspace of worksapceList) {
     if(workspace.endsWith('/*')){
       const path1 = PATH.join(cwd,workspace.split("/*")[0])
       for (const subPkg of readdirSync(path1)) {

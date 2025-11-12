@@ -17,6 +17,14 @@ const digitBump = (version: string, digit: Digit) => {
   const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
   versionList[digitNumber] = `${Number(versionList[digitNumber]) + 1}`
+  if(digit === 'minor') {
+    versionList[DigitKV['patch']] = '0'
+  } else if (digit === 'major'){
+    versionList[DigitKV['patch']] = '0'
+    versionList[DigitKV['minor']] = '0'
+  } else {
+    // not resolve patch
+  }
   return versionList.join('.')
 }
 

@@ -6,6 +6,7 @@
   "scripts": {
     "mono-test": "tsx ./script/monorepo.ts",
     "version-bump": "tsx ./script/monorepo.ts version-bump",
+    "version-bump-minor": "tsx ./script/monorepo.ts version-bump-minor",
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",

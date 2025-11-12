@@ -4,8 +4,8 @@ import {strictEqual} from "assert";
 
 test('version-bump', ()=>{
   strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.0.0',digit:'patch'}), '1.0.1')
-  strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.0.0',digit:'minor'}), '1.1.0')
-  strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.0.0',digit:'major'}), '2.0.0')
+  strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.0.1',digit:'minor'}), '1.1.0')
+  strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.1.1',digit:'major'}), '2.0.0')
 
   strictEqual(versionBumpBranch({branch:'master',_versionStr:'1.0.53',digit:'patch'}), '1.0.54')
 
@@ -22,4 +22,6 @@ test('version-bump', ()=>{
   strictEqual(versionBumpBranch({branch:'bl/abcd-efg',_versionStr:'1.0.0-abc.0',digit:'patch'}), '1.0.0-blabcdefg.0')
 
   strictEqual(versionBumpBranch({branch:'main',_versionStr:'1.0.0-alpha.343',digit:'patch'}), '1.0.1')
+
+
 })

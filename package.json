@@ -1,12 +1,13 @@
 {
   "name": "@blurname/luv-sic",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "blurname <naughtybao@outlook.com>",
   "private": false,
   "scripts": {
     "mono-test": "tsx ./script/monorepo.ts",
     "version-bump": "tsx ./script/monorepo.ts version-bump",
     "version-bump-minor": "tsx ./script/monorepo.ts version-bump-minor",
+    "version-bump-major": "tsx ./script/monorepo.ts version-bump-major",
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",

@@ -21,8 +21,11 @@ export default defineConfig({
       // 禁用自动 externalize 依赖，确保所有依赖都被打包
       autoExternal: false,
       
-      // 启用 sourcemap 便于调试
-      sourcemap: true,
+      
+      // 添加 shebang 以便在 yarn 中正确执行
+      banner: {
+        js: '#!/usr/bin/env node'
+      },
     }
   ],
   
@@ -36,8 +39,8 @@ export default defineConfig({
   },
   
   // 配置别名
-  alias: {
-    // 确保正确解析路径
-    '@blurname/core': '../core/src',
-  },
+  // alias: {
+  //   // 确保正确解析路径
+  //   '@blurname/core': '../core/src',
+  // },
 });

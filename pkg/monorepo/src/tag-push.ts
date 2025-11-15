@@ -44,7 +44,7 @@ const createTagPushExtEff = async (pjfk: PJFK) => {
   if(isTagCreatedEff(tagVersion)) return 
   spawnSync('git', ['tag', '-a', tagVersion, '-m', ''])
   // spawnSync('git', ['push'])
-  // spawnSync('git', ['push','origin', tagVersion])
+  spawnSync('git', ['push','origin', tagVersion])
 }
 
 export { 

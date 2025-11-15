@@ -1,6 +1,8 @@
 import { execSync, spawnSync } from 'node:child_process'
-import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
+import { createJfk, createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
 import { LG } from '@blurname/core/src/colorLog.js'
+import {getCurBranch} from '@blurname/core/src/node/git.js'
+import {basename} from 'node:path'
 
 const isTagCreatedEff = (versionStr: string) => {
   const res = spawnSync('git',['tag','-v',versionStr]).output.toString()
@@ -31,4 +33,21 @@ const createTagPush = async (pjfk: PJFK) => {
   spawnSync('git', ['push','origin', tagVersion])
 }
 
-export { pkgPublish, isTagCreatedEff, createTagPush }
+const createTagPushExtEff = async (pjfk: PJFK) => {
+
+  const versionExtPathList = pjfk.getV<string[]>('VERISON_EXT_PATH')
+  const curBranch = getCurBranch()
+  const curExt = versionExtPathList.find(i => basename(i,'.json') === curBranch)!
+  const versionStr = createJfk({path: curExt}).getV('version')
+
+  const tagVersion = 'v' + versionStr
+  if(isTagCreatedEff(tagVersion)) return 
+  spawnSync('git', ['tag', '-a', tagVersion, '-m', ''])
+  spawnSync('git', ['push']) // push the brnach
+  spawnSync('git', ['push','origin', tagVersion]) // push the tag
+}
+
+export { 
+  pkgPublish, isTagCreatedEff,
+  createTagPush, createTagPushExtEff 
+}

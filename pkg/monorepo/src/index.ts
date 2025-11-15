@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
-import { createTagPush, pkgPublish } from './tag-push.js'
+import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push.js'
 import { versionBump } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 import {getCallPath} from '@blurname/core/src/node/cli.js'
@@ -53,6 +53,10 @@ const creteMonorepo =
       }
       case 'tag-push': {
         createTagPush(pjfk)
+        break
+      }
+      case 'tag-push-ext': {
+        createTagPushExtEff(pjfk)
         break
       }
       case 'pkg-publish': {

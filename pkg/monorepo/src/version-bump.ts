@@ -13,6 +13,10 @@ const DigitKV = {
 } as const
 type Digit = keyof typeof DigitKV
 
+const extractVersionStrNumber = (versionStr: string) => {
+  return versionStr.split('-')[0]
+}
+
 const digitBump = (version: string, digit: Digit) => {
   const versionList = version.split('.')
   const digitNumber = DigitKV[digit]
@@ -28,9 +32,9 @@ const digitBump = (version: string, digit: Digit) => {
   return versionList.join('.')
 }
 
-const versionBumpBranch = ({branch,_versionStr: versionStr, digit}:{branch: string,_versionStr: string, digit: Digit}) => {
+const versionBumpBranch = ({branch,_versionStr: versionStr, digit, type = 'single'}:{branch: string,_versionStr: string, digit: Digit, type?: 'single' | 'ext'}) => {
   let nextVersion = ''
-  const versionNumberStr = versionStr.split('-')[0]
+  const versionNumberStr = extractVersionStrNumber(versionStr)
   if(isMasterBranch(branch)){
     nextVersion = digitBump(versionNumberStr, digit)
   } else {
@@ -42,7 +46,8 @@ const versionBumpBranch = ({branch,_versionStr: versionStr, digit}:{branch: stri
         nextVersion = versionNumberStr + branchSign + '.0'
       }else{
         const _numberList = versionNumberStr.split('.')
-        nextVersion = [_numberList[0],_numberList[1] ,String(Number(_numberList[2]) +1)].join('.') + branchSign + '.0'
+        const last = type === 'single'? String(Number(_numberList[2]) +1) : String(Number(_numberList[2])) 
+        nextVersion = [_numberList[0],_numberList[1],last].join('.') + branchSign + '.0'
       }
     }
   }
@@ -76,10 +81,15 @@ const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) =
 
 
   const commitMsg = `VERSION: ${pjfk.getV('name')}@${nextVersion}`
-  execSync(
-    `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`,{ stdio:'inherit' }
-  )
+  execSync( `git commit -i package.json ${subPackageJsonString} -m '${commitMsg}'`,{ stdio:'inherit' })
   LG.success(commitMsg)
 }
 
-export { versionBump, versionBumpBranch }
+export type {
+  Digit
+}
+export { 
+  digitBump,
+  versionBump, versionBumpBranch, 
+  extractVersionStrNumber
+}

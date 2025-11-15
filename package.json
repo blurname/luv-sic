@@ -8,6 +8,7 @@
     "version-bump": "tsx ./script/monorepo.ts version-bump",
     "version-bump-minor": "tsx ./script/monorepo.ts version-bump-minor",
     "version-bump-major": "tsx ./script/monorepo.ts version-bump-major",
+    "version-bump-ext": "tsx ./script/monorepo.ts version-bump-ext",
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",
@@ -24,6 +25,10 @@
   "packageManager": "npm@9.8.1",
   "workspaces": [
     "pkg/*"
+  ],
+  "VERISON_EXT_PATH": [
+    "./version/master.json",
+    "./version/prod.json"
   ],
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",

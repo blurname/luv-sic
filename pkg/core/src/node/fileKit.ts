@@ -52,8 +52,8 @@ type CreatePJFilekitProps = {
 }
 
 
-const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {
-  const path = findUpPackageJson(_path)
+const createJfk = ({path }: CreatePJFilekitProps) => {
+  // const path = findUpPackageJson(_path)
   const fk = createFileKit(path)
   const _jsonKV = JSON.parse(fk.getFileContent())
   const getJson = () => {
@@ -76,7 +76,13 @@ const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {
    getJson
  } 
 }
+
+const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {
+  const path = findUpPackageJson(_path)
+  return createJfk({path})
+}
 type PJFK = ReturnType<typeof createPJFilekit>
+
 
 const findDownPkg = (pjfk: PJFK) => {
   const cwd = process.cwd()
@@ -98,4 +104,8 @@ const findDownPkg = (pjfk: PJFK) => {
 export type {
   PJFK
 }
-export { createFileKit, createPJFilekit, findDownPkg }
+export { 
+  createFileKit,
+  createPJFilekit, createJfk,
+  findDownPkg 
+}

@@ -4,6 +4,7 @@ import { createTagPush, pkgPublish } from './tag-push.js'
 import { versionBump } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 import {getCallPath} from '@blurname/core/src/node/cli.js'
+import {versionBumpExt} from './version-bump-ext.js'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
@@ -43,6 +44,11 @@ const creteMonorepo =
       }
       case 'version-bump-major': {
         versionBump(pjfk, subPkgPathList)('major')
+        break
+      }
+      case 'version-bump-ext': {
+        versionBumpExt()
+        // versionBump(pjfk, subPkgPathList)('major')
         break
       }
       case 'tag-push': {

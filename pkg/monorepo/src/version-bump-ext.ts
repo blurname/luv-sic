@@ -14,7 +14,6 @@ import {execSync} from "node:child_process"
 //   version: '1.0.0'
 // }
 const versionBumpExt = () => {
-
   const pjfk = createPJFilekit({path: getCallPath()})
   const versionExtPathList = pjfk.getV<string[] | undefined>('VERISON_EXT_PATH')
   if(!versionExtPathList) {

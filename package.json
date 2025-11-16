@@ -21,7 +21,11 @@
     "clean-dist": "tsx ./script/monorepo.ts clean-dist",
     "clean-node_modules": "tsx ./script/monorepo.ts clean-nm",
     "clean-lock": "tsx ./script/monorepo.ts clean-lock",
-    "test-command": "echo test"
+    "===test===": "",
+    "test-command": "echo test",
+    "test-list-sub-pkg": "tsx ./script/monorepo.ts list-sub-pkg",
+    "test-list-sub-pkg-package-json": "tsx ./script/monorepo.ts list-sub-pkg-package-json",
+    "test-file-replace-kv": "tsx ./script/monorepo.ts file-replace-kv nk=version nv=abc"
   },
   "packageManager": "npm@9.8.1",
   "workspaces": [

@@ -1,10 +1,12 @@
 import { execSync } from 'node:child_process'
-import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
+// import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push.js'
 import { versionBump } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 import {getCallPath} from '@blurname/core/src/node/cli.js'
 import {versionBumpExt} from './version-bump-ext.js'
+import {findSourceMap} from 'node:module'
+import {fileReplaceKVEff} from './file-replace.js'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 
@@ -30,6 +32,14 @@ const creteMonorepo =
     const func = process.argv[2]
 
     switch (func) {
+      case 'list-sub-pkg': {
+        _mapSubPkgPathList((ap)=> console.log(ap))
+        break
+      }
+      case 'list-sub-pkg-package-json': {
+        _mapSubPkgPathList((ap)=> console.log(createPJFilekit({path: ap}).getPath()))
+        break
+      }
       case 'clean-dist': {
         _mapSubPkgPathList((ap)=>execSync(`rm -rf dist ${ap}/dist`))
         break
@@ -62,6 +72,10 @@ const creteMonorepo =
       case 'pkg-publish': {
         _mapSubPkgPathList(pkgPublish)
         break
+      }
+      case 'file-replace-kv': {// nm: node_modules
+        fileReplaceKVEff(pjfk, subPkgPathList)
+        // _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/node_modules`))
       }
       case 'clean-lock': {
         _mapSubPkgPathList((ap)=>execSync(`rm -rf ${ap}/package-lock.json`))

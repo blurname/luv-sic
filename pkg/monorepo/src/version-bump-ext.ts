@@ -50,6 +50,13 @@ const versionBumpExt = () => {
   return 
 }
 
+const getCurExtEff = () => {
+  const pjfk = createPJFilekit({path: getCallPath()})
+  const versionExtPathList = pjfk.getV<string[]>('VERISON_EXT_PATH')
+  const curBranch = getCurBranch()
+  return versionExtPathList.find(i => basename(i,'.json') === curBranch)
+}
+
 export {
-  versionBumpExt
+  versionBumpExt, getCurExtEff
 }

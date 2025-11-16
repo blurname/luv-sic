@@ -4,7 +4,7 @@ import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push.js'
 import { versionBump } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 import {getCallPath} from '@blurname/core/src/node/cli.js'
-import {versionBumpExt} from './version-bump-ext.js'
+import {getCurExtEff, versionBumpExt} from './version-bump-ext.js'
 import {findSourceMap} from 'node:module'
 import {fileReplaceKVEff} from './file-replace.js'
 
@@ -58,6 +58,11 @@ const creteMonorepo =
       }
       case 'version-bump-ext': {
         versionBumpExt()
+        // versionBump(pjfk, subPkgPathList)('major')
+        break
+      }
+      case 'get-cur-ext-eff': {
+        getCurExtEff()
         // versionBump(pjfk, subPkgPathList)('major')
         break
       }

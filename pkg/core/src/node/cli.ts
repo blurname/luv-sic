@@ -5,7 +5,8 @@ type ValueType<T> =
    T extends 'boolean' ? boolean
  : T extends 'string' ? string
  : T extends 'number' ? number
- : never
+ : T extends readonly unknown[] ? T[number]
+ : T
 
 const reduceDash = <T extends string | string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
@@ -30,18 +31,18 @@ const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
 // 2. key --k=true
 // 2. optional --k
 
-const parseArg = <const Args extends  Record<string,{desc: string, type: "string" | "boolean"}>>(argv: string[], argDesc: Args) => {
+const parseArg = <const Args extends Record<string,{desc: string, type: {} }>>(argv: string[], argDesc: Args) => {
   const resParamKV = {} as any
   Object.keys(argDesc).forEach((k0) => {
     const paramKV = argv.find((arg) => arg.startsWith(k0))
     if(!paramKV) return
     const [k,v] = paramKV.split("=")
     const type = argDesc[k].type
-    if(type === 'string'){
+    if(type === 'string' || Array.isArray(type)){
       resParamKV[k] = v
     } else if(type === 'boolean') { // 有 key 就代表一定是 true
       resParamKV[k] = true
-    }else {
+    } else {
       resParamKV[k] = false
     }
   })

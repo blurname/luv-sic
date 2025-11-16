@@ -8,7 +8,9 @@ test("cli arg",()=>{
     "--test-kboolean",
   ], {
     "--test-kstring": {desc:"test abc", type: 'string'},
-    "--test-kboolean": {desc:"test abc", type: 'boolean'}
+    "--test-kboolean": {desc:"test abc", type: 'boolean'},
+    "--test-kbool": {desc:"test abc", type: ['a','b','c']}
   })
-  console.log(a)
+  // a['--test-kbool']
+  console.log()
 })

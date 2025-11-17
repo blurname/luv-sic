@@ -2,6 +2,7 @@ import { LG } from '@blurname/core/src/colorLog.js'
 import { getCurBranch, isMasterBranch } from '@blurname/core/src/node/git.js'
 import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
 import {execSync} from 'node:child_process'
+import {createCliStoreEff} from '@blurname/core/src/node/cli.js'
 
 
 // type Version = `${number}.${number}.${number}`
@@ -55,6 +56,12 @@ const versionBumpBranch = ({branch,_versionStr: versionStr, digit, type = 'singl
 }
 
 const versionBump = (pjfk: PJFK,subPkgPathL: string[]) => async (digit: Digit) => {
+  const cliStore =  createCliStoreEff({
+    arg: {
+      'digit': {desc: 'bump digit', type: ['patch','minor','major']} 
+    }
+  })
+  cliStore.getArg("digit")
   const branch = getCurBranch()
   
   const _versionStr = pjfk.getV('version')

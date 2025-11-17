@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "type-check": "tsc",
-    "test0": "node --test \"**/*.test.ts\""
+    "test0": "tsx --test \"**/*.test.ts\""
   },
   "files": [
     "./src"

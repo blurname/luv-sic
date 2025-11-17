@@ -1,12 +1,5 @@
-import {} from 'node:test'
 type KvMapFromScript = { [k: string]: string }
 
-type ValueType<T> =
-   T extends 'boolean' ? boolean
- : T extends 'string' ? string
- : T extends 'number' ? number
- : T extends readonly unknown[] ? T[number]
- : T
 
 const reduceDash = <T extends string | string>(strHasDash: T) => {
   return strHasDash.split('-').at(-1)
@@ -31,33 +24,50 @@ const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
 // 2. key --k=true
 // 2. optional --k
 
-const parseArg = <const Args extends Record<string,{desc: string, type: {} }>>(argv: string[], argDesc: Args) => {
+type ValueType<T> =
+   T extends 'boolean' ? boolean
+ : T extends 'string' ? string
+ : T extends 'number' ? number
+ : T extends readonly unknown[] ? T[number]
+ : T
+
+type Arg = Record<string,{desc?: string, type: {} }>
+const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ValueType<ArgT[k]['type']>}>(argv: string[], argDesc: ArgT) => {
   const resParamKV = {} as any
-  Object.keys(argDesc).forEach((k0) => {
+  for (const k0 of Object.keys(argDesc) ) {
     const paramKV = argv.find((arg) => arg.startsWith(k0))
-    if(!paramKV) return
+    if(!paramKV) return resParamKV as Res 
     const [k,v] = paramKV.split("=")
     const type = argDesc[k].type
     if(type === 'string' || Array.isArray(type)){
       resParamKV[k] = v
+    } else if(type === 'number'){
+      resParamKV[k] = Number(v)
     } else if(type === 'boolean') { // 有 key 就代表一定是 true
       resParamKV[k] = true
     } else {
       resParamKV[k] = false
     }
-  })
-  return resParamKV as {[k in keyof Args]: ValueType<Args[k]['type']>}
+    
+  }
+  return resParamKV as Res
 }
 
 // 放到 cliKit 里面
+const createCliStoreEff = <const T extends Arg>({arg}: {arg:T}) => {
 // 取 参数时，不存在，扔出去就行
-const createCliStore = () => {
   const argList = process.argv
   const callPath = argList[1] 
+  const _arg = parseArg(argList,arg)! 
+
+  const getArg = <U extends keyof T> (key: U): ValueType<T[U]['type']> => _arg[key]
+
   return  {
-    callPath
+    callPath,
+    getArg
   }
 }
+
 const getCallPath = () => {
   return process.cwd()
 }
@@ -70,4 +80,4 @@ const getCallPath = () => {
 // }
 // main()
 
-export { parseOptionList, createCliStore, parseArg, getCallPath }
+export { parseOptionList, createCliStoreEff, parseArg, getCallPath }

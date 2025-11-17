@@ -6,8 +6,8 @@
   "scripts": {
     "mono-test": "tsx ./script/monorepo.ts",
     "version-bump": "tsx ./script/monorepo.ts version-bump",
-    "version-bump-minor": "tsx ./script/monorepo.ts version-bump-minor",
-    "version-bump-major": "tsx ./script/monorepo.ts version-bump-major",
+    "version-bump-minor": "tsx ./script/monorepo.ts version-bump digit=minor",
+    "version-bump-major": "tsx ./script/monorepo.ts version-bump digit=major",
     "version-bump-ext": "tsx ./script/monorepo.ts version-bump-ext",
     "tag-push": "tsx ./script/monorepo.ts tag-push",
     "tag-push-ext": "tsx ./script/monorepo.ts tag-push",

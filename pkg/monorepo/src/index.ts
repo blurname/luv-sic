@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process'
 // import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
 import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push.js'
-import { versionBump } from './version-bump.js'
+import { versionBumpEff } from './version-bump.js'
 import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
 import {getCallPath} from '@blurname/core/src/node/cli.js'
 import {getCurExtEff, versionBumpExt} from './version-bump-ext.js'
@@ -45,15 +45,7 @@ const creteMonorepo =
         break
       }
       case 'version-bump': {
-        versionBump(pjfk, subPkgPathList)('patch')
-        break
-      }
-      case 'version-bump-minor': {
-        versionBump(pjfk, subPkgPathList)('minor')
-        break
-      }
-      case 'version-bump-major': {
-        versionBump(pjfk, subPkgPathList)('major')
+        versionBumpEff(pjfk, subPkgPathList)
         break
       }
       case 'version-bump-ext': {

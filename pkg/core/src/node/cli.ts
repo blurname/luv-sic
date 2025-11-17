@@ -54,17 +54,18 @@ const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ValueT
 }
 
 // 放到 cliKit 里面
-const createCliStoreEff = <const T extends Arg>({arg}: {arg:T}) => {
+const createCliStoreEff = <const ArgT extends Arg>({arg}: {arg:ArgT}) => {
 // 取 参数时，不存在，扔出去就行
   const argList = process.argv
   const callPath = argList[1] 
   const _arg = parseArg(argList,arg)! 
 
-  const getArg = <U extends keyof T> (key: U): ValueType<T[U]['type']> => _arg[key]
+  const getArg = <U extends keyof ArgT> (key: U): ValueType<ArgT[U]['type']> => _arg[key]
+  const getArgDefault = <U extends keyof ArgT> (key: U, defaultValue: ValueType<ArgT[U]['type']>): ValueType<ArgT[U]['type']> => _arg[key] || defaultValue
 
   return  {
     callPath,
-    getArg
+    getArg, getArgDefault
   }
 }
 

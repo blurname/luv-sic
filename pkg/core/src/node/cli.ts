@@ -60,8 +60,10 @@ const createCliStoreEff = <const ArgT extends Arg>({arg}: {arg:ArgT}) => {
   const callPath = argList[1] 
   const _arg = parseArg(argList,arg)! 
 
-  const getArg = <U extends keyof ArgT> (key: U): ValueType<ArgT[U]['type']> => _arg[key]
-  const getArgDefault = <U extends keyof ArgT> (key: U, defaultValue: ValueType<ArgT[U]['type']>): ValueType<ArgT[U]['type']> => _arg[key] || defaultValue
+  type Value<B extends keyof ArgT> = ValueType<ArgT[B]['type']>
+
+  const getArg = <U extends keyof ArgT> (key: U): Value<U> => _arg[key]
+  const getArgDefault = <U extends keyof ArgT> (key: U, defaultValue: Value<U>): Value<U> => _arg[key] || defaultValue
 
   return  {
     callPath,

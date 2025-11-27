@@ -1,6 +1,6 @@
 import {basename} from "node:path"
 import {LG} from "@blurname/core/src/colorLog.js"
-import {getCallPath} from "@blurname/core/src/node/cli.js"
+import {createCliStoreEff, getCallPath} from "@blurname/core/src/node/cli.js"
 import {createJfk, createPJFilekit} from "@blurname/core/src/node/fileKit.js"
 import {getCurBranch, isMasterBranch} from "@blurname/core/src/node/git.js"
 import {extractVersionStrNumber, versionBumpBranch} from "./version-bump.js"
@@ -42,7 +42,13 @@ const versionBumpExt = () => {
   // so the non-masterBranch version-bump will based on original version without the +1 Patch number
 
   const v0 =  extractVersionStrNumber(mVersionStr) === extractVersionStrNumber(cVersionStr) ? cVersionStr : mVersionStr
-  const nextVersion = versionBumpBranch({branch: curBranch,_versionStr: v0,digit: 'patch', type:'ext'})
+
+  const cliStore =  createCliStoreEff({
+    arg: {
+      'digit': {desc: 'bump digit', type: ['patch','minor','major']}
+    }
+  })
+  const nextVersion = versionBumpBranch({branch: curBranch,_versionStr: v0, digit: cliStore.getArgDefault('digit','patch'), type:'ext'})
   curExtJfk.setKV('version', nextVersion)
   curExtJfk.commit()
   const commitMsg = `VERSION: ${pjfk.getV('name')}@${nextVersion}`

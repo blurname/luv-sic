@@ -1,5 +1,6 @@
 {
   "name": "@blurname/server",
+  "private": true,
   "version": "1.0.6",
   "scripts": {
     "dev": "farrow dev",

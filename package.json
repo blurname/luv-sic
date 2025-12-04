@@ -27,7 +27,7 @@
     "test-list-sub-pkg-package-json": "bun ./script/monorepo.ts list-sub-pkg-package-json",
     "test-file-replace-kv": "bun ./script/monorepo.ts file-replace-kv nk=version nv=abc"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "bun@1.2.13",
   "workspaces": [
     "pkg/*"
   ],

@@ -1,7 +1,7 @@
 {
   "name": "@blurname/server",
   "private": true,
-  "version": "1.0.7-blbun.1",
+  "version": "1.0.7-blbun.2",
   "scripts": {
     "dev": "farrow dev",
     "build": "farrow build",

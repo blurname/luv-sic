@@ -4,7 +4,7 @@
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsgo"
   },
   "files": [
     "dist"

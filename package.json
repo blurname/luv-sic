@@ -15,7 +15,7 @@
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",
     "pkg-publish": "bun ./script/monorepo.ts pkg-publish",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsgo --noEmit",
     "start-dev-svgminify": "cd pkg/svgminify && npm run dev",
     "start-dev-lost": "cd pkg/lost && npm run dev",
     "start-dev-ui": "cd pkg/ui && npm run dev",
@@ -43,6 +43,7 @@
     "@types/node": "^20.3.3",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "@typescript/native-preview": "^7.0.0-dev.20251204.1",
     "oxlint": "^1.22.0",
     "turbo": "^2.5.8",
     "typescript": "^5.1.6"

@@ -10,6 +10,7 @@
     "version-bump-major": "bun ./script/monorepo.ts version-bump digit=major",
     "version-bump-ext": "bun ./script/monorepo.ts version-bump-ext",
     "tag-push": "bun ./script/monorepo.ts tag-push",
+    "bp": "bun run version-bump && bun run tag-push",
     "tag-push-ext": "bun ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",

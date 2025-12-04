@@ -21,9 +21,5 @@
     "remesh-react": "^4.0.1",
     "rxjs": "^7.8.1",
     "styled-components": "^6.0.3"
-  },
-  "devDependencies": {
-    "@rsbuild/core": "^0.4.12",
-    "@rsbuild/plugin-react": "^0.4.12"
   }
 }

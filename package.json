@@ -4,28 +4,28 @@
   "author": "blurname <naughtybao@outlook.com>",
   "private": false,
   "scripts": {
-    "mono-test": "tsx ./script/monorepo.ts",
-    "version-bump": "tsx ./script/monorepo.ts version-bump",
-    "version-bump-minor": "tsx ./script/monorepo.ts version-bump digit=minor",
-    "version-bump-major": "tsx ./script/monorepo.ts version-bump digit=major",
-    "version-bump-ext": "tsx ./script/monorepo.ts version-bump-ext",
-    "tag-push": "tsx ./script/monorepo.ts tag-push",
-    "tag-push-ext": "tsx ./script/monorepo.ts tag-push",
+    "mono-test": "bun ./script/monorepo.ts",
+    "version-bump": "bun ./script/monorepo.ts version-bump",
+    "version-bump-minor": "bun ./script/monorepo.ts version-bump digit=minor",
+    "version-bump-major": "bun ./script/monorepo.ts version-bump digit=major",
+    "version-bump-ext": "bun ./script/monorepo.ts version-bump-ext",
+    "tag-push": "bun ./script/monorepo.ts tag-push",
+    "tag-push-ext": "bun ./script/monorepo.ts tag-push",
     "release": "npm run version-bump && npm run tag-push",
     "build": "npx turbo build",
-    "pkg-publish": "tsx ./script/monorepo.ts pkg-publish",
+    "pkg-publish": "bun ./script/monorepo.ts pkg-publish",
     "typecheck": "tsc --noEmit",
     "start-dev-svgminify": "cd pkg/svgminify && npm run dev",
     "start-dev-lost": "cd pkg/lost && npm run dev",
     "start-dev-ui": "cd pkg/ui && npm run dev",
-    "clean-dist": "tsx ./script/monorepo.ts clean-dist",
-    "clean-node_modules": "tsx ./script/monorepo.ts clean-nm",
-    "clean-lock": "tsx ./script/monorepo.ts clean-lock",
+    "clean-dist": "bun ./script/monorepo.ts clean-dist",
+    "clean-node_modules": "bun ./script/monorepo.ts clean-nm",
+    "clean-lock": "bun ./script/monorepo.ts clean-lock",
     "===test===": "",
     "test-command": "echo test",
-    "test-list-sub-pkg": "tsx ./script/monorepo.ts list-sub-pkg",
-    "test-list-sub-pkg-package-json": "tsx ./script/monorepo.ts list-sub-pkg-package-json",
-    "test-file-replace-kv": "tsx ./script/monorepo.ts file-replace-kv nk=version nv=abc"
+    "test-list-sub-pkg": "bun ./script/monorepo.ts list-sub-pkg",
+    "test-list-sub-pkg-package-json": "bun ./script/monorepo.ts list-sub-pkg-package-json",
+    "test-file-replace-kv": "bun ./script/monorepo.ts file-replace-kv nk=version nv=abc"
   },
   "packageManager": "npm@9.8.1",
   "workspaces": [
@@ -36,7 +36,6 @@
     "./version/prod.json"
   ],
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@rsbuild/core": "^1.4.13",
     "@rsbuild/plugin-node-polyfill": "^1.4.2",
     "@rsbuild/plugin-react": "^1.3.4",
@@ -44,7 +43,6 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "oxlint": "^1.22.0",
-    "tsx": "^4.20.6",
     "turbo": "^2.5.8",
     "typescript": "^5.1.6"
   }

@@ -1,7 +1,7 @@
 {
   "name": "@blurname/svgminify",
   "private": true,
-  "version": "1.0.7-blbun.2",
+  "version": "1.0.7-blbun.3",
   "type": "module",
   "scripts": {
     "dev": "rsbuild dev",

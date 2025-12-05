@@ -20,7 +20,15 @@ const versionBumpExt = () => {
     LG.error('no VERISON_EXT_PATH, add it in package.json')
     return
   }
-  const curBranch = getCurBranch()
+
+  const cliStore = createCliStoreEff({
+    arg: {
+      'branch': {type:'string', desc: 'specific branch'},
+      'digit': {desc: 'bump digit', type: ['patch','minor','major']}
+    }
+  })
+
+  const curBranch = cliStore.getArgDefault('branch', getCurBranch())
   const curExt = versionExtPathList.find(i => basename(i,'.json') === curBranch)
   if(!curExt){
     LG.error('curBranch no ext json')
@@ -43,11 +51,6 @@ const versionBumpExt = () => {
 
   const v0 =  extractVersionStrNumber(mVersionStr) === extractVersionStrNumber(cVersionStr) ? cVersionStr : mVersionStr
 
-  const cliStore =  createCliStoreEff({
-    arg: {
-      'digit': {desc: 'bump digit', type: ['patch','minor','major']}
-    }
-  })
   const nextVersion = versionBumpBranch({branch: curBranch,_versionStr: v0, digit: cliStore.getArgDefault('digit','patch'), type:'ext'})
   curExtJfk.setKV('version', nextVersion)
   curExtJfk.commit()
@@ -59,7 +62,6 @@ const versionBumpExt = () => {
 const getCurExtEff = () => {
   const pjfk = createPJFilekit({path: getCallPath()})
   const versionExtPathList = pjfk.getV<string[]>('VERISON_EXT_PATH')
-  const curBranch = getCurBranch()
   return versionExtPathList.find(i => basename(i,'.json') === curBranch)
 }
 

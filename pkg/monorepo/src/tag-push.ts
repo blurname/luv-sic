@@ -3,6 +3,7 @@ import { createJfk, createPJFilekit, PJFK } from '@blurname/core/src/node/fileKi
 import { LG } from '@blurname/core/src/colorLog.js'
 import {getCurBranch} from '@blurname/core/src/node/git.js'
 import {basename} from 'node:path'
+import {createCliStoreEff} from '@blurname/core/src/node/cli.js'
 
 const isTagCreatedEff = (versionStr: string) => {
   const res = spawnSync('git',['tag','-v',versionStr]).output.toString()
@@ -36,7 +37,12 @@ const createTagPush = async (pjfk: PJFK) => {
 const createTagPushExtEff = async (pjfk: PJFK) => {
 
   const versionExtPathList = pjfk.getV<string[]>('VERISON_EXT_PATH')
-  const curBranch = getCurBranch()
+  const cliStore = createCliStoreEff({
+    arg: {
+      'branch': { desc: 'specific branch', type:'string'},
+    }
+  })
+  const curBranch = cliStore.getArgDefault('branch', getCurBranch())
   const curExt = versionExtPathList.find(i => basename(i,'.json') === curBranch)!
   const versionStr = createJfk({path: curExt}).getV('version')
 

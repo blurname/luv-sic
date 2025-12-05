@@ -10,7 +10,7 @@ test("cli arg",()=>{
   ], {
     "--test-string": {desc:"test abc", type: 'string'},
     "--test-boolean": {desc:"test abc", type: 'boolean'},
-    "--test-bool": {desc:"test abc", type: ['a','b','c']},
+    "--test-bool": {desc:"test abc", type: 'or', value: ['a','b','c']},
     "--test-number": {desc:"test abc", type: 'number'}
   })
   console.log(a)
@@ -19,7 +19,7 @@ test("cli arg",()=>{
   const res = createCliStoreEff({arg:{
     "--test-1": {desc:"test abc", type: 'string'},
     "--test-2": {desc:"test abc", type: 'boolean'},
-    "--test-3": {desc:"test abc", type: ['a','b','c']},
+    "--test-3": {desc:"test abc", type: 'or', value: ['a','b','c']},
     "--test-4": {desc:"test abc", type: 'number'},
   }})
   const res1 = res.getArg('--test-1')

@@ -58,7 +58,7 @@ const versionBumpBranch = ({branch,_versionStr: versionStr, digit, type = 'singl
 const versionBumpEff = (pjfk: PJFK,subPkgPathL: string[]) => {
   const cliStore =  createCliStoreEff({
     arg: {
-      'digit': {desc: 'bump digit', type: ['patch','minor','major']} 
+      'digit': {desc: 'bump digit', type: 'or',value: ['patch','minor','major']}
     }
   })
   const digit = cliStore.getArgDefault("digit", 'patch')

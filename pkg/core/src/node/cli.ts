@@ -31,8 +31,11 @@ type ValueType<T> =
  : T extends readonly unknown[] ? T[number]
  : T
 
-type Arg = Record<string,{desc?: string, type: {} }>
-const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ValueType<ArgT[k]['type']>}>(argv: string[], argDesc: ArgT) => {
+type Arg = Record<string,
+  | {type: 'string' | 'boolean' | 'number', desc?: string }
+  | {type: 'or',value: unknown[], desc?: string }
+  >
+const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ArgT[k] extends ({type: 'or'}) ? ArgT[k]['value'][number] : ValueType<ArgT[k]['type']>}>(argv: string[], argDesc: ArgT) => {
   const resParamKV = {} as any
   for (const k0 of Object.keys(argDesc) ) {
     const paramKV = argv.find((arg) => arg.startsWith(k0))
@@ -60,7 +63,7 @@ const createCliStoreEff = <const ArgT extends Arg>({arg}: {arg:ArgT}) => {
   const callPath = argList[1] 
   const _arg = parseArg(argList,arg)! 
 
-  type Value<B extends keyof ArgT> = ValueType<ArgT[B]['type']>
+  type Value<B extends keyof ArgT> = ArgT[B] extends ({type: 'or'}) ? ArgT[B]['value'][number] : ValueType<ArgT[B]['type']>  
 
   const getArg = <U extends keyof ArgT> (key: U): Value<U> => _arg[key]
   const getArgDefault = <U extends keyof ArgT> (key: U, defaultValue: Value<U>): Value<U> => _arg[key] || defaultValue

@@ -23,8 +23,8 @@ const versionBumpExt = () => {
 
   const cliStore = createCliStoreEff({
     arg: {
-      'branch': {type:'string', desc: 'specific branch'},
-      'digit': {desc: 'bump digit', type: ['patch','minor','major']}
+      'branch': { desc: 'specific branch', type:'string'},
+      'digit':  { desc: 'bump digit', type:'or', value: ['patch','minor','major'] }
     }
   })
 
@@ -61,6 +61,7 @@ const versionBumpExt = () => {
 
 const getCurExtEff = () => {
   const pjfk = createPJFilekit({path: getCallPath()})
+  const curBranch =  getCurBranch()
   const versionExtPathList = pjfk.getV<string[]>('VERISON_EXT_PATH')
   return versionExtPathList.find(i => basename(i,'.json') === curBranch)
 }

@@ -40,7 +40,8 @@ const createTagPushExtEff = async (pjfk: PJFK) => {
   const cliStore = createCliStoreEff({
     arg: {
       'branch': { desc: 'specific branch', type:'string'},
-      'remote': { desc: 'remote url', type:'string'}
+      'remote': { desc: 'remote url', type:'string'},
+      'head': { desc: 'remote head', type:'string'},
     }
   })
   const remote = cliStore.getArg('remote')
@@ -52,8 +53,9 @@ const createTagPushExtEff = async (pjfk: PJFK) => {
   if(isTagCreatedEff(tagVersion)) return 
   spawnSync('git', ['tag', '-a', tagVersion, '-m', ''])
   if(remote){
-    spawnSync('git', ['push', remote]) // push the brnach
-    spawnSync('git', ['push', remote, tagVersion]) // push the tag
+    const head = cliStore.getArg('head')
+    spawnSync('git', ['push', remote, head]) // push the brnach
+    spawnSync('git', ['push', remote, head, tagVersion]) // push the tag
   }else {
     spawnSync('git', ['push']) // push the brnach
     spawnSync('git', ['push','origin', tagVersion]) // push the tag

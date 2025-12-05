@@ -24,9 +24,10 @@ const versionBumpExt = () => {
   const cliStore = createCliStoreEff({
     arg: {
       'branch': {type:'string', desc: 'specific branch'},
-      'digit': {desc: 'bump digit', type: ['patch','minor','major']}
+      'digit': {desc: 'bump digit', type:'list',value: ['patch','minor','major']}
     }
   })
+  const value = cliStore.getArg('digit')
 
   const curBranch = cliStore.getArgDefault('branch', getCurBranch())
   const curExt = versionExtPathList.find(i => basename(i,'.json') === curBranch)

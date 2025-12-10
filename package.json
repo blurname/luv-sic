@@ -23,7 +23,7 @@
     "clean-node_modules": "bun ./script/monorepo.ts clean-nm",
     "clean-lock": "bun ./script/monorepo.ts clean-lock",
     "===test===": "",
-    "test-command": "echo test",
+    "test-command": "echo test asdlkfjsd",
     "test-list-sub-pkg": "bun ./script/monorepo.ts list-sub-pkg",
     "test-list-sub-pkg-package-json": "bun ./script/monorepo.ts list-sub-pkg-package-json",
     "test-file-replace-kv": "bun ./script/monorepo.ts file-replace-kv nk=version nv=abc"

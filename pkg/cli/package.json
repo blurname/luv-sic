@@ -1,6 +1,6 @@
 {
   "name": "@blurname/cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {

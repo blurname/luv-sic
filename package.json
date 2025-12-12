@@ -20,7 +20,7 @@
     "start-dev-lost": "cd pkg/lost && npm run dev",
     "start-dev-ui": "cd pkg/ui && npm run dev",
     "clean-dist": "bun ./script/monorepo.ts clean-dist",
-    "clean-node_modules": "rm -rf node_modules && bun ./script/monorepo.ts clean-nm",
+    "clean-node_modules": "bun ./script/monorepo.ts clean-nm",
     "clean-lock": "bun ./script/monorepo.ts clean-lock",
     "===test===": "",
     "test-command": "echo test",

@@ -1,6 +1,6 @@
 {
   "name": "@blurname/monorepo",
-  "version": "1.0.14-blts.0",
+  "version": "1.0.14-blts.1",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "bin": {

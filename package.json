@@ -40,7 +40,7 @@
     "@rsbuild/core": "^1.4.13",
     "@rsbuild/plugin-node-polyfill": "^1.4.2",
     "@rsbuild/plugin-react": "^1.3.4",
-    "@typescript/native-preview": "7.0.0-dev.20251209.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251204.1",
     "turbo": "^2.5.8"
   },
   "optionalDependencies": {

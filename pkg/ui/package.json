@@ -1,6 +1,6 @@
 {
   "name": "@blurname/ui",
-  "version": "1.0.14-bltest2.1",
+  "version": "1.0.14-bltest2.2",
   "scripts": {
     "dev": "rsbuild dev",
     "build": "rsbuild build"

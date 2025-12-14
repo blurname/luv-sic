@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "type-check": "tsgo",
-    "test0": "bun test"
+    "test0": "bun test",
+    "bun-link-publish":"bun link"
   },
   "files": [
     "./src"

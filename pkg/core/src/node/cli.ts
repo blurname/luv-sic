@@ -39,7 +39,7 @@ const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ArgT[k
   const resParamKV = {} as any
   for (const k0 of Object.keys(argDesc) ) {
     const paramKV = argv.find((arg) => arg.startsWith(k0))
-    if(!paramKV) return resParamKV as Res 
+    if(!paramKV) continue
     const [k,v] = paramKV.split("=")
     const type = argDesc[k].type
     if(type === 'string' || Array.isArray(type)){

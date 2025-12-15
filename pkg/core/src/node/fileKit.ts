@@ -67,14 +67,17 @@ const createJfk = ({path }: CreatePJFilekitProps) => {
   const setKV = (key: string, value: string | number | null ) => {
     _jsonKV[key] = value
     fk.modify(()=>JSON.stringify(_jsonKV,null, 2))
+    return jfk
   }
 
- return {
+  const jfk = {
    ...fk,
    getV,
    setKV,
    getJson
- } 
+  }
+
+ return jfk
 }
 
 const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {

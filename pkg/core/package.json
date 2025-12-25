@@ -1,12 +1,12 @@
 {
   "name": "@blurname/core",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "author": "blurname <naughtybao@outlook.com>",
   "type": "module",
   "scripts": {
     "type-check": "tsgo",
     "test0": "bun test",
-    "bun-link-publish":"bun link"
+    "bun-link-publish": "bun link"
   },
   "files": [
     "./src"

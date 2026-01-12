@@ -39,6 +39,10 @@ import {
   zellijTabRenameDesc,
 } from './commands/13-zellij-tab-rename.js'
 import { npmInstall } from './commands/14-npm-i.js'
+import {
+  copyWithVersion,
+  copyWithVersionDesc,
+} from './commands/15-copy-with-version.js'
 import {createCommandStore} from '@blurname/core/src/node/command.js'
 
 export const commands = {
@@ -58,6 +62,7 @@ export const commands = {
   gitViewDiff,
   zellijTabRename,
   ni: npmInstall.fn,
+  cpv: copyWithVersion,
 } as const
 type Commands = keyof typeof commands
 
@@ -78,6 +83,7 @@ const commandsDesc: Record<Commands, string> = {
   gitViewDiff: gitViewDiffDesc,
   zellijTabRename: zellijTabRenameDesc,
   ni: npmInstall.desc,
+  cpv: copyWithVersionDesc,
 }
 
 const main = async () => {

@@ -63,6 +63,13 @@ const copyWithVersion = async () => {
       fs.mkdirSync(targetPath, { recursive: true })
     }
 
+    // 复制 .git 目录以保持 git repo 状态
+    const gitDir = path.join(currentPath, '.git')
+    if (fs.existsSync(gitDir)) {
+      console.log('正在复制 .git 目录...')
+      fs.cpSync(gitDir, path.join(targetPath, '.git'), { recursive: true })
+    }
+
     filesToCopy.forEach(file => {
       const srcFile = path.join(currentPath, file)
       const destFile = path.join(targetPath, file)

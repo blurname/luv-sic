@@ -4,18 +4,42 @@ import { execSync } from 'node:child_process'
 import { getCallPath } from '@blurname/core/src/node/cli.js'
 
 const EXTRA_FILES = ['.env.local']
+const SEP = '__'
 
 const copyWithVersionDesc = '复制当前目录下非 gitignore 的文件到上一层的新同名带数字文件夹 (支持 sync 子命令)'
+
+const getCurBranch = (cwd: string) => {
+  try {
+    return execSync('git branch --show-current', { cwd }).toString().trim()
+  } catch (e) {
+    return ''
+  }
+}
+
+const getBaseName = (currentPath: string, currentDirName: string) => {
+  try {
+    const pkgPath = path.join(currentPath, 'package.json')
+    if (fs.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+      if (pkg.name) {
+        // 去掉 scoped name 的前缀 @xxx/
+        const name = pkg.name.split('/').pop()
+        return name
+      }
+    }
+  } catch (e) {}
+  
+  // 如果没有 package.json，尝试从目录名中提取（使用新的分隔符 __）
+  const parts = currentDirName.split(SEP)
+  return parts[0]
+}
 
 const copyWithVersion = async () => {
   const currentPath = getCallPath()
   const parentPath = path.dirname(currentPath)
   const currentDirName = path.basename(currentPath)
   
-  // 提取基础名称（去掉后缀的 -数字）
-  const baseNameMatch = currentDirName.match(/^(.*?)(?:-(\d+))?$/)
-  const baseName = baseNameMatch ? baseNameMatch[1] : currentDirName
-
+  const baseName = getBaseName(currentPath, currentDirName)
   const subCommand = process.argv[3]
 
   if (subCommand === 'sync') {
@@ -23,22 +47,72 @@ const copyWithVersion = async () => {
     return
   }
 
+  if (subCommand === 'rb') {
+    await renameByBranch(currentPath, parentPath, baseName, currentDirName)
+    return
+  }
+
   // 默认执行原来的复制逻辑
   await doCopyWithVersion(currentPath, parentPath, baseName)
+}
+
+const renameByBranch = async (currentPath: string, parentPath: string, baseName: string, currentDirName: string) => {
+  const branch = getCurBranch(currentPath)
+  if (!branch) {
+    console.log('无法获取当前 Git 分支，重命名取消。')
+    return
+  }
+
+  // 使用 __ 分隔符提取信息: 项目名__数字__分支名
+  const parts = currentDirName.split(SEP)
+  let version = ''
+  
+  // 检查当前文件夹名是否符合新格式且属于该项目
+  if (parts.length >= 2 && parts[0] === baseName && /^\d+$/.test(parts[1])) {
+    version = parts[1]
+  } else {
+    // 如果当前文件夹没有正确的新格式，则找一个新版本号
+    const items = fs.readdirSync(parentPath)
+    let maxVersion = 0
+    items.forEach(item => {
+      const p = item.split(SEP)
+      if (p.length >= 2 && p[0] === baseName && /^\d+$/.test(p[1])) {
+        const v = parseInt(p[1], 10)
+        if (v > maxVersion) maxVersion = v
+      }
+    })
+    version = (maxVersion + 1).toString()
+  }
+
+  const targetName = branch ? `${baseName}${SEP}${version}${SEP}${branch}` : `${baseName}${SEP}${version}`
+  const targetPath = path.join(parentPath, targetName)
+
+  if (currentDirName === targetName) {
+    console.log('当前文件夹名已经是最新且匹配分支名，无需重命名。')
+    return
+  }
+
+  console.log(`正在将文件夹重命名为: ${targetName}`)
+  try {
+    fs.renameSync(currentPath, targetPath)
+    console.log('重命名成功！')
+    console.log(`提示: 请运行 'cd ../${targetName}' 以更新你的 shell 路径。`)
+  } catch (err) {
+    console.error('重命名失败，可能是目录被占用或权限不足。')
+  }
 }
 
 const syncExtraFiles = async (currentPath: string, parentPath: string, baseName: string, currentDirName: string) => {
   const items = fs.readdirSync(parentPath)
   
-  // 匹配模式: 基础名 或 基础名-数字
-  const pattern = new RegExp(`^${baseName}(?:-(\\d+))?$`)
+  // 匹配以 baseName 开头且使用新分隔符的文件夹
   const targetDirs: string[] = []
 
   items.forEach(item => {
     const itemPath = path.join(parentPath, item)
     if (fs.statSync(itemPath).isDirectory() && item !== currentDirName) {
-      const match = item.match(pattern)
-      if (match) {
+      const p = item.split(SEP)
+      if (p[0] === baseName) {
         targetDirs.push(itemPath)
       }
     }
@@ -64,31 +138,27 @@ const syncExtraFiles = async (currentPath: string, parentPath: string, baseName:
 }
 
 const doCopyWithVersion = async (currentPath: string, parentPath: string, baseName: string) => {
+  const branch = getCurBranch(currentPath)
   // 查找父目录下已有的同名或带数字后缀的文件夹
   const items = fs.readdirSync(parentPath)
   let maxVersion = 0
   
-  // 匹配模式: 基础名 或 基础名-数字
-  const pattern = new RegExp(`^${baseName}(?:-(\\d+))?$`)
-
   items.forEach(item => {
     const itemPath = path.join(parentPath, item)
     if (fs.statSync(itemPath).isDirectory()) {
-      const match = item.match(pattern)
-      if (match) {
-        if (match[1]) {
-          const v = parseInt(match[1], 10)
-          if (v > maxVersion) maxVersion = v
-        } else {
-          // 如果原名文件夹存在，视为版本 0
-          if (maxVersion === 0) maxVersion = 0 
-        }
+      const p = item.split(SEP)
+      // 匹配 项目名__数字...
+      if (p.length >= 2 && p[0] === baseName && /^\d+$/.test(p[1])) {
+        const v = parseInt(p[1], 10)
+        if (v > maxVersion) maxVersion = v
+      } else if (item === baseName) {
+        if (maxVersion === 0) maxVersion = 0
       }
     }
   })
 
   const nextVersion = maxVersion + 1
-  const newDirName = `${baseName}-${nextVersion}`
+  const newDirName = branch ? `${baseName}${SEP}${nextVersion}${SEP}${branch}` : `${baseName}${SEP}${nextVersion}`
   const targetPath = path.join(parentPath, newDirName)
 
   console.log(`正在复制文件到 ${targetPath}...`)

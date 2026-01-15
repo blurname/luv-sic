@@ -83,7 +83,7 @@ const commandsDesc: Record<Commands, string> = {
   gitViewDiff: gitViewDiffDesc,
   zellijTabRename: zellijTabRenameDesc,
   ni: npmInstall.desc,
-  cpv: '复制当前目录到新版本文件夹 (支持 sync 子命令同步 .env.local)',
+  cpv: '复制/重命名版本文件夹 (支持 sync, rb 子命令)',
 }
 
 const main = async () => {

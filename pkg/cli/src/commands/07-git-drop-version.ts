@@ -15,10 +15,10 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { colorLog } from '@blurname/core/src/colorLog.js'
-import { parseOptionList } from '@blurname/core/src/node/cli.js'
-import { createFzfKit } from '../util/fzf.js'
-import { getLogList } from '../util/git.js'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { parseOptionList } from '@blurname/core/src/node/cli'
+import { createFzfKit } from '../util/fzf'
+import { getLogList } from '../util/git'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

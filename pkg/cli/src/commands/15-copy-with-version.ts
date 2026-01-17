@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
-import { getCallPath } from '@blurname/core/src/node/cli.js'
+import { getCallPath } from '@blurname/core/src/node/cli'
 
 const EXTRA_FILES = ['.env.local']
 const SEP = '__'

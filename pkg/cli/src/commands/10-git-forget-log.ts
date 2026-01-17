@@ -1,10 +1,10 @@
 import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { colorLog } from '@blurname/core/src/colorLog.js'
-import { createFzfKit } from '../util/fzf.js'
-import { execGitDiff, getGitRootPath, getLogList } from '../util/git.js'
-import { getCLIParams } from '../util/params.js'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { createFzfKit } from '../util/fzf'
+import { execGitDiff, getGitRootPath, getLogList } from '../util/git'
+import { getCLIParams } from '../util/params'
 
 const gitForgetLogDesc = 'forget console.log from givin commit to head'
 const gitForgetLog = () => {

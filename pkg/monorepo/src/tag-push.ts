@@ -1,9 +1,9 @@
 import { execSync, spawnSync } from 'node:child_process'
-import { createJfk, createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
-import { LG } from '@blurname/core/src/colorLog.js'
-import {getCurBranch} from '@blurname/core/src/node/git.js'
+import { createJfk, createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit'
+import { LG } from '@blurname/core/src/colorLog'
+import {getCurBranch} from '@blurname/core/src/node/git'
 import {basename} from 'node:path'
-import {createCliStoreEff} from '@blurname/core/src/node/cli.js'
+import {createCliStoreEff} from '@blurname/core/src/node/cli'
 
 const isTagCreatedEff = (versionStr: string) => {
   const res = spawnSync('git',['tag','-v',versionStr]).output.toString()

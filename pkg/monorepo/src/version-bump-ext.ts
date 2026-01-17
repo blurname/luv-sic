@@ -1,9 +1,9 @@
 import {basename} from "node:path"
-import {LG} from "@blurname/core/src/colorLog.js"
-import {createCliStoreEff, getCallPath} from "@blurname/core/src/node/cli.js"
-import {createJfk, createPJFilekit} from "@blurname/core/src/node/fileKit.js"
-import {getCurBranch, isMasterBranch} from "@blurname/core/src/node/git.js"
-import {extractVersionStrNumber, versionBumpBranch} from "./version-bump.js"
+import {LG} from "@blurname/core/src/colorLog"
+import {createCliStoreEff, getCallPath} from "@blurname/core/src/node/cli"
+import {createJfk, createPJFilekit} from "@blurname/core/src/node/fileKit"
+import {getCurBranch, isMasterBranch} from "@blurname/core/src/node/git"
+import {extractVersionStrNumber, versionBumpBranch} from "./version-bump"
 import {execSync} from "node:child_process"
 
 // bump the version in ext file

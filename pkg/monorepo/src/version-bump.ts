@@ -1,8 +1,8 @@
-import { LG } from '@blurname/core/src/colorLog.js'
-import { getCurBranch, isMasterBranch } from '@blurname/core/src/node/git.js'
-import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit.js'
+import { LG } from '@blurname/core/src/colorLog'
+import { getCurBranch, isMasterBranch } from '@blurname/core/src/node/git'
+import { createPJFilekit, PJFK } from '@blurname/core/src/node/fileKit'
 import {execSync} from 'node:child_process'
-import {createCliStoreEff} from '@blurname/core/src/node/cli.js'
+import {createCliStoreEff} from '@blurname/core/src/node/cli'
 
 
 // type Version = `${number}.${number}.${number}`

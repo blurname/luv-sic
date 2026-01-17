@@ -1,7 +1,7 @@
 // import assert from 'node:assert'
 import { test } from 'node:test'
-// import { createCliStoreEff, parseArg } from './cli.ts'
-import {createCommand, createCommandStore} from './command.ts'
+// import { createCliStoreEff, parseArg } from './cli'
+import {createCommand, createCommandStore} from './command'
 test("command",()=>{
   const testCS = createCommandStore({
     commandKV: {

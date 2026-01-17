@@ -1,6 +1,6 @@
 import { execSync, spawnSync } from 'node:child_process'
-import { getPackageJsonFile } from '@blurname/core/src/node/meta-file/npm.js'
-import { createFzfKit } from '../util/fzf.js'
+import { getPackageJsonFile } from '@blurname/core/src/node/meta-file/npm'
+import { createFzfKit } from '../util/fzf'
 
 const metaScriptFzfDesc =
   'use fzf to search & execute script in project meta file '

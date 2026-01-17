@@ -1,12 +1,12 @@
 import { execSync } from 'node:child_process'
-// import { detectSubVersionNeedToUpdate } from './detect-sub-version.js'
-import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push.js'
-import { versionBumpEff } from './version-bump.js'
-import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit.js'
-import {getCallPath} from '@blurname/core/src/node/cli.js'
-import {getCurExtEff, versionBumpExt} from './version-bump-ext.js'
+// import { detectSubVersionNeedToUpdate } from './detect-sub-version'
+import { createTagPush, createTagPushExtEff, pkgPublish } from './tag-push'
+import { versionBumpEff } from './version-bump'
+import { createPJFilekit, findDownPkg } from '@blurname/core/src/node/fileKit'
+import {getCallPath} from '@blurname/core/src/node/cli'
+import {getCurExtEff, versionBumpExt} from './version-bump-ext'
 import {findSourceMap} from 'node:module'
-import {fileReplaceKVEff} from './file-replace.js'
+import {fileReplaceKVEff} from './file-replace'
 
 // const SUB_PACKAGE_LIST = ['core', 'cli', 'svgminify', 'lost']
 

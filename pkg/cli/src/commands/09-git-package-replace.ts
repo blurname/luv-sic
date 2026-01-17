@@ -1,7 +1,7 @@
 import { execSync, spawnSync } from 'node:child_process'
 import { readFile, stat, writeFile } from 'node:fs/promises'
-import { colorLog } from '@blurname/core/src/colorLog.js'
-import { parseOptionList } from '@blurname/core/src/node/cli.js'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { parseOptionList } from '@blurname/core/src/node/cli'
 
 const gitReplacePackageDesc = 'replace package version in  package.json'
 

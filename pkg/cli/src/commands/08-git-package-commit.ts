@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
-import { colorLog } from '@blurname/core/src/colorLog.js'
-import { execGitDiff } from '../util/git.js'
+import { colorLog } from '@blurname/core/src/colorLog'
+import { execGitDiff } from '../util/git'
 
 const gitCommitDesc =
   'quickly git commit which message is the changes of dependencies of package.json'

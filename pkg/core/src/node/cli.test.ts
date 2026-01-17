@@ -1,6 +1,6 @@
 // import assert from 'node:assert'
 import { test } from 'node:test'
-import { createCliStoreEff, parseArg } from './cli.ts'
+import { createCliStoreEff, parseArg } from './cli'
 test("cli arg",()=>{
   const a = parseArg([
     "--abc=123",

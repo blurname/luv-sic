@@ -1,6 +1,6 @@
-import {createPJFilekit, PJFK} from "@blurname/core/src/node/fileKit.js"
-import {LG} from "@blurname/core/src/colorLog.js"
-import {parseArg} from "@blurname/core/src/node/cli.js"
+import {createPJFilekit, PJFK} from "@blurname/core/src/node/fileKit"
+import {LG} from "@blurname/core/src/colorLog"
+import {parseArg} from "@blurname/core/src/node/cli"
 
 const fileReplaceKVEff = (pjfk: PJFK,subPkgPathL: string[]) => {
   const arg =  parseArg(process.argv,{

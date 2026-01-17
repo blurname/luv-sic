@@ -2,48 +2,46 @@
 import {
   detectCIStatus,
   detectCIStatusDesc,
-} from './commands/0a-git-detect-ci-status.js'
-import { switchNpmrc, switchNpmrcDesc } from './commands/01-switch-npmrc.js'
+} from './commands/0a-git-detect-ci-status'
+import { switchNpmrc, switchNpmrcDesc } from './commands/01-switch-npmrc'
 import {
   duCurrentFolder,
   duCurrentFolderDesc,
-} from './commands/03-du-current-folder.js'
-// import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './commands/04-calc-ts-percent-in-project.js'
+} from './commands/03-du-current-folder'
+// import { calcTsPercentInProject, calcTsPercentInProjectDesc } from './commands/04-calc-ts-percent-in-project'
 import {
   calcWorkingTime,
   calcWorkingTimeDesc,
-} from './commands/05-calc-working-time.js'
+} from './commands/05-calc-working-time'
 import {
   generateShellCompletions,
   generateShellCompletionsDesc,
-} from './commands/06-generate-shell-completions.js'
+} from './commands/06-generate-shell-completions'
 import {
   gitDropVersion,
   gitDropVersionDesc,
-} from './commands/07-git-drop-version.js'
-import { gitCommit, gitCommitDesc } from './commands/08-git-package-commit.js'
+} from './commands/07-git-drop-version'
+import { gitCommit, gitCommitDesc } from './commands/08-git-package-commit'
 import {
   gitReplacePackage,
   gitReplacePackageDesc,
-} from './commands/09-git-package-replace.js'
-// import { startZellij, startZellijDesc } from './commands/0c-start-zellij.js'
-// import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json.js'
-import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log.js'
+} from './commands/09-git-package-replace'
+// import { startZellij, startZellijDesc } from './commands/0c-start-zellij'
+// import { logRemoteJson, logRemoteJsonDesc } from './commands/0e-log-remote-json'
+import { gitForgetLog, gitForgetLogDesc } from './commands/10-git-forget-log'
 import {
   metaScriptFzf,
   metaScriptFzfDesc,
-} from './commands/11-meta-script-fzf.js'
-import { gitViewDiff, gitViewDiffDesc } from './commands/12-git-view-diff.js'
+} from './commands/11-meta-script-fzf'
+import { gitViewDiff, gitViewDiffDesc } from './commands/12-git-view-diff'
 import {
   zellijTabRename,
   zellijTabRenameDesc,
-} from './commands/13-zellij-tab-rename.js'
-import { npmInstall } from './commands/14-npm-i.js'
+} from './commands/13-zellij-tab-rename'
+import { npmInstall } from './commands/14-npm-i'
 import {
   copyWithVersion,
-  copyWithVersionDesc,
-} from './commands/15-copy-with-version.js'
-import {createCommandStore} from '@blurname/core/src/node/command.js'
+} from './commands/15-copy-with-version'
 
 export const commands = {
   switchNpmrc,

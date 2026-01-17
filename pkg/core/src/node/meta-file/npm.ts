@@ -1,4 +1,4 @@
-import { createPJFilekit } from "../fileKit.js"
+import { createPJFilekit } from "../fileKit"
 
 const getPackageJsonFile = () => {
   const path = process.cwd() + '/package.json'

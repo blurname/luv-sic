@@ -1,5 +1,5 @@
 import test from "node:test";
-import {versionBumpBranch} from "./version-bump.js";
+import {versionBumpBranch} from "./version-bump";
 import {strictEqual} from "assert";
 
 test('version-bump', ()=>{

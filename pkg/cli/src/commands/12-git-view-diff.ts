@@ -1,7 +1,7 @@
 import { execSync, spawnSync } from 'node:child_process'
-import { createFzfKit } from '../util/fzf.js'
-import { getLogList } from '../util/git.js'
-import { getCLIParams } from '../util/params.js'
+import { createFzfKit } from '../util/fzf'
+import { getLogList } from '../util/git'
+import { getCLIParams } from '../util/params'
 
 const gitViewDiffDesc =
   'fuzzy find git diff between Head to givin hash, then use terminal editor to view it by env.EDITOR'

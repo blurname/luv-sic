@@ -1,5 +1,5 @@
 import { writeFileSync } from 'fs'
-import { commands } from '../main.js'
+import { commands } from '../main'
 
 // https://rsteube.github.io/carapace-bin/spec/examples.html
 const generateShellCompletionsDesc =

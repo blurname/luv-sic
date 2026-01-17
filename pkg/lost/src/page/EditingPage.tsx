@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 // import { async } from 'rxjs'
-import init, { add_zwsp } from '../../wasm/ZWSP/ZWSP.js'
+import init, { add_zwsp } from '../../wasm/ZWSP/ZWSP'
 import { useRepeat } from '../hooks/useRepeat'
 import { clickListener, inputListener } from '../sdk/event'
 

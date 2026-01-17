@@ -1,8 +1,8 @@
 import { execSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import {getCallPath} from '@blurname/core/src/node/cli.js'
-import {createCommand } from '@blurname/core/src/node/command.js'
+import {getCallPath} from '@blurname/core/src/node/cli'
+import {createCommand } from '@blurname/core/src/node/command'
 
 const npmInstall = createCommand({
   desc: 'npm yarn pnpm detect install',

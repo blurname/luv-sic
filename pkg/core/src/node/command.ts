@@ -1,4 +1,4 @@
-import {LG} from "../colorLog.ts"
+import {LG} from "../colorLog"
 
 type Command< Desc = unknown, CommandFn extends () => unknown = () => unknown> = {
   desc: Desc

@@ -1,89 +1,46 @@
-type KvMapFromScript = { [k: string]: string }
+export type KvMapFromScript = { [k: string]: string }
 
+const reduceDash = (strHasDash: string) => strHasDash.split('-').at(-1)
 
-const reduceDash = <T extends string | string>(strHasDash: T) => {
-  return strHasDash.split('-').at(-1)
-}
-
-const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
+export const parseOptionList = (argv: string[], kvMapFromScript: KvMapFromScript) => {
   const parsedOptionList: KvMapFromScript = {}
   Object.keys(kvMapFromScript).forEach((k) => {
-    const paramK = argv.findIndex((arg) => {
-      return reduceDash(arg) === k
-    })
+    const paramK = argv.findIndex((arg) => reduceDash(arg) === k)
     if (paramK !== -1) {
-      const paramV = argv[paramK + 1] || true
-      parsedOptionList[k] = paramV as string
+      parsedOptionList[k] = (argv[paramK + 1] || true) as string
     }
   })
   return { ...kvMapFromScript, ...parsedOptionList }
 }
 
-// commandline param 
-// 1. kv --k=v
-// 2. key --k=true
-// 2. optional --k
+type ValueType<T> = T extends 'boolean' ? boolean : T extends 'string' ? string : T extends 'number' ? number : T extends readonly unknown[] ? T[number] : T
+type Arg = Record<string, { type: 'string' | 'boolean' | 'number' | 'or'; value?: unknown[]; desc?: string }>
 
-type ValueType<T> =
-   T extends 'boolean' ? boolean
- : T extends 'string' ? string
- : T extends 'number' ? number
- : T extends readonly unknown[] ? T[number]
- : T
-
-type Arg = Record<string,
-  | {type: 'string' | 'boolean' | 'number', desc?: string }
-  | {type: 'or',value: unknown[], desc?: string }
-  >
-const parseArg = <const ArgT extends Arg, Res extends {[k in keyof ArgT]: ArgT[k] extends ({type: 'or'}) ? ArgT[k]['value'][number] : ValueType<ArgT[k]['type']>}>(argv: string[], argDesc: ArgT) => {
+export const parseArg = <const ArgT extends Arg, Res extends { [k in keyof ArgT]: any }>(argv: string[], argDesc: ArgT) => {
   const resParamKV = {} as any
-  for (const k0 of Object.keys(argDesc) ) {
+  for (const k0 of Object.keys(argDesc)) {
     const paramKV = argv.find((arg) => arg.startsWith(k0))
-    if(!paramKV) continue
-    const [k,v] = paramKV.split("=")
+    if (!paramKV) continue
+    const [k, v] = paramKV.split("=")
     const type = argDesc[k].type
-    if(type === 'string' || Array.isArray(type)){
+    if (type === 'string' || type === 'or') {
       resParamKV[k] = v
-    } else if(type === 'number'){
+    } else if (type === 'number') {
       resParamKV[k] = Number(v)
-    } else if(type === 'boolean') { // 有 key 就代表一定是 true
+    } else if (type === 'boolean') {
       resParamKV[k] = true
-    } else {
-      resParamKV[k] = false
     }
-    
   }
   return resParamKV as Res
 }
 
-// 放到 cliKit 里面
-const createCliStoreEff = <const ArgT extends Arg>({arg}: {arg:ArgT}) => {
-// 取 参数时，不存在，扔出去就行
+export const createCliStoreEff = <const ArgT extends Arg>({ arg }: { arg: ArgT }) => {
   const argList = process.argv
-  const callPath = argList[1] 
-  const _arg = parseArg(argList,arg)! 
-
-  type Value<B extends keyof ArgT> = ArgT[B] extends ({type: 'or'}) ? ArgT[B]['value'][number] : ValueType<ArgT[B]['type']>  
-
-  const getArg = <U extends keyof ArgT> (key: U): Value<U> => _arg[key]
-  const getArgDefault = <U extends keyof ArgT> (key: U, defaultValue: Value<U>): Value<U> => _arg[key] || defaultValue
-
-  return  {
-    callPath,
-    getArg, getArgDefault
-  }
+  const callPath = argList[1]
+  const _arg = parseArg(argList, arg)
+  const getArg = (key: keyof ArgT) => _arg[key]
+  const getArgDefault = (key: keyof ArgT, defaultValue: any) => _arg[key] || defaultValue
+  return { callPath, getArg, getArgDefault }
 }
 
-const getCallPath = () => {
-  return process.cwd()
-}
-
-// export { parseOptionList }
-//
-// const main = () => {
-// const result = parseOptionList(process.argv, options)
-// console.log(result)
-// }
-// main()
-
-export { parseOptionList, createCliStoreEff, parseArg, getCallPath }
+export const getCallPath = () => process.cwd()

@@ -1,4 +1,4 @@
-const createFetchOnce = () => {
+export const createFetchOnce = () => {
   const URL_PROMSIE_CACHE_MAP = new Map<string, Promise<unknown>>()
   const requestOnceAsync = async (
     url: string,
@@ -12,27 +12,11 @@ const createFetchOnce = () => {
           fetch(url).then(async (data) => {
             cb?.(await data.text())
             resolve(data)
-          })
+          }).catch(reject)
         }))
       )
     }
     return res
   }
-  return {
-    requestOnceAsync,
-  }
+  return { requestOnceAsync }
 }
-
-// const { requestOnceAsync } = createFetchOnce()
-// requestOnceAsync('http://127.0.0.1:3000', (data) => { console.log(data) })
-// requestOnceAsync('http://127.0.0.1:3000', (data) => { console.log(data) })
-// requestOnceAsync('http://127.0.0.1:3000', (data) => { console.log(data) })
-// setTimeout(() => {
-//   requestOnceAsync('http://127.0.0.1:3000', (data) => { console.log(data) })
-//   console.log('1000')
-// }, 100)
-// setTimeout(() => {
-//   requestOnceAsync('http://127.0.0.1:3000', (data) => { console.log(data) })
-//   console.log('2000')
-// }, 2000)
-export { createFetchOnce }

@@ -1,18 +1,4 @@
-// 找 -> 存在( 记录 path) -> 根据 path udpate
-// path: [`key1:key11:key111`]
-// path: key: [path1, path2], 判断 path
-
-// FIXME: class 没有显示声明的 variable, lint 不会报错
-
-// feature:
-// 1. update 统一的 key
-// 2. 做了缓存，应该会快
-//
-// TODO:
-// 1. ditch keyPath
-// 2. naming function/variable better
-// 3. more test case
-class createObjectDeepUpdate {
+export class createObjectDeepUpdate {
   private pathMap = new Map<string, string[]>()
   private keyPath = ''
 
@@ -76,49 +62,6 @@ class createObjectDeepUpdate {
         },
       }
     }
-    const updated = recUpdate(obj, 0)
-    return updated
+    return recUpdate(obj, 0)
   }
 }
-export { createObjectDeepUpdate }
-
-// const deepObject = {
-// a: 1,
-// b: {
-// bb1: 2,
-// bb2: 3
-// },
-// c: {
-// cc: {
-// ccc: 4
-// }
-// }
-// } as const
-
-// const deepObject1 = {
-// a: 1,
-// b: {
-// bb1: 2,
-// bb2: 3
-// },
-// c: {
-// ccc: 5
-// }
-// } as const
-
-// const objectDeepUpdate = new createObjectDeepUpdate()
-
-// test1
-// const deepObjects = [deepObject]
-
-// objectDeepUpdate.generatePathMap(deepObjects, 'ccc')
-
-// const res = objectDeepUpdate.deepUpdate(deepObject, 'ccc', { a: 666 })
-
-// test2
-// const deepObjects = [deepObject2]
-
-// objectDeepUpdate.generatePathMap(deepObjects, 'fill')
-
-// const res = objectDeepUpdate.deepUpdate(deepObject2, 'fill', { a: 666 })
-// console.log(res)

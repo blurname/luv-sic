@@ -1,8 +1,9 @@
-type ClipboardItem = {
+export type ClipboardItem = {
   mimeType: 'text/plain'
   data: string
 }
-const performNativeCopy = (items: ClipboardItem[]): boolean => {
+
+export const performNativeCopy = (items: ClipboardItem[]): boolean => {
   let success = false
   const tempElem = document.createElement('textarea')
   tempElem.value = 'temp'
@@ -15,7 +16,6 @@ const performNativeCopy = (items: ClipboardItem[]): boolean => {
     if (clipboardData) {
       items.forEach((item) => clipboardData.setData(item.mimeType, item.data))
     }
-
     e.preventDefault()
     e.stopPropagation()
     tempElem.removeEventListener('copy', listener)
@@ -30,4 +30,3 @@ const performNativeCopy = (items: ClipboardItem[]): boolean => {
   }
   return success
 }
-export { performNativeCopy }

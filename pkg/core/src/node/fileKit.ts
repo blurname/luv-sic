@@ -1,114 +1,57 @@
-import { existsSync, readFileSync, writeFileSync,readdirSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs'
 import PATH from 'node:path'
 
-const createFileKit = (path: string) => {
+export const createFileKit = (path: string) => {
   const _rawFile = readFileSync(path).toString()
   let _modifiedFile: string | undefined
-
-  const modify = (modifyFn: (fileString: string) => string) => {
-    if (_rawFile === undefined) throw new Error('no such file')
-    _modifiedFile = modifyFn(_rawFile.slice())
-  }
-
-  const commit = () => {
-    if (_modifiedFile === undefined) throw new Error('no file modified')
-    writeFileSync(path, _modifiedFile)
-  }
-
-  const getPath = () => {
-    return path
-  }
-
-  const getFileContent = () => {
-    return _rawFile
-  }
-
   return {
-    modify,
-    commit,
-    getPath,
-    getFileContent,
+    modify: (modifyFn: (f: string) => string) => { _modifiedFile = modifyFn(_rawFile.slice()) },
+    commit: () => { if (_modifiedFile) writeFileSync(path, _modifiedFile) },
+    getPath: () => path,
+    getFileContent: () => _rawFile
   }
 }
 
-const findUpPackageJson = (path: string) => {
+export const findUpPackageJson = (path: string) => {
   let nextPath = path
-  let packageJsonPath: string | undefined
-  while(nextPath !== '/' && packageJsonPath === undefined){
-    const filePath = nextPath + "/package.json"
-    if(existsSync(filePath)){
-      packageJsonPath = filePath
-      break
-    }
-    nextPath = PATH.join(nextPath,"../")
+  while (nextPath !== '/') {
+    const p = PATH.join(nextPath, "package.json")
+    if (existsSync(p)) return p
+    nextPath = PATH.join(nextPath, "../")
   }
-  if(!packageJsonPath) throw new Error(" no package.json")
-  return packageJsonPath 
+  throw new Error("no package.json")
 }
 
-// pj := packgae.json
-type CreatePJFilekitProps = {
-  path: string
-}
-
-
-const createJfk = ({path }: CreatePJFilekitProps) => {
-  // const path = findUpPackageJson(_path)
+export const createJfk = ({ path }: { path: string }) => {
   const fk = createFileKit(path)
   const _jsonKV = JSON.parse(fk.getFileContent())
-  const getJson = () => {
-    return _jsonKV
-  }
-
-  const getV = <T = string>(key: string): T => {
-    return _jsonKV[key]
-  }
-
-  const setKV = (key: string, value: string | number | null ) => {
-    _jsonKV[key] = value
-    fk.modify(()=>JSON.stringify(_jsonKV,null, 2))
-    return jfk
-  }
-
   const jfk = {
-   ...fk,
-   getV,
-   setKV,
-   getJson
+    ...fk,
+    getV: <T = string>(key: string): T => _jsonKV[key],
+    setKV: (key: string, value: any) => {
+      _jsonKV[key] = value
+      fk.modify(() => JSON.stringify(_jsonKV, null, 2))
+      return jfk
+    },
+    getJson: () => _jsonKV
   }
-
- return jfk
+  return jfk
 }
 
-const createPJFilekit = ({path: _path}: CreatePJFilekitProps) => {
-  const path = findUpPackageJson(_path)
-  return createJfk({path})
-}
-type PJFK = ReturnType<typeof createPJFilekit>
+export const createPJFilekit = ({ path: _path }: { path: string }) => createJfk({ path: findUpPackageJson(_path) })
 
-
-const findDownPkg = (pjfk: PJFK) => {
+export const findDownPkg = (pjfk: any) => {
   const cwd = process.cwd()
   const subPkgPathList: string[] = []
-  const worksapceList = pjfk.getV<string[] | undefined>("workspaces")
-  if(!worksapceList) return subPkgPathList
-  for (const workspace of worksapceList) {
-    if(workspace.endsWith('/*')){
-      const path1 = PATH.join(cwd,workspace.split("/*")[0])
-      for (const subPkg of readdirSync(path1)) {
-        subPkgPathList.push(PATH.join(path1,subPkg))
-      }
-    }else {
-      subPkgPathList.push(PATH.join(cwd,workspace))
+  const workspaces = pjfk.getV("workspaces")
+  if (!workspaces) return subPkgPathList
+  for (const w of workspaces) {
+    if (w.endsWith('/*')) {
+      const p = PATH.join(cwd, w.split("/*")[0])
+      for (const sub of readdirSync(p)) subPkgPathList.push(PATH.join(p, sub))
+    } else {
+      subPkgPathList.push(PATH.join(cwd, w))
     }
   }
   return subPkgPathList
-}
-export type {
-  PJFK
-}
-export { 
-  createFileKit,
-  createPJFilekit, createJfk,
-  findDownPkg 
 }

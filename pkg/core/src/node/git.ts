@@ -1,12 +1,4 @@
-import {spawnSync} from "node:child_process"
+import { spawnSync } from "node:child_process"
 
-const getCurBranch = () => {
-  return spawnSync('git',['branch','--show-current']).stdout.toString().trim()
-}
-const isMasterBranch = (branch: string) => {
-  return branch === 'master' || branch === 'main' || branch === 'release'
-}
-
-export {
-  getCurBranch, isMasterBranch
-}
+export const getCurBranch = () => spawnSync('git', ['branch', '--show-current']).stdout.toString().trim()
+export const isMasterBranch = (branch: string) => branch === 'master' || branch === 'main' || branch === 'release'

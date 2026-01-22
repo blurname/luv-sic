@@ -1,6 +1,5 @@
 type Fn = () => string | object
-const createUrlInit = <const T extends Record<string, Fn>>(config: T) => {
-  // write to globalThis, know the number of url parameter used
+export const createUrlInit = <const T extends Record<string, Fn>>(config: T) => {
   // @ts-ignore
   Object.assign(globalThis, { _urlp: { ...globalThis._urlp, ...config } })
 
@@ -20,4 +19,3 @@ const createUrlInit = <const T extends Record<string, Fn>>(config: T) => {
     }
   }
 }
-export { createUrlInit }

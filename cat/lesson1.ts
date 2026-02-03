@@ -541,6 +541,458 @@ console.log("获取值或默认:", unwrapOr({ id: 0, name: "Guest", email: "" })
  * 在 99% 的错误处理场景中，Result 是最佳选择！
  */
 
+// ============================================================================
+// Tagged Union vs Functor - 深入理解
+// ============================================================================
+
+/**
+ * Q: Tagged Union 算 Functor 吗？
+ * A: 不完全是！关键在于理解两个概念的区别
+ * 
+ * Tagged Union (标签联合):
+ * - 是一种"构建数据类型的技术"
+ * - TypeScript 中通过 discriminated union 实现
+ * - 本身只是类型系统的特性，不是 Functor
+ * 
+ * Functor:
+ * - 是一个"类型类 (typeclass)"或"接口"
+ * - 需要实现 map 操作
+ * - 需要满足 Functor 定律
+ * 
+ * 关系：
+ * ✅ 用 Tagged Union 构建的类型"可能"是 Functor
+ * ❌ 不是所有 Tagged Union 都是 Functor
+ */
+
+console.log("\n=== Tagged Union 与 Functor ===");
+
+// 例子 1: Maybe 是 Tagged Union，也是 Functor ✅
+// Maybe 是 Tagged Union（有 Just 和 Nothing 两个标签）
+// Maybe 也是 Functor（可以实现 map，满足 Functor 定律）
+type MaybeExample<A> = 
+  | { tag: "Just"; value: A }
+  | { tag: "Nothing" };
+
+const mapMaybeExample = <A, B>(f: (a: A) => B) => (ma: MaybeExample<A>): MaybeExample<B> => {
+  if (ma.tag === "Nothing") return { tag: "Nothing" };
+  return { tag: "Just", value: f(ma.value) };
+};
+
+console.log("Maybe 既是 Tagged Union 又是 Functor");
+const maybeTest = mapMaybeExample((x: number) => x * 2)({ tag: "Just", value: 5 });
+console.log("  测试:", maybeTest); // { tag: "Just", value: 10 }
+
+// 例子 2: 不是所有 Tagged Union 都能成为 Functor ❌
+// 这个 Tagged Union 无法成为 Functor
+// type Direction = 
+//   | { tag: "North" }
+//   | { tag: "South" }
+//   | { tag: "East" }
+//   | { tag: "West" };
+
+// ❌ Direction 无法实现 map！
+// map 的签名应该是：(A -> B) -> Direction<A> -> Direction<B>
+// 但是 Direction 没有类型参数！它不包含任何值
+// 无法"提升"函数到这个类型上
+
+console.log("Direction 是 Tagged Union，但不是 Functor（没有类型参数）");
+
+// 例子 3: 有类型参数但仍然不是 Functor 的情况
+// type Predicate<A> = {
+//   tag: "Predicate";
+//   check: (a: A) => boolean;  // A 在"逆变位置"（函数参数）
+// };
+
+// ❌ Predicate 无法正确实现 map
+// 如果我们有 Predicate<number>，想 map 成 Predicate<string>
+// 我们需要一个函数 f: number -> string
+// 但是 check: (number) => boolean 无法转换为 (string) => boolean
+// 因为 A 在函数参数位置（逆变），不在返回值位置（协变）
+
+console.log("Predicate 有类型参数，但不是 Functor（类型参数在逆变位置）");
+
+// 例子 4: 什么样的 Tagged Union 可以成为 Functor？✅
+
+/**
+ * Functor 的充分条件：
+ * 1. 必须是泛型类型（有类型参数，如 F<A>）
+ * 2. 类型参数必须在"协变位置"（作为返回值、字段等）
+ * 3. 能实现有意义的 map 操作
+ * 4. 满足 Functor 定律
+ */
+
+// ✅ Maybe: 有类型参数 A，A 在 value 字段（协变位置）
+// ✅ Either: 有类型参数 A，A 在 value 字段（协变位置）
+// ✅ Result: 有类型参数 T，T 在 value 字段（协变位置）
+
+// ✅ Tree 也可以是 Functor
+type Tree<A> = 
+  | { tag: "Leaf"; value: A }
+  | { tag: "Branch"; left: Tree<A>; right: Tree<A> };
+
+const mapTree = <A, B>(f: (a: A) => B) => (tree: Tree<A>): Tree<B> => {
+  if (tree.tag === "Leaf") {
+    return { tag: "Leaf", value: f(tree.value) };
+  }
+  return {
+    tag: "Branch",
+    left: mapTree(f)(tree.left),
+    right: mapTree(f)(tree.right)
+  };
+};
+
+const numberTree: Tree<number> = {
+  tag: "Branch",
+  left: { tag: "Leaf", value: 1 },
+  right: { tag: "Leaf", value: 2 }
+};
+
+const stringTree = mapTree((n: number) => n.toString())(numberTree);
+console.log("Tree Functor:", stringTree);
+
+// ✅ List (链表) 也可以是 Functor
+type List<A> = 
+  | { tag: "Nil" }
+  | { tag: "Cons"; head: A; tail: List<A> };
+
+const mapList = <A, B>(f: (a: A) => B) => (list: List<A>): List<B> => {
+  if (list.tag === "Nil") return { tag: "Nil" };
+  return {
+    tag: "Cons",
+    head: f(list.head),
+    tail: mapList(f)(list.tail)
+  };
+};
+
+const numberList: List<number> = {
+  tag: "Cons",
+  head: 1,
+  tail: { tag: "Cons", head: 2, tail: { tag: "Nil" } }
+};
+
+const doubledList = mapList((n: number) => n * 2)(numberList);
+console.log("List Functor:", doubledList);
+
+// 例子 5: 不能成为 Functor 的其他情况（概念示例）
+
+// ❌ 类型参数出现在函数参数位置
+// type Consumer<A> = {
+//   tag: "Consumer";
+//   consume: (a: A) => void;  // 逆变
+// };
+
+// ❌ 类型参数被"固定"了
+// type FixedPair = 
+//   | { tag: "IntPair"; first: number; second: number }
+//   | { tag: "StrPair"; first: string; second: string };
+// 没有泛型参数，无法 map
+
+// ❌ 类型参数在等式约束中
+// type Equal<A> = {
+//   tag: "Equal";
+//   left: A;
+//   right: A;
+//   equals: (a: A, b: A) => boolean;  // A 既在协变位置又在逆变位置
+// };
+
+console.log("\n=== 验证：协变位置 vs 逆变位置 ===");
+
+// 协变（Covariant）- 类型参数在返回值/输出位置
+// type Producer<A> = () => A;  // ✅ 可以实现 map
+// 示例：const mapProducer = <A, B>(f: (a: A) => B) => (producer: Producer<A>): Producer<B> => {
+//   return () => f(producer());
+// };
+
+// 逆变（Contravariant）- 类型参数在参数/输入位置
+// type ConsumerFunc<A> = (a: A) => void;  // ❌ 不能实现 map，但可以实现 contramap
+// 示例：const contramapConsumer = <A, B>(f: (b: B) => A) => (consumer: ConsumerFunc<A>): ConsumerFunc<B> => {
+//   return (b: B) => consumer(f(b));  // 注意：函数方向反了！
+// };
+
+console.log("Producer 是协变的 Functor");
+console.log("Consumer 是逆变的 Contravariant Functor");
+
+/**
+ * 总结：Tagged Union 与 Functor 的关系
+ * 
+ * 1. Tagged Union 是构建数据类型的技术
+ *    - 用 | 和 tag 字段构建不同的变体
+ *    - TypeScript、Rust、Haskell 等都支持
+ * 
+ * 2. Functor 是类型类/接口
+ *    - 需要实现 map: (A -> B) -> F<A> -> F<B>
+ *    - 需要满足定律
+ * 
+ * 3. 一个 Tagged Union 可以成为 Functor 当且仅当：
+ *    ✅ 它有泛型参数（如 Maybe<A>）
+ *    ✅ 类型参数在协变位置（输出位置）
+ *    ✅ 可以实现有意义的 map
+ *    ✅ 满足 Functor 定律
+ * 
+ * 4. 实例：
+ *    ✅ Functor: Maybe, Either, Result, Array, Tree, List
+ *    ❌ 不是 Functor: Direction（无类型参数）, Predicate（逆变）
+ * 
+ * 5. 特殊情况：
+ *    - Contravariant Functor: 类型参数在逆变位置
+ *    - Invariant Functor: 类型参数既在协变又在逆变位置
+ *    - Bifunctor: 有两个类型参数都可以 map（如 Either）
+ */
+
+// ============================================================================
+// Tagged Union 在范畴论中的对应：Coproduct（余积/和类型）
+// ============================================================================
+
+/**
+ * Q: Tagged Union 在范畴论里面有对应的内容吗？
+ * A: 有！就是 Coproduct（余积），也叫 Sum Type（和类型）
+ * 
+ * 范畴论中的基本构造：
+ * 
+ * 1. Product（积/积类型）
+ *    - 对应：Tuple, Struct, Record, Class
+ *    - 符号：A × B
+ *    - 例子：{ name: string, age: number }
+ *    - 含义：同时拥有 A 和 B
+ *    - 代数：|A × B| = |A| × |B|（乘法）
+ * 
+ * 2. Coproduct（余积/和类型）
+ *    - 对应：Tagged Union, Enum, Variant
+ *    - 符号：A + B
+ *    - 例子：{ tag: "Left", value: A } | { tag: "Right", value: B }
+ *    - 含义：要么是 A，要么是 B
+ *    - 代数：|A + B| = |A| + |B|（加法）
+ * 
+ * Product vs Coproduct 是对偶的（Dual）关系！
+ */
+
+console.log("\n=== Product vs Coproduct ===");
+
+// Product（积类型）- AND 逻辑
+type Pair<A, B> = {
+  first: A;
+  second: B;
+};
+
+// 同时需要两个值
+const pair: Pair<number, string> = {
+  first: 42,
+  second: "hello"
+};
+
+console.log("Product 例子:", pair);
+// 可能的值数量：|number| × |string|（乘法）
+
+// Coproduct（和类型）- OR 逻辑  
+type Sum<A, B> = 
+  | { tag: "Left"; value: A }
+  | { tag: "Right"; value: B };
+
+// 二选一
+const sumLeft: Sum<number, string> = { tag: "Left", value: 42 };
+const sumRight: Sum<number, string> = { tag: "Right", value: "hello" };
+
+console.log("Coproduct 例子 (Left):", sumLeft);
+console.log("Coproduct 例子 (Right):", sumRight);
+// 可能的值数量：|number| + |string|（加法）
+
+/**
+ * 泛性质（Universal Property）
+ * 
+ * Product 的泛性质：
+ * - 给定两个投影函数 fst: A × B -> A 和 snd: A × B -> B
+ * - 对于任何类型 C 和函数 f: C -> A, g: C -> B
+ * - 存在唯一的函数 h: C -> A × B，使得 fst ∘ h = f 且 snd ∘ h = g
+ */
+
+// Product 的消除（Elimination）
+const fst = <A, B>(pair: Pair<A, B>): A => pair.first;
+const snd = <A, B>(pair: Pair<A, B>): B => pair.second;
+
+// Product 的引入（Introduction）
+// const makePair = <A, B>(a: A, b: B): Pair<A, B> => ({ first: a, second: b });
+
+console.log("\nProduct 操作:");
+console.log("  fst:", fst(pair));  // 42
+console.log("  snd:", snd(pair));  // "hello"
+
+/**
+ * Coproduct 的泛性质：
+ * - 给定两个注入函数 inl: A -> A + B 和 inr: B -> A + B
+ * - 对于任何类型 C 和函数 f: A -> C, g: B -> C
+ * - 存在唯一的函数 h: A + B -> C，使得 h ∘ inl = f 且 h ∘ inr = g
+ */
+
+// Coproduct 的引入（Introduction）- 注入函数
+const inl = <A, B>(value: A): Sum<A, B> => ({ tag: "Left", value });
+const inr = <A, B>(value: B): Sum<A, B> => ({ tag: "Right", value });
+
+// Coproduct 的消除（Elimination）- 模式匹配/折叠
+const matchSum = <A, B, C>(
+  sum: Sum<A, B>,
+  onLeft: (a: A) => C,
+  onRight: (b: B) => C
+): C => {
+  if (sum.tag === "Left") return onLeft(sum.value);
+  return onRight(sum.value);
+};
+
+console.log("\nCoproduct 操作:");
+console.log("  inl:", inl<number, string>(42));
+console.log("  inr:", inr<number, string>("hello"));
+console.log("  match left:", matchSum(sumLeft, (n: number) => n * 2, (s: string) => s.length));  // 84
+console.log("  match right:", matchSum(sumRight, (n: number) => n * 2, (s: string) => s.length)); // 5
+
+// ============================================================================
+// 代数数据类型（Algebraic Data Types, ADT）
+// ============================================================================
+
+/**
+ * 为什么叫"代数"数据类型？
+ * 因为它们遵循代数规则！
+ * 
+ * 类型的"大小"（可能的值数量）：
+ * - Void（空类型）: 0
+ * - Unit（单元类型）: 1
+ * - Bool: 2
+ * - Product A × B: |A| × |B|
+ * - Coproduct A + B: |A| + |B|
+ * - Function A -> B: |B|^|A|
+ */
+
+// Void - 没有值的类型（0）- 在类型层面使用，无法构造值
+// type Void = never;
+
+// Unit - 只有一个值的类型（1）
+type Unit = { tag: "Unit" };
+const unit: Unit = { tag: "Unit" };
+
+// Bool - 两个值的类型（2）
+type Bool = { tag: "True" } | { tag: "False" };
+const trueVal: Bool = { tag: "True" };
+const falseVal: Bool = { tag: "False" };
+
+console.log("\n=== 代数数据类型 ===");
+console.log("Unit:", unit);
+console.log("Bool:", trueVal, falseVal);
+
+// 代数恒等式（类型示例，未使用但展示概念）
+// A × 1 = A（Unit 是 Product 的单位元）
+// type PairWithUnit<A> = Pair<A, Unit>;
+// 同构于 A（isomorphic）
+
+// A + 0 = A（Void 是 Coproduct 的单位元）
+// type SumWithVoid<A> = Sum<A, Void>;
+// 同构于 A
+
+// A × 0 = 0（任何类型与 Void 的 Product 是 Void）
+// type PairWithVoid<A> = Pair<A, Void>;
+// 无法构造这个类型的值！
+
+// 分配律：A × (B + C) = (A × B) + (A × C)
+type Distributive<A, B, C> = Pair<A, Sum<B, C>>;
+type DistributedForm<A, B, C> = Sum<Pair<A, B>, Pair<A, C>>;
+
+// 这两个类型是同构的！可以相互转换
+const distribute = <A, B, C>(p: Distributive<A, B, C>): DistributedForm<A, B, C> => {
+  if (p.second.tag === "Left") {
+    return { tag: "Left", value: { first: p.first, second: p.second.value } };
+  }
+  return { tag: "Right", value: { first: p.first, second: p.second.value } };
+};
+
+const undistribute = <A, B, C>(d: DistributedForm<A, B, C>): Distributive<A, B, C> => {
+  if (d.tag === "Left") {
+    return { first: d.value.first, second: { tag: "Left", value: d.value.second } };
+  }
+  return { first: d.value.first, second: { tag: "Right", value: d.value.second } };
+};
+
+console.log("分配律验证:");
+const testDist: Distributive<number, string, boolean> = {
+  first: 42,
+  second: { tag: "Left", value: "hello" }
+};
+const distributed = distribute(testDist);
+const back = undistribute(distributed);
+console.log("  原始:", testDist);
+console.log("  分配后:", distributed);
+console.log("  恢复:", back);
+
+// ============================================================================
+// 实际应用：常见的 Coproduct 模式
+// ============================================================================
+
+console.log("\n=== 常见的 Coproduct 模式 ===");
+
+// 1. Maybe = 1 + A
+// Nothing 对应 Unit（1），Just 对应 A
+type MaybeAsCoproduct<A> = Sum<Unit, A>;
+
+const nothing: MaybeAsCoproduct<number> = { tag: "Left", value: { tag: "Unit" } };
+const just42: MaybeAsCoproduct<number> = { tag: "Right", value: 42 };
+
+console.log("Maybe as Coproduct:");
+console.log("  Nothing:", nothing);
+console.log("  Just(42):", just42);
+
+// 2. Either = A + B
+// 已经是标准的 Coproduct 形式
+
+// 3. List = 1 + (A × List)
+// Nil 对应 Unit（1），Cons 对应 A × List（递归）
+// 注意：TypeScript 的类型别名不支持直接递归，实际应该用 interface
+// type ListAsCoproduct<A> = Sum<Unit, Pair<A, ListAsCoproduct<A>>>;
+
+// 4. Bool = 1 + 1
+// True 和 False 都是 Unit
+type BoolAsCoproduct = Sum<Unit, Unit>;
+
+const trueBool: BoolAsCoproduct = { tag: "Left", value: { tag: "Unit" } };
+const falseBool: BoolAsCoproduct = { tag: "Right", value: { tag: "Unit" } };
+
+console.log("Bool as Coproduct:");
+console.log("  True:", trueBool);
+console.log("  False:", falseBool);
+
+// 5. 多个选项：A + B + C = (A + B) + C = A + (B + C)
+// 结合律成立！（类型示例，未使用但展示概念）
+// type Three<A, B, C> = Sum<A, Sum<B, C>>;
+// type ThreeAlt<A, B, C> = Sum<Sum<A, B>, C>;
+
+/**
+ * 总结：Tagged Union 在范畴论中的地位
+ * 
+ * 1. Tagged Union = Coproduct（余积）= Sum Type（和类型）
+ *    - 表示"或"的逻辑
+ *    - 代数运算：加法
+ * 
+ * 2. 与 Product 的对偶关系
+ *    - Product = Tuple/Record（积类型）= "与"的逻辑
+ *    - 代数运算：乘法
+ * 
+ * 3. 泛性质
+ *    - Product: 投影函数 fst/snd
+ *    - Coproduct: 注入函数 inl/inr + 模式匹配
+ * 
+ * 4. 代数数据类型（ADT）
+ *    - 遵循代数规则（加法、乘法、分配律）
+ *    - 类型大小可以计算
+ *    - 同构关系可以证明
+ * 
+ * 5. 实际应用
+ *    - Maybe = 1 + A（可选值）
+ *    - Either = A + B（二选一）
+ *    - List = 1 + (A × List)（递归定义）
+ *    - 枚举类型（多个 Unit 的 Coproduct）
+ * 
+ * 6. 在函数式编程中的重要性
+ *    - Product + Coproduct = 代数数据类型的基础
+ *    - 可以组合出任意复杂的数据结构
+ *    - 类型安全的模式匹配
+ *    - 编译器可以检查完备性
+ */
+
 /**
  * 练习 2: 验证你的 Either 实现满足 Functor 定律
  */

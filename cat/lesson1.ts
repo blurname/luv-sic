@@ -697,20 +697,175 @@ console.log("List Functor:", doubledList);
 
 console.log("\n=== 验证：协变位置 vs 逆变位置 ===");
 
-// 协变（Covariant）- 类型参数在返回值/输出位置
-// type Producer<A> = () => A;  // ✅ 可以实现 map
-// 示例：const mapProducer = <A, B>(f: (a: A) => B) => (producer: Producer<A>): Producer<B> => {
-//   return () => f(producer());
+/**
+ * Q: 逆变就是参数，协变就是返回值？
+ * A: 基本正确，但更准确的说法是：
+ * 
+ * 协变（Covariant）：类型参数在"输出位置"
+ * - ✅ 函数返回值
+ * - ✅ 对象的字段/属性（只读）
+ * - ✅ Promise 的值
+ * - ✅ 数组的元素（读取时）
+ * 
+ * 逆变（Contravariant）：类型参数在"输入位置"
+ * - ✅ 函数参数
+ * - ✅ 只写属性（少见）
+ * 
+ * 不变（Invariant）：类型参数既在输入又在输出位置
+ * - ✅ 可读可写的属性
+ * - ✅ 数组（TypeScript 中，因为可读可写）
+ */
+
+// 例子 1：协变 - 类型参数在输出位置
+type Producer<A> = () => A;  // A 在返回值位置（输出）
+
+const producerNumber: Producer<number> = () => 42;
+const producerValue: Producer<number | string> = producerNumber; // ✅ 可以赋值
+// 因为 number 是 number|string 的子类型，Producer<number> 可以赋值给 Producer<number|string>
+// 这就是协变：Producer<A> 跟随 A 的子类型关系
+
+console.log("协变例子 (Producer):", producerValue());
+
+// 协变可以实现 map（Functor）
+const mapProducer = <A, B>(f: (a: A) => B) => (producer: Producer<A>): Producer<B> => {
+  return () => f(producer());
+};
+
+const stringProducer = mapProducer((n: number) => n.toString())(producerNumber);
+console.log("  map Producer:", stringProducer()); // "42"
+
+// 例子 2：逆变 - 类型参数在输入位置
+type Consumer<A> = (a: A) => void;  // A 在参数位置（输入）
+
+const consumerUnion: Consumer<number | string> = (x) => console.log("  received:", x);
+const consumerNumber: Consumer<number> = consumerUnion; // ✅ 可以赋值
+// 因为 Consumer<number|string> 可以接受 number，所以可以赋值给 Consumer<number>
+// 这就是逆变：Consumer<A> 反向于 A 的子类型关系
+
+consumerNumber(42);
+
+// 逆变不能实现 map，但可以实现 contramap
+const contramapConsumer = <A, B>(f: (b: B) => A) => (consumer: Consumer<A>): Consumer<B> => {
+  return (b: B) => consumer(f(b));  // 注意：函数方向反了！
+};
+
+const stringConsumer = contramapConsumer(
+  (s: string) => parseInt(s)  // string -> number
+)(consumerUnion);  // Consumer<number|string>
+
+stringConsumer("100"); // 输出: received: 100
+
+// 例子 3：对象字段的协变
+type Box<A> = {
+  readonly value: A;  // 只读 - 协变
+};
+
+const boxNumber: Box<number> = { value: 42 };
+const boxUnion: Box<number | string> = boxNumber; // ✅ 协变
+console.log("\n对象字段协变:", boxUnion.value);
+
+// 例子 4：不变 - 可读可写（概念示例）
+// type MutableBox<A> = {
+//   value: A;  // 可读可写 - 不变（invariant）
 // };
 
-// 逆变（Contravariant）- 类型参数在参数/输入位置
-// type ConsumerFunc<A> = (a: A) => void;  // ❌ 不能实现 map，但可以实现 contramap
-// 示例：const contramapConsumer = <A, B>(f: (b: B) => A) => (consumer: ConsumerFunc<A>): ConsumerFunc<B> => {
-//   return (b: B) => consumer(f(b));  // 注意：函数方向反了！
-// };
+// const mutableBoxNumber: MutableBox<number> = { value: 42 };
+// const mutableBoxUnion: MutableBox<number | string> = mutableBoxNumber; // ❌ TypeScript 会报错（如果开启 strictFunctionTypes）
+// 为什么？因为：
+// - 读取时：需要协变（number -> number|string）✅
+// - 写入时：需要逆变（可能会写入 string，但 mutableBoxNumber 只接受 number）❌
+// 所以必须是不变的
 
-console.log("Producer 是协变的 Functor");
-console.log("Consumer 是逆变的 Contravariant Functor");
+console.log("\n可读可写属性是不变的（Invariant）");
+
+// 例子 5：函数类型的组合
+type Transformer<A, B> = (a: A) => B;
+
+// A 在参数位置（逆变），B 在返回值位置（协变）
+// 所以 Transformer 在 A 上逆变，在 B 上协变
+
+const transformNumberToNumber: Transformer<number, number> = (x) => x * 2;
+// 理论上：Transformer 在第一个参数逆变，第二个参数协变
+// 但 TypeScript 默认对函数参数是双变的（bivariant），需要 strictFunctionTypes 才严格
+console.log("\n函数类型的协变/逆变组合:", transformNumberToNumber(21));
+
+// 例子 6：数组在 TypeScript 中是不变的（虽然在理论上应该协变）
+// const numbersArray: number[] = [1, 2, 3];
+// const unionArray: (number | string)[] = numbersArray; 
+// ❌ 在严格模式下会报错（虽然看起来应该可以）
+// 原因：数组既可读又可写
+// - 读取 numbersArray[0] -> number，协变没问题
+// - 写入 unionArray[0] = "hello" -> 但 numbersArray 只接受 number！❌
+
+console.log("\n数组因为可读可写，所以是不变的");
+
+// 例子 7：实际的 Contravariant Functor - Comparison
+type Comparison<A> = (a: A, b: A) => number;  // 用于排序
+
+const compareNumbers: Comparison<number> = (a, b) => a - b;
+
+// contramap：将 Comparison<A> 转换为 Comparison<B>
+const contramapComparison = <A, B>(f: (b: B) => A) => (cmp: Comparison<A>): Comparison<B> => {
+  return (b1, b2) => cmp(f(b1), f(b2));
+};
+
+type Person = { name: string; age: number };
+
+// 通过提取 age 字段，复用 number 的比较器
+const comparePersonsByAge = contramapComparison(
+  (p: Person) => p.age
+)(compareNumbers);
+
+const people: Person[] = [
+  { name: "Alice", age: 30 },
+  { name: "Bob", age: 25 },
+  { name: "Charlie", age: 35 }
+];
+
+const sorted = [...people].sort(comparePersonsByAge);
+console.log("\nContravariant Functor 实例 - 排序:");
+console.log("  原始:", people.map(p => p.name));
+console.log("  按年龄排序:", sorted.map(p => `${p.name}(${p.age})`));
+
+/**
+ * 总结：协变与逆变
+ * 
+ * 1. 协变（Covariant）：
+ *    - 位置：输出位置（返回值、只读字段）
+ *    - 子类型：F<A> 跟随 A 的子类型关系
+ *    - 例子：Producer<A>, Box<A>, Promise<A>
+ *    - 操作：map (Functor)
+ *    - 直觉：生产数据
+ * 
+ * 2. 逆变（Contravariant）：
+ *    - 位置：输入位置（函数参数、只写字段）
+ *    - 子类型：F<A> 反向于 A 的子类型关系
+ *    - 例子：Consumer<A>, Comparison<A>, Predicate<A>
+ *    - 操作：contramap (Contravariant Functor)
+ *    - 直觉：消费数据
+ * 
+ * 3. 不变（Invariant）：
+ *    - 位置：既在输入又在输出（可读可写）
+ *    - 子类型：不能进行子类型转换
+ *    - 例子：MutableBox<A>, Array<A> (in TypeScript)
+ *    - 操作：需要同时提供 map 和 contramap
+ *    - 直觉：既生产又消费
+ * 
+ * 4. 记忆口诀：
+ *    - "返回值协变，参数逆变"（基本正确）
+ *    - 更准确：输出协变，输入逆变
+ *    - 可读写不变
+ * 
+ * 5. 实际应用：
+ *    - Functor: 处理协变类型（map）
+ *    - Contravariant: 处理逆变类型（contramap）
+ *    - 类型安全：理解协变/逆变可以写出更安全的泛型代码
+ */
+
+console.log("\n协变/逆变总结:");
+console.log("  协变 = 输出位置 = 生产数据 = Functor");
+console.log("  逆变 = 输入位置 = 消费数据 = Contravariant Functor");
+console.log("  不变 = 既输入又输出 = 可读可写");
 
 /**
  * 总结：Tagged Union 与 Functor 的关系

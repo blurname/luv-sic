@@ -289,5 +289,5 @@ const mapEither = <E, A, B>(f: (a: A) => B) => (ea: Either<E, A>): Either<E, B> 
  * - Monoid（幺半群）- 可结合的结构
  */
 
-export { compose, identity, mapMaybe, mapEither };
+export { compose, identity, mapMaybe, mapEither, Just, Nothing, Left, Right };
 export type { Maybe, Either };

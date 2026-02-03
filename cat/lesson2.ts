@@ -68,10 +68,10 @@ console.log("parse and sqrt '16':", parseAndSqrt("16")); // Just(4)
 console.log("parse and sqrt '-4':", parseAndSqrt("-4")); // Nothing
 console.log("parse and sqrt 'abc':", parseAndSqrt("abc")); // Nothing
 
-// 链式调用风格
-const chainMaybe = <A, B>(ma: Maybe<A>, f: (a: A) => Maybe<B>): Maybe<B> => {
-  return bindMaybe(f)(ma);
-};
+// 链式调用风格（辅助函数）
+// const chainMaybe = <A, B>(ma: Maybe<A>, f: (a: A) => Maybe<B>): Maybe<B> => {
+//   return bindMaybe(f)(ma);
+// };
 
 // 更复杂的例子：解析 -> 开方 -> 检查范围
 const inRange = (min: number, max: number) => (n: number): Maybe<number> => {
@@ -103,7 +103,6 @@ const rightIdentity = bindMaybe(Just)(Just(42));
 console.log("right identity:", JSON.stringify(rightIdentity) === JSON.stringify(Just(42))); // true
 
 // 3. 结合律
-const m = Just("16");
 const associativity1 = bindMaybe((x: number) => bindMaybe(inRange(0, 10))(safeSqrt(x)))(parseNumber("16"));
 const associativity2 = bindMaybe(inRange(0, 10))(bindMaybe(safeSqrt)(parseNumber("16")));
 console.log("associativity:", JSON.stringify(associativity1) === JSON.stringify(associativity2)); // true
@@ -114,21 +113,11 @@ console.log("associativity:", JSON.stringify(associativity1) === JSON.stringify(
 
 /**
  * Haskell 的 do-notation 让 Monad 代码看起来像命令式编程
- * TypeScript 可以用生成器函数模拟这种风格
+ * TypeScript 可以用生成器函数模拟这种风格（概念演示）
  */
 
-function* doMaybeExample() {
-  // 模拟：x <- parseNumber "16"
-  const x: number = yield parseNumber("16");
-  // 模拟：y <- safeSqrt x
-  const y: number = yield safeSqrt(x);
-  // 模拟：z <- inRange 0 10 y
-  const z: number = yield inRange(0, 10)(y);
-  // 模拟：return z
-  return Just(z);
-}
-
-// 注意：这只是概念演示，实际实现需要专门的 Monad 运行器
+// 注意：这只是概念演示，TypeScript 的生成器不直接支持 Monad
+// 实际使用需要专门的 Monad 运行器库
 
 // ============================================================================
 // 第三部分：Applicative Functor - 多参数函数的提升
@@ -338,11 +327,11 @@ console.log("total length:", totalLength); // 16
 // Task Monad (同步版的 Promise)
 type Task<A> = () => A;
 
-const taskOf = <A>(value: A): Task<A> => () => value;
-
-const mapTask = <A, B>(f: (a: A) => B) => (task: Task<A>): Task<B> => {
-  return () => f(task());
-};
+// 辅助函数（未使用但保留作为参考）
+// const taskOf = <A>(value: A): Task<A> => () => value;
+// const mapTask = <A, B>(f: (a: A) => B) => (task: Task<A>): Task<B> => {
+//   return () => f(task());
+// };
 
 const bindTask = <A, B>(f: (a: A) => Task<B>) => (task: Task<A>): Task<B> => {
   return () => f(task())();
@@ -375,7 +364,7 @@ type Either<E, A> =
   | { tag: "Right"; value: A };
 
 const Left = <E, A>(error: E): Either<E, A> => ({ tag: "Left", error });
-const Right = <E, A>(value: A): Either<E, A> => ({ tag: "Right", value });
+// const RightEither = <E, A>(value: A): Either<E, A> => ({ tag: "Right", value });
 
 // TODO: 实现 bindEither
 const bindEither = <E, A, B>(f: (a: A) => Either<E, B>) => (ea: Either<E, A>): Either<E, B> => {

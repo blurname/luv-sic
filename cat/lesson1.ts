@@ -176,11 +176,11 @@ const safeDivide = (a: number, b: number): Maybe<number> => {
   return Just(a / b);
 };
 
-const result1 = safeDivide(10, 2);  // Just(5)
-const result2 = safeDivide(10, 0);  // Nothing
+const result1Maybe = safeDivide(10, 2);  // Just(5)
+const result2Maybe = safeDivide(10, 0);  // Nothing
 
-const mapped1 = mapMaybe(double)(result1);  // Just(10)
-const mapped2 = mapMaybe(double)(result2);  // Nothing - 自动传播
+const mapped1 = mapMaybe(double)(result1Maybe);  // Just(10)
+const mapped2 = mapMaybe(double)(result2Maybe);  // Nothing - 自动传播
 
 console.log("maybe example 1:", mapped1); // { tag: 'Just', value: 10 }
 console.log("maybe example 2:", mapped2); // { tag: 'Nothing' }
@@ -194,6 +194,7 @@ const unsafeDivide = (a: number, b: number): number | null => {
 const traditionalResult = unsafeDivide(10, 2);
 // ❌ 必须手动检查 null，否则可能崩溃
 const traditionalMapped = traditionalResult !== null ? double(traditionalResult) : null;
+console.log("traditional mapped:", traditionalMapped);
 
 // 链式调用对比
 // ❌ 传统方式：每一步都要检查
@@ -201,6 +202,7 @@ const traditional = unsafeDivide(100, 5);  // 20
 const step1 = traditional !== null ? double(traditional) : null; // 40
 const step2 = step1 !== null ? step1 + 10 : null; // 50
 const step3 = step2 !== null ? square(step2) : null; // 2500
+console.log("traditional chaining:", step3);
 
 // ✅ Maybe 方式：清晰的链式调用
 const elegant = mapMaybe(square)(
@@ -243,6 +245,23 @@ console.log("natural transformation:",
 /**
  * 练习 1: 实现一个 Either 函子
  * Either 可以表示两种可能的值：Left (通常表示错误) 或 Right (表示成功的值)
+ * 
+ * Q: 为什么有了 Maybe 还要有 Either？
+ * A: 关键区别在于错误信息！
+ * 
+ * Maybe 的局限：
+ * ❌ Nothing 只告诉你"失败了"，但不知道为什么失败
+ * ❌ 当有多个可能的失败原因时，无法区分
+ * ❌ 调试困难，不知道哪里出错了
+ * 
+ * Either 的优势：
+ * ✅ Left 可以携带错误信息（字符串、错误对象、错误码等）
+ * ✅ 可以区分不同的失败原因
+ * ✅ 更好的错误报告和调试
+ * 
+ * 使用场景对比：
+ * - Maybe: "这个值可能不存在"（如查找、可选配置）
+ * - Either: "这个操作可能失败，且我需要知道为什么"（如解析、验证、网络请求）
  */
 
 type Either<E, A> = 
@@ -252,12 +271,275 @@ type Either<E, A> =
 const Left = <E, A>(error: E): Either<E, A> => ({ tag: "Left", error });
 const Right = <E, A>(value: A): Either<E, A> => ({ tag: "Right", value });
 
-// TODO: 实现 mapEither
+// 实现 mapEither
 const mapEither = <E, A, B>(f: (a: A) => B) => (ea: Either<E, A>): Either<E, B> => {
-  // 你的实现
   if (ea.tag === "Left") return Left(ea.error);
   return Right(f(ea.value));
 };
+
+// ============================================================================
+// Maybe vs Either 实战对比
+// ============================================================================
+
+console.log("\n=== Maybe vs Either 对比 ===");
+
+// 场景：解析用户年龄
+// 用 Maybe：只知道成功或失败
+const parseAgeMaybe = (input: string): Maybe<number> => {
+  const age = Number(input);
+  if (isNaN(age)) return Nothing();
+  if (age < 0 || age > 150) return Nothing();
+  return Just(age);
+};
+
+console.log("Maybe - 'abc':", parseAgeMaybe("abc"));     // Nothing - 但不知道是解析失败还是范围错误
+console.log("Maybe - '-5':", parseAgeMaybe("-5"));       // Nothing - 但不知道是解析失败还是范围错误
+console.log("Maybe - '200':", parseAgeMaybe("200"));     // Nothing - 但不知道是解析失败还是范围错误
+
+// 用 Either：知道具体的错误原因
+const parseAgeEither = (input: string): Either<string, number> => {
+  const age = Number(input);
+  if (isNaN(age)) return Left(`"${input}" 不是有效的数字`);
+  if (age < 0) return Left("年龄不能为负数");
+  if (age > 150) return Left("年龄超出合理范围（0-150）");
+  return Right(age);
+};
+
+console.log("Either - 'abc':", parseAgeEither("abc"));   // Left: "abc" 不是有效的数字
+console.log("Either - '-5':", parseAgeEither("-5"));     // Left: 年龄不能为负数
+console.log("Either - '200':", parseAgeEither("200"));   // Left: 年龄超出合理范围
+console.log("Either - '25':", parseAgeEither("25"));     // Right: 25
+
+// 更复杂的例子：表单验证
+type ValidationError = 
+  | { type: "empty"; field: string }
+  | { type: "format"; field: string; message: string }
+  | { type: "range"; field: string; min: number; max: number };
+
+const validateEmail = (email: string): Either<ValidationError, string> => {
+  if (email.length === 0) {
+    return Left({ type: "empty", field: "email" });
+  }
+  if (!email.includes("@")) {
+    return Left({ type: "format", field: "email", message: "必须包含 @" });
+  }
+  return Right(email);
+};
+
+const validatePassword = (pwd: string): Either<ValidationError, string> => {
+  if (pwd.length === 0) {
+    return Left({ type: "empty", field: "password" });
+  }
+  if (pwd.length < 6) {
+    return Left({ type: "range", field: "password", min: 6, max: Infinity });
+  }
+  return Right(pwd);
+};
+
+console.log("\nEmail 验证:", validateEmail(""));           // Left: empty
+console.log("Email 验证:", validateEmail("invalid"));      // Left: format error
+console.log("Email 验证:", validateEmail("user@test.com")); // Right
+
+console.log("\nPassword 验证:", validatePassword(""));     // Left: empty
+console.log("Password 验证:", validatePassword("123"));    // Left: range error
+console.log("Password 验证:", validatePassword("secure123")); // Right
+
+// 总结：
+// - Maybe: 简单的存在性检查，不需要错误详情时使用
+// - Either: 需要错误信息、多种失败情况、调试或向用户展示错误时使用
+
+// ============================================================================
+// Result vs Either - 命名的重要性
+// ============================================================================
+
+/**
+ * Q: 用 Result = Ok | Err 会是最佳选择吗？
+ * A: 是的！在实际项目中，Result 通常比 Either 更好
+ * 
+ * Either vs Result 对比：
+ * 
+ * Either<E, A>:
+ *   - ❌ Left/Right 语义不明确（哪个是错误？哪个是成功？）
+ *   - ❌ 需要记住约定：Left = 错误，Right = 成功（right = correct 双关）
+ *   - ✅ 更数学化、通用
+ *   - ✅ 可以表示任意"二选一"的情况（不限于错误处理）
+ * 
+ * Result<T, E>:
+ *   - ✅ Ok/Err 语义明确，不需要记忆约定
+ *   - ✅ 更符合日常语言习惯
+ *   - ✅ 代码可读性更好
+ *   - ✅ Rust、Swift 等现代语言的选择
+ *   - ❌ 语义上仅限于"成功/失败"场景
+ * 
+ * 推荐实践：
+ * - 错误处理：使用 Result<T, E>（语义清晰）
+ * - 其他二选一场景：使用 Either（如 Left/Right 布局方向）
+ */
+
+// Result 类型定义
+type Result<T, E = string> = 
+  | { tag: "Ok"; value: T }
+  | { tag: "Err"; error: E };
+
+const Ok = <T, E = string>(value: T): Result<T, E> => ({ tag: "Ok", value });
+const Err = <T, E = string>(error: E): Result<T, E> => ({ tag: "Err", error });
+
+// Result 的 Functor 实现
+const mapResult = <T, U, E>(f: (t: T) => U) => (result: Result<T, E>): Result<U, E> => {
+  if (result.tag === "Err") return Err(result.error);
+  return Ok(f(result.value));
+};
+
+console.log("\n=== Result 类型示例 ===");
+
+// 对比：用 Either 和 Result 实现同样的功能
+const divideEither = (a: number, b: number): Either<string, number> => {
+  if (b === 0) return Left("除数不能为零");
+  return Right(a / b);
+};
+
+const divideResult = (a: number, b: number): Result<number, string> => {
+  if (b === 0) return Err("除数不能为零");
+  return Ok(a / b);
+};
+
+console.log("Either 方式:", divideEither(10, 0));  // Left { ... }
+console.log("Result 方式:", divideResult(10, 0));  // Err { ... }
+
+// 可读性对比（概念示例）
+// const processDataEither = (data: string): Either<string, number> => {
+//   const parsed = parseAgeEither(data);
+//   if (parsed.tag === "Left") return Left(parsed.error);  // ❌ Left? 是错误吗？需要查文档
+//   return Right(parsed.value * 2);
+// };
+
+// const processDataResult = (data: string): Result<number, string> => {
+//   const parsed = parseAgeResult(data);
+//   if (parsed.tag === "Err") return Err(parsed.error);  // ✅ Err，一眼就知道是错误
+//   return Ok(parsed.value * 2);
+// };
+
+// const parseAgeResult = (input: string): Result<number, string> => {
+//   const age = Number(input);
+//   if (isNaN(age)) return Err(`"${input}" 不是有效的数字`);
+//   if (age < 0) return Err("年龄不能为负数");
+//   if (age > 150) return Err("年龄超出合理范围（0-150）");
+//   return Ok(age);
+// };
+
+// 实战：API 请求错误处理
+type ApiError = 
+  | { type: "network"; message: string }
+  | { type: "timeout"; duration: number }
+  | { type: "server"; statusCode: number; message: string }
+  | { type: "parsing"; reason: string };
+
+type User = { id: number; name: string; email: string };
+
+// 模拟 API 请求
+const fetchUser = (id: number): Result<User, ApiError> => {
+  if (id <= 0) {
+    return Err({ type: "parsing", reason: "用户 ID 必须为正数" });
+  }
+  if (id === 404) {
+    return Err({ type: "server", statusCode: 404, message: "用户不存在" });
+  }
+  // 模拟成功
+  return Ok({ id, name: "Alice", email: "alice@example.com" });
+};
+
+const apiResult1 = fetchUser(1);
+const apiResult2 = fetchUser(404);
+const apiResult3 = fetchUser(-1);
+
+console.log("\nAPI 请求示例:");
+console.log("成功:", apiResult1);
+console.log("404 错误:", apiResult2);
+console.log("参数错误:", apiResult3);
+
+// Result 的优雅错误处理
+const getUserEmail = (id: number): Result<string, ApiError> => {
+  const userResult = fetchUser(id);
+  if (userResult.tag === "Err") return Err(userResult.error);
+  return Ok(userResult.value.email);
+};
+
+console.log("\n获取邮箱:", getUserEmail(1));
+
+// 模式匹配风格的错误处理
+const handleResult = <T, E>(
+  result: Result<T, E>,
+  onOk: (value: T) => void,
+  onErr: (error: E) => void
+): void => {
+  if (result.tag === "Ok") {
+    onOk(result.value);
+  } else {
+    onErr(result.error);
+  }
+};
+
+console.log("\n模式匹配示例:");
+handleResult(
+  fetchUser(1),
+  (user) => console.log(`✅ 用户: ${user.name}`),
+  (error) => console.log(`❌ 错误: ${error.type}`)
+);
+
+handleResult(
+  fetchUser(404),
+  (user) => console.log(`✅ 用户: ${user.name}`),
+  (error) => console.log(`❌ 错误类型: ${error.type}, ${error.type === 'server' ? `状态码: ${error.statusCode}` : ''}`)
+);
+
+/**
+ * 最佳实践建议：
+ * 
+ * 1. 在你的项目中使用 Result<T, E> 而不是 Either<E, A>
+ *    - 除非你需要 Either 的通用语义
+ * 
+ * 2. 自定义错误类型
+ *    - 使用 TypeScript 的 union type 定义详细的错误类型
+ *    - 便于类型检查和错误处理
+ * 
+ * 3. 提供辅助函数
+ *    - isOk/isErr 检查
+ *    - unwrap/unwrapOr 获取值
+ *    - map/flatMap/andThen 链式调用
+ * 
+ * 4. 考虑使用成熟的库
+ *    - neverthrow: TypeScript Result 类型库
+ *    - fp-ts: 完整的函数式编程工具集
+ */
+
+// 辅助函数示例
+const isOk = <T, E>(result: Result<T, E>): result is { tag: "Ok"; value: T } => {
+  return result.tag === "Ok";
+};
+
+const isErr = <T, E>(result: Result<T, E>): result is { tag: "Err"; error: E } => {
+  return result.tag === "Err";
+};
+
+const unwrapOr = <T, E>(defaultValue: T) => (result: Result<T, E>): T => {
+  return result.tag === "Ok" ? result.value : defaultValue;
+};
+
+console.log("\n辅助函数示例:");
+const result = fetchUser(404);
+console.log("是否成功?", isOk(result));  // false
+console.log("是否失败?", isErr(result));  // true
+console.log("获取值或默认:", unwrapOr({ id: 0, name: "Guest", email: "" })(result));
+
+/**
+ * 总结：
+ * 
+ * Maybe        - "这个值可能不存在"
+ * Either<E, A> - "二选一"，通用的联合类型（数学化）
+ * Result<T, E> - "成功或失败"，专门用于错误处理（语义化）✅ 推荐
+ * 
+ * 在 99% 的错误处理场景中，Result 是最佳选择！
+ */
 
 /**
  * 练习 2: 验证你的 Either 实现满足 Functor 定律
@@ -289,5 +571,5 @@ const mapEither = <E, A, B>(f: (a: A) => B) => (ea: Either<E, A>): Either<E, B> 
  * - Monoid（幺半群）- 可结合的结构
  */
 
-export { compose, identity, mapMaybe, mapEither, Just, Nothing, Left, Right };
-export type { Maybe, Either };
+export { compose, identity, mapMaybe, mapEither, Just, Nothing, Left, Right, Ok, Err, mapResult };
+export type { Maybe, Either, Result };

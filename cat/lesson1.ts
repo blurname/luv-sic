@@ -47,11 +47,13 @@ const addTenThenDouble = compose(double, addTen); // (x + 10) * 2
 console.log("double then add 10:", doubleThenAddTen(5)); // (5 * 2) + 10 = 20
 console.log("add 10 then double:", addTenThenDouble(5)); // (5 + 10) * 2 = 30
 
-// 验证结合律
-const f1 = compose(compose(square, addTen), double); // ((x * 2) + 10)²
-const f2 = compose(square, compose(addTen, double)); // ((x * 2) + 10)²
+// 验证结合律：(f ∘ g) ∘ h = f ∘ (g ∘ h)
+// 无论如何组合，结果都应该相同
+const f1 = compose(compose(square, addTen), double); // (square ∘ addTen) ∘ double
+const f2 = compose(square, compose(addTen, double)); // square ∘ (addTen ∘ double)
+// 两者都等价于：先 double，再 addTen，最后 square → ((x * 2) + 10)²
 
-console.log("associativity check:", f1(3) === f2(3)); // true
+console.log("associativity check:", f1(3) === f2(3)); // true: 都是 (3*2+10)² = 256
 
 // 验证单位律
 const withIdentityLeft = compose(identity<number>, double);  // id ∘ double = double
@@ -71,6 +73,18 @@ console.log("identity right:", withIdentityRight(5) === double(5)); // true
  * 3. 保持组合和单位态射的结构
  * 
  * 在编程中，Functor 是一个支持 map 操作的类型构造器
+ * 
+ * Q: JavaScript 的 Array (List) 是一个 Functor 吗？
+ * A: 是的！Array 是最经典的 Functor 例子：
+ *    - 它有 map 方法：(a -> b) -> Array<a> -> Array<b>
+ *    - 它满足 Functor 定律（见下面的验证）
+ *    - map 把函数"提升"到数组的上下文中
+ * 
+ * 其他常见的 Functor：
+ *    - Promise: promise.then(f) 就是 map
+ *    - Maybe/Option: 处理可能不存在的值
+ *    - Either/Result: 处理可能失败的计算
+ *    - Function: (r -> a) 可以 map 成 (r -> b)
  */
 
 // Array 是一个 Functor
@@ -102,6 +116,47 @@ console.log("functor composition law:",
 /**
  * Maybe 是范畴论中最常见的例子之一
  * 它优雅地处理了可能不存在的值
+ * 
+ * Q: 为什么说"优雅"？没有 Maybe 有什么问题？
+ * A: 传统的 null/undefined 处理有以下痛点：
+ * 
+ * 问题 1：到处都要检查 null
+ * ❌ 传统方式：
+ *    const user = findUser(id);
+ *    if (user !== null) {
+ *      const name = user.name;
+ *      if (name !== null) {
+ *        const upper = name.toUpperCase();
+ *        if (upper !== null) {
+ *          console.log(upper); // 嵌套地狱！
+ *        }
+ *      }
+ *    }
+ * 
+ * ✅ Maybe 方式：
+ *    findUser(id)
+ *      .map(user => user.name)
+ *      .map(name => name.toUpperCase())
+ *      .map(console.log) // 链式调用，清晰简洁
+ * 
+ * 问题 2：函数组合被打断
+ * ❌ 传统方式：无法直接组合可能返回 null 的函数
+ *    const f = (x) => x > 0 ? x * 2 : null;
+ *    const g = (x) => x < 100 ? x + 10 : null;
+ *    const h = compose(g, f); // 💥 g 不知道如何处理 null！
+ * 
+ * ✅ Maybe 方式：函子保证了组合性
+ *    const f = (x) => x > 0 ? Just(x * 2) : Nothing();
+ *    const g = (x) => x < 100 ? Just(x + 10) : Nothing();
+ *    // map 会自动处理 Nothing 的传播
+ * 
+ * 问题 3：类型系统无法强制检查
+ * ❌ string | null：编译器不会强制你处理 null，容易忘记检查
+ * ✅ Maybe<string>：类型系统强制你处理 Nothing 的情况
+ * 
+ * 问题 4：错误传播不清晰
+ * ❌ 抛异常或返回 null，调用者不知道哪里出错了
+ * ✅ Maybe/Either 明确表达"可能失败"的语义
  */
 
 type Maybe<A> = { tag: "Just"; value: A } | { tag: "Nothing" };
@@ -125,10 +180,35 @@ const result1 = safeDivide(10, 2);  // Just(5)
 const result2 = safeDivide(10, 0);  // Nothing
 
 const mapped1 = mapMaybe(double)(result1);  // Just(10)
-const mapped2 = mapMaybe(double)(result2);  // Nothing
+const mapped2 = mapMaybe(double)(result2);  // Nothing - 自动传播
 
 console.log("maybe example 1:", mapped1); // { tag: 'Just', value: 10 }
 console.log("maybe example 2:", mapped2); // { tag: 'Nothing' }
+
+// 对比：传统方式的问题
+const unsafeDivide = (a: number, b: number): number | null => {
+  if (b === 0) return null;
+  return a / b;
+};
+
+const traditionalResult = unsafeDivide(10, 2);
+// ❌ 必须手动检查 null，否则可能崩溃
+const traditionalMapped = traditionalResult !== null ? double(traditionalResult) : null;
+
+// 链式调用对比
+// ❌ 传统方式：每一步都要检查
+const traditional = unsafeDivide(100, 5);  // 20
+const step1 = traditional !== null ? double(traditional) : null; // 40
+const step2 = step1 !== null ? step1 + 10 : null; // 50
+const step3 = step2 !== null ? square(step2) : null; // 2500
+
+// ✅ Maybe 方式：清晰的链式调用
+const elegant = mapMaybe(square)(
+  mapMaybe((x: number) => x + 10)(
+    mapMaybe(double)(safeDivide(100, 5))
+  )
+); // Just(2500)
+console.log("elegant chaining:", elegant);
 
 // ============================================================================
 // 第五部分：自然变换 (Natural Transformation)
